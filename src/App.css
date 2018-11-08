@@ -1,0 +1,10 @@
+.App {
+  text-align: center;
+  background-color: #8899bb;
+}
+
+.AppStuff {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

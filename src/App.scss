@@ -1,0 +1,33 @@
+//  VARIABLES
+$font-title: font-family: 'Varela Round', sans-serif;
+$font-body: font-family: 'Source Serif Pro', serif;
+
+$color-bg: #222222
+$color-bg-click: #553344
+$color-red: #bb4455
+$color-red-dk: #1e0b0e
+$color-green: #229999
+$color-green-dk: #072121
+$color-blue: #223344
+$color-blue-dk: #0e141b
+$color-white:#FFFFFF
+$color-white-click:#FF85FF
+
+//  EXTEND
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: column;
+}
+//  MIXINS
+@mixins ()
+
+//  FUNCTIONS
+
+//  INHERITANCE
+
+//  PARTIAL & IMPORT

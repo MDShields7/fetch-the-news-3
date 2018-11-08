@@ -1,0 +1,52 @@
+.TrivSet {
+  border: 1px black solid;
+  border-radius: 20px;
+  height: 150px;
+  width: 400px;
+  margin: 10px 20px auto;
+  background-color:rgb(255, 200, 178);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.TrivBox {
+  width: 100%;
+  margin: 0 auto;
+  /* box-sizing: border-box; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* align-content: center; */
+  justify-content: center;
+}
+.TrivText {
+  font-size: 24px;
+  margin: 15px auto;
+}
+.inputTrivText{
+  font-size: 24px;
+  margin: 15px auto;
+  /* background-color: rgb(255, 200, 178); */
+  background:transparent;
+  border: none;
+  border-color: transparent;
+}
+.btn-off-sml {
+  font-size: 12px;
+  background-color: rgb(157, 157, 157);
+  margin: 10px 10px;
+  width: 50px;
+  height: 20px;
+  border: none;
+  border-radius: 5px;
+}
+.btn-sml {
+  font-size: 12px;
+  background-color:rgb(228, 228, 228);
+  margin: 10px 10px;
+  width: 50px;
+  height: 20px;
+  border: none;
+  border-radius: 5px;
+}
