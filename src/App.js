@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {updateMobileDevice} from './ducks/reducer';
 import {isMobile} from 'react-device-detect';
+import { withRouter } from 'react-router';
 import UBox from './UserBox/UserBox';
 import HBox from './HostBox/HostBox';
-import './App.css';
+import './App.scss';
 
 class App extends Component {
   constructor(props){
@@ -47,4 +48,4 @@ function mapStateToProps( state ){
       mobileDevice,
   };
 }
-export default connect (mapStateToProps, {updateMobileDevice})(App); 
+export default withRouter(connect (mapStateToProps, {updateMobileDevice})(App)); 

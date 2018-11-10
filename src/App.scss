@@ -1,17 +1,21 @@
 //  VARIABLES
-$font-title: font-family: 'Varela Round', sans-serif;
-$font-body: font-family: 'Source Serif Pro', serif;
+$font-title: 'Varela Round', sans-serif;
+$font-body: 'Source Serif Pro', serif;
 
-$color-bg: #222222
-$color-bg-click: #553344
-$color-red: #bb4455
-$color-red-dk: #1e0b0e
-$color-green: #229999
-$color-green-dk: #072121
-$color-blue: #223344
-$color-blue-dk: #0e141b
-$color-white:#FFFFFF
-$color-white-click:#FF85FF
+$color-bg: #222222;
+$color-bg-click: #553344;
+$color-red: #bb4455;
+$color-red-dk: #1e0b0e;
+$color-green: #229999;
+$color-green-dk: #072121;
+$color-blue: #223344;
+$color-blue-dk: #0e141b;
+$color-white:#FFFFFF;
+$color-white-click:#FF85FF;
+// Buttons
+$btn-able: #e4e4e4;
+$btn-disable: #9f9f9f;
+$btn-submit: #99dd99;
 
 //  EXTEND
 .flex-col {
@@ -21,13 +25,198 @@ $color-white-click:#FF85FF
 
 .flex-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 //  MIXINS
-@mixins ()
-
+@mixin large-btn ($color){
+  font-size: 16px;
+  background-color:$color;
+  margin: 10px 10px;
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+}
+@mixin med-btn ($color){
+  font-size: 16px;
+  background-color:$color;
+  margin: 10px 10px;
+  width: 75px;
+  height: 25px;
+  border: none;
+  border-radius: 5px;
+}
+.btn {
+  @include large-btn ($btn-able);
+}
+.btn-off {
+  @include large-btn ($btn-disable);
+}
+.btn-submit {
+  @include large-btn ($btn-submit);
+}
+.btn-2 {
+  @include med-btn ($btn-able);
+}
+.btn-2-off {
+  @include med-btn ($btn-disable);
+}
+.btn-2-submit {
+  @include med-btn ($btn-submit);
+}
 //  FUNCTIONS
-
+@function height-subtr-calc($num1, $num2){
+  @return $num1 - num2
+}
 //  INHERITANCE
 
 //  PARTIAL & IMPORT
+
+
+
+
+
+.App {
+  text-align: center;
+  // background-color: $color-bg;
+  height: 100vh;
+  $font-title: 'Varela Round', sans-serif;
+}
+a {
+  height: 100%;
+  padding: 20px 30px;
+  text-decoration: none;
+}
+a:hover {
+  color: $color-bg-click;
+  background-color: $color-white-click;
+}
+a:visited {
+  color: $color-white;
+}
+
+/* *** HContent *** */
+.HContent {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  height: auto;
+  min-width: 100vh;
+  width: 100%;
+  max-width: 1000px;
+  background-color:$color-green;
+}
+.Trivbtns {
+  @extend .flex-row;
+  align-items: center;
+  // flex-wrap: wrap;
+  // justify-items: center;
+  justify-content: center;
+  // margin: 0 auto;
+}
+.BtnBox {
+  // margin-left: 20%;
+  // @extend .flex-col;
+  display: flex;
+  width: 700px;
+  margin: 0 auto;
+  justify-content: space-around;
+
+}
+.TrivBox {
+  @extend .flex-row;
+  background-color: $color-red;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  // flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
+
+// HCSet
+.TrivCard {
+  width: 500px;
+  height: 100px;
+  align-items: center;
+  margin: 5px 5px;
+}
+.TrivText {
+  font-size: 24px;
+  margin: 15px auto;
+}
+.inputTrivText{
+  width: 300px;
+  font-size: 24px;
+  word-wrap: normal;
+  margin: 15px auto;
+  /* background-color: rgb(255, 200, 178); */
+  // height: auto;
+  overflow: auto;
+  background:transparent;
+  border: none;
+  border-color: transparent;
+}
+.getList {
+  font-size: 18px;
+  width: 250px;
+  height: 50px;
+  margin: 0px 0px;
+  background-color: rgb(232, 196, 177);
+  border: 2px rgb(175, 132, 116) solid;
+}
+.getList-off {
+  font-size: 18px;
+  width: 250px;
+  height: 50px;
+  margin: 0px 0px;
+  background-color: rgb(145, 120, 107);
+  border: 2px rgb(133, 89, 73) solid;
+}
+
+// *** HOSTNAV ***
+.HostNav {
+  width:100%;
+  height:80px;
+  display: flex;
+  justify-content: center;
+  background-color: $color-bg;
+}
+.NavGroup {
+  background-color: $color-blue;
+  max-width: 1000px;
+  width: 100%;
+  height: 100%;
+  // margin: 0 auto;
+  display: flex;
+  // padding: 0 20px;
+  justify-content: space-between;
+  align-items: center;
+  // margin: 0 auto;
+  // flex-direction: row;
+  // justify-items: space-between;
+  // justify-content: center;
+  // align-items: center;
+  // align-content: center;
+}
+.NavGroup2 {
+  // width: 100%;
+  // justify-content: space-around;
+}
+.NavLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+.NavItem {
+  height: 100%;
+  margin: 50px;
+  display:flex;
+  align-items: center;
+  font-size: 24px;
+  color: green;
+}
+.logo {
+  color: white;
+}

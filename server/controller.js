@@ -55,6 +55,18 @@ module.exports = {
       res.status(500).json({message: 'postTrivCreator error'})
       })
   },
+  postTrivList: (req, res) => {
+    const dbInstance = req.app.get('db');
+    const {tr_user_id, tr_cat_id}=req.body;
+    console.log('this is the controller post triv creator', tr_user_id, tr_cat_id)
+    dbInstance.post_triv_creator([ tr_user_id, tr_cat_id ])
+    .then(list => {res.json(list);
+      console.log('creator response is ', list)})
+      .catch(error => {
+          console.log('error in postTrivCreator', error);
+      res.status(500).json({message: 'postTrivCreator error'})
+      })
+  },
   editMyTrivSet: (req,res) => {
     const dbInstance = req.app.get('db');
     const {id}=req.params;
@@ -71,8 +83,8 @@ module.exports = {
     const dbInstance = req.app.get('db');
     const {id, userid}=req.params;
     // console.log('controller editMyTrivSet, req', req)
-    console.log('controller editMyTrivSet, req.params', id)
-    console.log('controller editMyTrivSet, req.body', userid)
+    console.log('controller deleteMyTrivSet, req.params', id)
+    console.log('controller deleteMyTrivSet, req.params', userid)
     dbInstance.delete_triv_set( [id, userid] )
     .then(list => {res.json(list);
       console.log('creator response is ', list)})

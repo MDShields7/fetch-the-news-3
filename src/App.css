@@ -1,10 +1,65 @@
+
+
+
+
 .App {
   text-align: center;
   background-color: #8899bb;
 }
-
-.AppStuff {
+/* *** HContent *** */
+.HContent {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;;
+}
+.Trivbtns {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.TrivBox {
+  width: 100%;
+  margin: 0 auto;
+  /* box-sizing: border-box; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* align-content: center; */
+  justify-content: center;
+}
+.getList {
+  font-size: 18px;
+  width: 250px;
+  height: 50px;
+  margin: 0px 0px;
+  background-color: rgb(232, 196, 177);
+  border: 2px rgb(175, 132, 116) solid;
+}
+.getList-off {
+  font-size: 18px;
+  width: 250px;
+  height: 50px;
+  margin: 0px 0px;
+  background-color: rgb(145, 120, 107);
+  border: 2px rgb(133, 89, 73) solid;
+}
+.btn-off {
+  font-size: 16px;
+  background-color: rgb(184, 184, 184);
+  margin: 10px 10px;
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+}
+.btn {
+  font-size: 16px;
+  background-color:rgb(228, 228, 228);
+  margin: 10px 10px;
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
 }

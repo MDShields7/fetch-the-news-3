@@ -21,6 +21,7 @@ app.get('/api/MyTrivSetCreated', controller.getMyTrivCreated) //FUNCTIONS
 app.put(`/api/EditMyTrivSet/:id`, controller.editMyTrivSet) //FUNCTIONS
 app.delete(`/api/DeleteTrivSet/:id/:userid`, controller.deleteTrivSet) //FUNCTIONS
 
+app.post('/api/TrivList', controller.postTrivList) //FUNCTIONS
 app.post('/api/TrivSet', controller.postTrivSet) //FUNCTIONS
 app.post('/api/TrivCreator', controller.postTrivCreator) //FUNCTIONS
 

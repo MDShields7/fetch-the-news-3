@@ -1,4 +1,5 @@
 const initialState = {
+  trivSwitch: 1,
   id: null,             // given by server upon connection
   host: '',             // Host - only assigned from laptop view
   // room: '',             // Typed by host
@@ -16,6 +17,7 @@ const initialState = {
   // avatarList: [],       // Hard-coded items
   //    TRIVIA LIST?????
   }
+  const UPDATE_TRIV_SWITCH = 'TRIV_SWITCH';
   const UPDATE_ID = 'UPDATE_ID';
   const UPDATE_HOST = 'UPDATE_HOST';
   const UPDATE_ROOM = 'UPDATE_ROOM';
@@ -33,6 +35,8 @@ const initialState = {
   
   function reducer( state = initialState, action){
     switch(action.type){      
+        case UPDATE_TRIV_SWITCH:
+            return Object.assign({},state, {trivSwitch: action.payload})
         case UPDATE_ID:
             return Object.assign({},state, {id: action.payload})
         case UPDATE_HOST:
@@ -63,6 +67,12 @@ const initialState = {
             return Object.assign({}, state, {newsPlayingList: action.payload}) 
         default: return state;
     } 
+  }
+  export function updateTrivSwitch ( trivSwitch){
+    return {
+        type: UPDATE_TRIV_SWITCH,
+        payload: trivSwitch
+    }
   }
   export function updateId ( id ){
     return {

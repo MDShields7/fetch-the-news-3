@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { withRouter } from 'react-router';
 import axios from 'axios';
-import './HContentSet.css';
+// import './HContentSet.css';
 
 class HContentSet extends Component {
   constructor(props){
@@ -34,11 +35,10 @@ class HContentSet extends Component {
       .then(res => {
       console.log('******HContentSet, submit Trivia Set, res.data', res.data);
       console.log('submit trivia -------------',this.props.trivArray.id )
-       this.props.trivArray.id === 1 ? this.props.getTriviaSet()
-       : this.props.trivArray.id === 2 ?  this.props.getMyTriviaSet()
-       : this.props.getMyTriviaCreated()
+      this.props.getAllSets(0);
     })
       .catch(err => console.log('error at post editTriviaSet', err))
+      this.props.getAllSets(0);
   }
   deleteTrivSet = (catId) => {
     console.log('deleteTrivSet starting now... ')
@@ -46,8 +46,10 @@ class HContentSet extends Component {
     axios.delete(`/api/DeleteTrivSet/${catId}/${userId}`)
     .then(res => {
       console.log('******HContentSet, delete Trivia Set, res.data', res.data);
+      this.props.getAllSets(0);
     })
       .catch(err => console.log('error at post editTriviaSet', err))
+
   }
   handleChange = (e) => {
     const name = e.target.name
@@ -76,22 +78,22 @@ class HContentSet extends Component {
         this.deleteTrivSet(elemId);
         console.log('deleteBtn finished')
       }
-      return (<div >
+      return (<>
         <input className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId? tempTrivName : elemName} onChange={this.handleChange}/>
 
-        <button className={ sharedIndex ? 'btn' : 'btn-off' } onClick={ this.state.editElement === elemId ? submitBtn : editBtn }>
+        <button className={ sharedIndex ? 'btn-2' : 'btn-2-off' } onClick={ this.state.editElement === elemId ? submitBtn : editBtn }>
         {this.state.editElement === elemId ? 'Submit' : 'Edit'}</button>
 
-        <button className='btn' onClick={deleteBtn}>Delete</button>
-      </div> )
+        <button className='btn-2' onClick={deleteBtn}>Delete</button>
+      </> )
     })
-    console.log('HContentSet, this.state',this.state)
-    console.log('HContentSet, this.props', this.props)
+    // console.log('HContentSet, this.state',this.state)
+    // console.log('HContentSet, this.props', this.props)
 
     return (
-      <>
+      <div className='TrivCard'>
         {TrivCard}
-      </>
+      </div>
     )
   }
 }
@@ -101,4 +103,4 @@ function mapStateToProps( state ){
     newsMyListCreated
   };
 }
-export default connect (mapStateToProps)(HContentSet); 
+export default withRouter(connect (mapStateToProps)(HContentSet)); 

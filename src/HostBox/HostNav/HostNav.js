@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
-import './HostNav.css'
+import {NavLink} from 'react-router-dom';
+import '../../WithRouter'
+// import './HostNav.css'
 
 export default class HostNav extends Component {
   render() {
     return (
       <div className='HostNav'>
-        <div className='NavGroup'></div>  
+        {/* <withRouter/> */}
+        <div className='NavGroup'>
+          {/* <div className='NavGroup2'> */}
             <div className="NavItem">Logo</div>
             <div className="NavLink">
               <div className="NavItem">
-                  <Link to='/'>Content</Link>
+                  <NavLink to='/'>Content</NavLink>
               </div>
               <div className="NavItem">
-                  <Link to='/setup'>Setup</Link>
+                  <NavLink to='/setup'>Setup</NavLink>
               </div>
               <div className="NavItem">
-                  <Link to='/lobby'>Lobby</Link>
+                  <NavLink to='/lobby'>Lobby</NavLink>
               </div>
             </div>
+          {/* </div>   */}
+        </div>  
       </div>
     )
   }

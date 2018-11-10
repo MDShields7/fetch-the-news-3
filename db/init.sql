@@ -1,11 +1,10 @@
-DROP TABLE IF EXISTS ftn_users;
-DROP TABLE IF EXISTS ftn_catsets;
-DROP TABLE IF EXISTS ftn_qasets;
 DROP TABLE IF EXISTS ftn_trivlist;
 DROP TABLE IF EXISTS ftn_catlist;
 DROP TABLE IF EXISTS ftn_qacreators;
 DROP TABLE IF EXISTS ftn_trivcreators;
-
+DROP TABLE IF EXISTS ftn_users;
+DROP TABLE IF EXISTS ftn_catsets;
+DROP TABLE IF EXISTS ftn_qasets;
 
 -- 'USER SET' ONE TO ONE TABLE
 CREATE TABLE ftn_users (
@@ -53,8 +52,8 @@ VALUES
 
 CREATE TABLE ftn_trivlist (
   tr_id SERIAL PRIMARY KEY,
-  tr_user_id INTEGER,
-  tr_cat_id INTEGER
+  tr_user_id INTEGER REFERENCES ftn_users(user_id),
+  tr_cat_id INTEGER REFERENCES ftn_catsets(cat_id)
 );
 INSERT INTO ftn_trivlist
 (tr_user_id, tr_cat_id)
@@ -63,8 +62,8 @@ VALUES
 
 CREATE TABLE ftn_catlist (
   cl_id SERIAL PRIMARY KEY,
-  cl_cat_id INTEGER,
-  cl_qa_id INTEGER
+  cl_cat_id INTEGER REFERENCES ftn_catsets(cat_id),
+  cl_qa_id INTEGER REFERENCES ftn_qasets(qa_id)
 );
 INSERT INTO ftn_catlist
 (cl_cat_id, cl_qa_id)
@@ -73,8 +72,8 @@ VALUES
 
 CREATE TABLE ftn_qacreators (
   qacr_id SERIAL PRIMARY KEY,
-  qacr_user_id INTEGER,
-  qacr_qa_id INTEGER
+  qacr_user_id INTEGER REFERENCES ftn_users(user_id),
+  qacr_qa_id INTEGER REFERENCES ftn_qasets(qa_id)
 );
 INSERT INTO ftn_qacreators
 (qacr_user_id, qacr_qa_id)
@@ -83,8 +82,8 @@ VALUES
 
 CREATE TABLE ftn_trivcreators (
   tcr_id SERIAL PRIMARY KEY,
-  tcr_user_id INTEGER,
-  tcr_cat_id INTEGER
+  tcr_user_id INTEGER REFERENCES ftn_users(user_id),
+  tcr_cat_id INTEGER REFERENCES ftn_catsets(cat_id)
 );
 INSERT INTO ftn_trivcreators
 (tcr_user_id, tcr_cat_id)
