@@ -6,16 +6,21 @@ $color-bg: #222222;
 $color-bg-click: #553344;
 $color-red: #bb4455;
 $color-red-dk: #1e0b0e;
-$color-green: #229999;
+$color-green: #43c0c0;
+$color-green-lt: #0e8383;
+$color-green-2: #99dd99;
 $color-green-dk: #072121;
 $color-blue: #223344;
 $color-blue-dk: #0e141b;
 $color-white:#FFFFFF;
 $color-white-click:#FF85FF;
+$color-trans: transparent;
 // Buttons
 $btn-able: #e4e4e4;
-$btn-disable: #9f9f9f;
+$btn-disable: #7b7b7b;
 $btn-submit: #99dd99;
+$btn-hov: saturate($color-green-2, 30%);
+$btn-hov-bord: saturate($color-green-2, 30%);
 
 //  EXTEND
 .flex-col {
@@ -28,29 +33,39 @@ $btn-submit: #99dd99;
   flex-direction: row;
 }
 //  MIXINS
-@mixin large-btn ($color){
+
+@mixin btn ($color){
   font-size: 16px;
   background-color:$color;
-  margin: 10px 10px;
+  margin: 20px 10px 0px;
+  border: 3px solid $color;
+
+}
+@mixin large-btn ($color){
+  @include btn ($color);
   width: 200px;
   height: 50px;
-  border: none;
-  border-radius: 5px;
+  border-radius: 10px 10px 0px 0px;
+  margin: 20px 0px 0px;
 }
 @mixin med-btn ($color){
-  font-size: 16px;
-  background-color:$color;
-  margin: 10px 10px;
-  width: 75px;
+  @include btn ($color);
+  width: 100px;
   height: 25px;
-  border: none;
   border-radius: 5px;
+  margin: 15px;
 }
+
 .btn {
-  @include large-btn ($btn-able);
+  @include large-btn ($color-green);
+  align-content: flex-end;
+}
+.btn:hover{
+  background-color: $btn-hov;
+  background-color: $btn-hov;
 }
 .btn-off {
-  @include large-btn ($btn-disable);
+  @include large-btn ($color-green-lt);
 }
 .btn-submit {
   @include large-btn ($btn-submit);
@@ -58,16 +73,19 @@ $btn-submit: #99dd99;
 .btn-2 {
   @include med-btn ($btn-able);
 }
+.btn-2:hover{
+  background-color: $btn-hov;
+}
 .btn-2-off {
   @include med-btn ($btn-disable);
+  visibility: hidden;
 }
 .btn-2-submit {
   @include med-btn ($btn-submit);
 }
 //  FUNCTIONS
-@function height-subtr-calc($num1, $num2){
-  @return $num1 - num2
-}
+//  hover on buttons
+
 //  INHERITANCE
 
 //  PARTIAL & IMPORT
@@ -104,7 +122,7 @@ a:visited {
   min-width: 100vh;
   width: 100%;
   max-width: 1000px;
-  background-color:$color-green;
+  background-color:$color-bg-click;
 }
 .Trivbtns {
   @extend .flex-row;
@@ -121,38 +139,45 @@ a:visited {
   width: 700px;
   margin: 0 auto;
   justify-content: space-around;
-
 }
 .TrivBox {
   @extend .flex-row;
-  background-color: $color-red;
+  background-color: $color-green;
   width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  // flex-wrap: wrap;
-  align-content: center;
-  justify-content: center;
+  min-height:100vh;
+  // height: auto;
+  margin: 60 10px auto;
+  // padding: 0 0px;
+  flex-wrap: wrap;
+  align-content: start;
+  justify-content: space-evenly;
 }
 
 // HCSet
 .TrivCard {
-  width: 500px;
-  height: 100px;
-  align-items: center;
-  margin: 5px 5px;
+  width: 300px;
+  max-height: 150px;
+  border: 2px solid black;
+  border-radius: 10px;
+  // height: 100px;
+  // align-items: space-around;
+  margin: 10px 5px;
 }
 .TrivText {
   font-size: 24px;
   margin: 15px auto;
 }
 .inputTrivText{
+  text-align:center;
+  height: 90px;
+  resize: none;
   width: 300px;
   font-size: 24px;
   word-wrap: normal;
-  margin: 15px auto;
+  margin: 0px auto;
   /* background-color: rgb(255, 200, 178); */
   // height: auto;
-  overflow: auto;
+  // overflow: auto;
   background:transparent;
   border: none;
   border-color: transparent;
@@ -173,23 +198,22 @@ a:visited {
   background-color: rgb(145, 120, 107);
   border: 2px rgb(133, 89, 73) solid;
 }
-
 // *** HOSTNAV ***
 .HostNav {
   width:100%;
   height:80px;
   display: flex;
   justify-content: center;
-  background-color: $color-bg;
+  background-color: $color-blue;
 }
 .NavGroup {
-  background-color: $color-blue;
+  // background-color: $color-blue;
   max-width: 1000px;
   width: 100%;
   height: 100%;
   // margin: 0 auto;
   display: flex;
-  // padding: 0 20px;
+  // padding: 0 10px;
   justify-content: space-between;
   align-items: center;
   // margin: 0 auto;
@@ -207,11 +231,10 @@ a:visited {
   display: flex;
   flex-direction: row;
   align-items: center;
-
 }
 .NavItem {
   height: 100%;
-  margin: 50px;
+  margin: 25px;
   display:flex;
   align-items: center;
   font-size: 24px;
@@ -219,4 +242,14 @@ a:visited {
 }
 .logo {
   color: white;
+}
+.round-limit {
+  @extend .flex-row;
+}
+.arrow-left {
+  transform: rotate(180deg);
+  width: 50px;
+}
+.arrow-right {
+  width: 50px;
 }

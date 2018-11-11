@@ -5,7 +5,7 @@ const initialState = {
   // room: '',             // Typed by host
   // roomList: [],         // Kept by server
   mobileDevice: 0,      // determined per user
-  // rndLimit: 3,          // Round, set by host in lobby
+  rndLimit: 3,          // Round, set by host in lobby
   // rndCurrent: null,     // Round, set during game
   // user: '',             // User { id:#, avName:'', avPhoto:'url' }
   // userList: [],         // List of playing users 
@@ -13,7 +13,7 @@ const initialState = {
   newsAllList: [],      // Lists available to play
   newsMyList: [],      // Lists available to play
   newsMyListCreated: [],      // Lists available to play
-  // newsPlayingList: [],  // List played in party mode
+  newsPlayingList: {},  // List played in party mode
   // avatarList: [],       // Hard-coded items
   //    TRIVIA LIST?????
   }

@@ -146,7 +146,7 @@ console.log('HContent, this.state',this.state)
         {/* <withRouter/> */}
         {/* <button onClick={this.propsBtn}>Check HContent.js Props</button> */}
         <div className='TrivBtns'>
-          <div className='tnBox'>
+          <div className='BtnBox'>
             {triviaButtons}
           </div>
         </div>

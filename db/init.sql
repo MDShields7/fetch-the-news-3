@@ -23,7 +23,7 @@ VALUES
 -- 'CATEGORY SET' ONE TO ONE TABLE
 CREATE TABLE ftn_catsets (
     cat_id SERIAL PRIMARY KEY,
-    cat_name VARCHAR(100) NOT NULL
+    cat_name VARCHAR(80) NOT NULL
 );
 INSERT INTO ftn_catsets 
 (cat_name)

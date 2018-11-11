@@ -78,22 +78,22 @@ class HContentSet extends Component {
         this.deleteTrivSet(elemId);
         console.log('deleteBtn finished')
       }
-      return (<>
-        <input className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId? tempTrivName : elemName} onChange={this.handleChange}/>
+      return (<div className='TrivCard'>
+        <textarea className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId? tempTrivName : elemName} onChange={this.handleChange}/>
 
         <button className={ sharedIndex ? 'btn-2' : 'btn-2-off' } onClick={ this.state.editElement === elemId ? submitBtn : editBtn }>
         {this.state.editElement === elemId ? 'Submit' : 'Edit'}</button>
 
         <button className='btn-2' onClick={deleteBtn}>Delete</button>
-      </> )
+      </div> )
     })
     // console.log('HContentSet, this.state',this.state)
     // console.log('HContentSet, this.props', this.props)
 
     return (
-      <div className='TrivCard'>
+      <>
         {TrivCard}
-      </div>
+      </>
     )
   }
 }
