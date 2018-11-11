@@ -1,4 +1,6 @@
 //  VARIABLES
+@import 'reset';
+
 $font-title: 'Varela Round', sans-serif;
 $font-body: 'Source Serif Pro', serif;
 
@@ -21,7 +23,7 @@ $btn-disable: #7b7b7b;
 $btn-submit: #99dd99;
 $btn-hov: saturate($color-green-2, 30%);
 $btn-hov-bord: saturate($color-green-2, 30%);
-
+$size-arrow: 50px;
 //  EXTEND
 .flex-col {
   display: flex;
@@ -243,13 +245,50 @@ a:visited {
 .logo {
   color: white;
 }
+.setup {
+  background-color:$color-bg-click;
+  height: auto;
+  min-height: 100vh;
+}
 .round-limit {
   @extend .flex-row;
+  margin: 50px;
 }
-.arrow-left {
-  transform: rotate(180deg);
-  width: 50px;
+.round-limit-center {
+  display: flex;
+  width: 200px;
+  justify-content: space-around;
+  margin: 0 auto;
+  align-items: center;
+}
+.setup-text {
+  font-size: 50px;
+}
+@mixin arrow (){
+  width: 0; 
+  height: 0; 
+  border-top: $size-arrow solid transparent;
+  border-bottom: $size-arrow solid transparent;
+  margin: 0 50px;
 }
 .arrow-right {
-  width: 50px;
+  @include arrow;
+  border-left: $size-arrow solid $color-green-2;
+}
+
+.arrow-left {
+  @include arrow;
+  border-right: $size-arrow solid $color-green-2; 
+}
+.roundNum {
+  font-size: 120px;
+}
+.start-game {
+  height: 100px;
+  width: 300px;
+  border: none;
+  border-radius: 10px;
+  background-image: linear-gradient($color-green-2,$color-green-lt);
+  font-size: 48px; 
+  margin: 50px;
 }
