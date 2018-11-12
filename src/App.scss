@@ -2,10 +2,12 @@
 @import 'reset';
 
 $font-title: 'Varela Round', sans-serif;
+$font-title-2: 'Open Sans', sans-serif;
 $font-body: 'Source Serif Pro', serif;
 
 $color-bg: #222222;
-$color-bg-click: #553344;
+$color-purple: #553344;
+$color-purple-2: #86556e;
 $color-red: #bb4455;
 $color-red-dk: #1e0b0e;
 $color-green: #43c0c0;
@@ -108,7 +110,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: $color-bg-click;
+  color: $color-purple;
   background-color: $color-white-click;
 }
 a:visited {
@@ -124,7 +126,7 @@ a:visited {
   min-width: 100vh;
   width: 100%;
   max-width: 1000px;
-  background-color:$color-bg-click;
+  background-color:$color-purple;
 }
 .Trivbtns {
   @extend .flex-row;
@@ -246,20 +248,25 @@ a:visited {
   color: white;
 }
 .setup {
-  background-color:$color-bg-click;
+  background-color:$color-purple-2;
   height: auto;
   min-height: 100vh;
 }
 .round-limit {
   @extend .flex-row;
-  margin: 50px;
+  margin: 20px;
 }
 .round-limit-center {
   display: flex;
-  width: 200px;
   justify-content: space-around;
   margin: 0 auto;
   align-items: center;
+}
+.roundNum {
+  text-align:center;
+  resize: none;
+  font-size: 120px;
+  text-shadow: 0px 0px 50px white;
 }
 .setup-text {
   font-size: 50px;
@@ -280,8 +287,24 @@ a:visited {
   @include arrow;
   border-right: $size-arrow solid $color-green-2; 
 }
-.roundNum {
-  font-size: 120px;
+.roundNumBox {
+  // @extend .flex-col;
+  // background-color: red;
+  width:150px;
+  height:150px;
+}
+.listBox {
+  // @extend .flex-col;
+  // background-color: red;
+  width:500px;
+  height:250px;
+}
+.list {
+  font-family: $font-title-2;
+  text-align:center;
+  resize: none;
+  font-size: 60px;
+  text-shadow: 0px 0px 30px white;
 }
 .start-game {
   height: 100px;
@@ -291,4 +314,25 @@ a:visited {
   background-image: linear-gradient($color-green-2,$color-green-lt);
   font-size: 48px; 
   margin: 50px;
+}
+
+// *** SETUP ***
+.lobby {
+  background-color:$color-purple-2;
+  min-height: 100vh;
+  height: auto;
+  width: 100%;
+}
+.lobby-footer {
+  height: 240px;
+  background-color: red;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+.player-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: green;
 }

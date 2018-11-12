@@ -9,6 +9,17 @@ class HSetup extends Component {
     super();
   }
   // set newsPlaying list {id: ???, list: ???} upon page load
+  componentDidMount = () => {
+    
+    let { newsPlayingList } = this.props;
+    if ( !newsPlayingList.hasOwnProperty('id') ){
+      newsPlayingList['id'] = 0;
+    }
+    const{id} = this.props.newsPlayingList
+    this.props.updateNewsPlayingList({
+      id: newsPlayingList.id, list: this.props.newsMyList[id].cat_name })
+      console.log(id,this.props.newsMyList[id].cat_name)
+  }
   rndLimitDecr = () => {
     if (this.props.rndLimit > 3 ){
       let newLimit = this.props.rndLimit - 1;
@@ -20,13 +31,19 @@ class HSetup extends Component {
       let newLimit = this.props.rndLimit + 1;
       this.props.updateRndLimit(newLimit);
     }
+  }  
+  newsListDecr = () => {
+    if (this.props.newsPlayingList.id > 0){
+      let newId = this.props.newsPlayingList.id - 1;
+      this.props.updateNewsPlayingList({id:newId, list: this.props.newsMyList[newId]['cat_name']})
+    }
   }
-  newsListIncr(){
-    console.log('new Playing List, before id & list:', this.props.newsPlayingList[id] , this.props.newsPlayingList)
-    if (this.props.newsPlayingList[id] < this.props.newsMyList.length){
-      let newId = this.props.newsPlayingList[id] + 1;
-      console.log('new Playing List, after id & list:', newId , newsMyList[newId])
-      this.props.updateNewsPlayingList({id:newId, list: newsMyList[newId]})
+  newsListIncr = () => {
+    // console.log('new Playing List, before id & list:', this.props.newsPlayingList.id , this.props.newsPlayingList)
+    if (this.props.newsPlayingList.id < this.props.newsMyList.length - 1){
+      let newId = this.props.newsPlayingList.id + 1;
+      // console.log('new Playing List, after id & list:', newId , this.props.newsMyList[newId])
+      this.props.updateNewsPlayingList({id:newId, list: this.props.newsMyList[newId]['cat_name']})
     }
   }
 
@@ -55,23 +72,31 @@ class HSetup extends Component {
   // }
   render() {
 
+    // console.log('HSetup, this.props', this.props)
     return (
       <div className='setup'>
         {/* <h1>Host Setup</h1> */}
         <section>
           <div className='setup-text'>Choose a News Category</div>
-          <div className='news-cat'>
-            <div className='news-cat'></div>
-              <div></div>
-          </div>
+          <section className='round-limit'>
+            <div className='round-limit-center'>
+              <div name='round' onClick={this.newsListDecr} className='arrow-left'/>
+              <div className='listBox'>
+                <div className='list'>{this.props.newsPlayingList.list}</div>
+              </div>
+              <div onClick={this.newsListIncr} className='arrow-right'></div>
+            </div>
+          </section>
 
         </section>
         <div className='setup-text'>Choose Number of Rounds</div>
         <section className='round-limit'>
           <div className='round-limit-center'>
-          <img name='round' onClick={this.limitDecr} className='arrow-left'/>
-          <div className='roundNum'>{this.props.rndLimit}</div>
-          <div onClick={this.limitIncr} className='arrow-right'></div>
+            <div name='round' onClick={this.rndLimitDecr} className='arrow-left'/>
+            <div className='roundNumBox'>
+              <div className='roundNum'>{this.props.rndLimit}</div>
+            </div>
+            <div onClick={this.rndLimitIncr} className='arrow-right'></div>
           </div>
         </section>
         <button className='start-game'>Start Game</button>

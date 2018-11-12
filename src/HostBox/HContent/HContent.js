@@ -139,8 +139,8 @@ class HContent extends Component {
       // console.log('HContents, triviaButtons, elem.id, this.state.trivSwitch', elem.id, this.state.trivSwitch)
       return <button key={elem.id} id={elem.id} value={elem.value} className={elem.id === this.state.trivSwitch ? 'btn' : 'btn-off'}onClick={handleSelect}>{elem.text}</button>
     })
-    console.log('HContent, this.props',this.props)
-console.log('HContent, this.state',this.state)
+    // console.log('HContent, this.props',this.props)
+    // console.log('HContent, this.state',this.state)
     return (
       <div className='HContent'>
         {/* <withRouter/> */}
