@@ -58,13 +58,16 @@ module.exports = {
   postTrivList: (req, res) => {
     const dbInstance = req.app.get('db');
     const {tr_user_id, tr_cat_id}=req.body;
-    console.log('this is the controller post triv creator', tr_user_id, tr_cat_id)
-    dbInstance.post_triv_creator([ tr_user_id, tr_cat_id ])
+    console.log('this is the controller post triv list', tr_user_id, tr_cat_id)
+    dbInstance.post_triv_list({
+      tr_user_id: tr_user_id, 
+      tr_cat_id: tr_cat_id 
+    })
     .then(list => {res.json(list);
-      console.log('creator response is ', list)})
+      console.log('trivlist response is ', list)})
       .catch(error => {
-          console.log('error in postTrivCreator', error);
-      res.status(500).json({message: 'postTrivCreator error'})
+          console.log('error in postTrivList', error);
+      res.status(500).json({message: 'postTrivList error'})
       })
   },
   editMyTrivSet: (req,res) => {

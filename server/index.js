@@ -26,9 +26,9 @@ app.post('/api/TrivSet', controller.postTrivSet) //FUNCTIONS
 app.post('/api/TrivCreator', controller.postTrivCreator) //FUNCTIONS
 
 const path = require('path')
-app.get('*', (req, res)=>{
-  res.sendFile(path.join(__dirname, '../build/index.html'));
-})
+// app.get('*', (req, res)=>{
+//   res.sendFile(path.join(__dirname, '../build/index.html'));
+// })
 
 const PORT = 4001 || process.env.CONNECTION_STRING;
 app.listen(PORT, ()=> console.log(`Server listening on port PORT`))

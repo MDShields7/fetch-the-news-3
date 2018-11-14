@@ -16,20 +16,24 @@ class HContent extends Component {
       trivSetToMap: props.newsAllList,
       userId: 2,
     }
+    this.getTriviaSet();
+    this.getMyTriviaSet();
+    this.getMyTriviaCreated();
   }
   componentDidMount = () => {
-    this.getTriviaSet();
+
   }
-  componentDidUpdate = (prevProps) => {
-    if (this.props === prevProps) {
-      this.getMyTriviaSet();
-      this.getMyTriviaCreated();
+  // componentDidUpdate = (prevProps) => {
+  //   if (this.props === prevProps) {
+      // this.getMyTriviaSet();
+      // this.getMyTriviaCreated();
       // this.getTriviaSet();
-      console.log('componentdidupdate did the updating!!')
-    }
-  }
+  //     console.log('componentdidupdate did the updating!!')
+  //   }
+  // }
   getAllSets = (num) => {
     if( num === 0 ){
+      console.log('getting alll sets')
       this.getMyTriviaSet();
       this.getMyTriviaCreated();
       this.getTriviaSet();
@@ -43,7 +47,7 @@ class HContent extends Component {
   }
   getTriviaSet = () => {
     if (this.state.userId) {
-      console.log('getTriviaSet working')
+      console.log('getTriviaSet')
       axios.get('/api/TrivSet').then(res => {
         this.props.updateNewsAllList(res.data)
         this.setState({
@@ -56,6 +60,7 @@ class HContent extends Component {
   }
   getMyTriviaSet = () => {
     if (this.state.userId) {
+      console.log('getMyTriviaSet')
       axios.get('/api/MyTrivSet', {params:{userId:this.state.userId}}).then(res => {
         this.props.updateNewsMyList(res.data)
         // console.log('HContent, this.props.newsMyList', this.props.newsMyList)
@@ -65,6 +70,7 @@ class HContent extends Component {
   }
   getMyTriviaCreated = () => {
     if (this.state.userId) {
+      console.log('getTriviaSetCreated')
       // axios.get(`/api/MyTrivSetCreated/userId=${this.state.userId}`)
       axios.get('/api/MyTrivSetCreated', {params:{userId:this.state.userId}}).then(res => {
         this.props.updateNewsMyListCreated(res.data)
@@ -77,8 +83,8 @@ class HContent extends Component {
     // console.log('createTriviaSet w/ req.body',this.state.trivSetName)
     axios.post('/api/TrivSet', {trivSetName: this.state.trivSetName})
     .then(res => { 
-      this.createTrivCreator(res.data[0]['cat_id']);
       this.createTrivList(res.data[0]['cat_id']);
+      this.createTrivCreator(res.data[0]['cat_id']);
     })
     .catch(err => console.log('error at post TriviaSet', err))
     this.getAllSets(0);
@@ -92,9 +98,9 @@ class HContent extends Component {
   }
   createTrivList = (catId) => {
     const{userId} = this.state;
-    // console.log('createTrivCreator, userId:', userId,'catId:', catId)
+    console.log('createTrivCreator, userId:', userId,'catId:', catId)
     axios.post('/api/TrivList', {tr_user_id: userId, tr_cat_id: catId})
-      .then(res => {console.log('createTriviaCreator, res.data',res.data)})
+      .then(res => {console.log('createTriviaList, res.data',res.data)})
       .catch(err => console.log('error at post TriviaSet', err))
   }
   createQASet = (qaItem) => {
@@ -139,11 +145,26 @@ class HContent extends Component {
       // console.log('HContents, triviaButtons, elem.id, this.state.trivSwitch', elem.id, this.state.trivSwitch)
       return <button key={elem.id} id={elem.id} value={elem.value} className={elem.id === this.state.trivSwitch ? 'btn' : 'btn-off'}onClick={handleSelect}>{elem.text}</button>
     })
-    // console.log('HContent, this.props',this.props)
+    console.log('HContent, this.props',this.props)
     // console.log('HContent, this.state',this.state)
     return (
       <div className='HContent'>
-        {/* <withRouter/> */}
+        <div className='inputTrivCard'>
+          <div className='TrivCard'>
+            {/* <div>Reminder to put 'Create a new trivia set' My Trivia Set Creations</div> */}
+            <textarea className='inputTrivText' placeholder='New Trivia Set' name='trivSetName' value={trivSetName} onChange={this.handleChange}/>
+            <button className='btn-2' onClick={this.createTriviaSet}>Create</button>
+          </div>
+        </div>
+          {/* (<div className='TrivCard'>
+        <textarea className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId? tempTrivName : elemName} onChange={this.handleChange}/>
+
+        <button className={ sharedIndex ? 'btn-2' : 'btn-2-off' } onClick={ this.state.editElement === elemId ? submitBtn : editBtn }>
+        {this.state.editElement === elemId ? 'Submit' : 'Edit'}</button>
+
+        <button className='btn-2' onClick={deleteBtn}>Delete</button>
+      </div> ) */}
+        
         {/* <button onClick={this.propsBtn}>Check HContent.js Props</button> */}
         <div className='TrivBtns'>
           <div className='BtnBox'>
@@ -157,11 +178,6 @@ class HContent extends Component {
           trivArray={trivSetToMap} trivSetToMap={trivSetToMap} userId={this.state.userId}/>
         </div>
 
-        <div>
-          <div>Reminder to put 'Create a new trivia set' My Trivia Set Creations</div>
-          <input type="text" name='trivSetName' value={trivSetName} onChange={this.handleChange}/>
-          <button onClick={this.createTriviaSet}>Create</button>
-        </div>
       </div>
     )
   }

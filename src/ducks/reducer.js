@@ -6,14 +6,15 @@ const initialState = {
   // roomList: [],         // Kept by server
   mobileDevice: 0,      // determined per user
   rndLimit: 3,          // Round, set by host in lobby
-  // rndCurrent: null,     // Round, set during game
+  rndCurrent: null,     // Round, set during game
   // user: '',             // User { id:#, avName:'', avPhoto:'url' }
-  // userList: [],         // List of playing users 
+  userList: [],         // List of playing users 
   // userScoreList: [],    // Scores - only party mode
   newsAllList: [],      // Lists available to play
   newsMyList: [],      // Lists available to play
   newsMyListCreated: [],      // Lists available to play
   newsPlayingList: {},  // List played in party mode
+  newsPlayedList: {},  // List played in party mode
   // avatarList: [],       // Hard-coded items
   //    TRIVIA LIST?????
   }
@@ -32,6 +33,7 @@ const initialState = {
   const UPDATE_NEWS_MY_LIST = 'NEWS_MY_LIST';
   const UPDATE_NEWS_MY_LIST_CREATED = 'NEWS_MY_LIST_CREATED';
   const UPDATE_NEWS_PLAYING_LIST = 'NEWS_PLAYING_LIST';
+  const UPDATE_NEWS_PLAYED_LIST = 'NEWS_PLAYED_LIST';
   
   function reducer( state = initialState, action){
     switch(action.type){      
@@ -62,9 +64,11 @@ const initialState = {
         case UPDATE_NEWS_MY_LIST:
             return Object.assign({}, state, {newsMyList: action.payload}) 
         case UPDATE_NEWS_MY_LIST_CREATED:
-            return Object.assign({}, state, {newsMyListCreated: action.payload}) 
+            return Object.assign({}, state, {newsMyListCreated: action.payload})
         case UPDATE_NEWS_PLAYING_LIST:
             return Object.assign({}, state, {newsPlayingList: action.payload}) 
+        case UPDATE_NEWS_PLAYED_LIST:
+            return Object.assign({}, state, {newsPlayedList: action.payload}) 
         default: return state;
     } 
   }
@@ -108,6 +112,12 @@ const initialState = {
     return {
         type: UPDATE_RND_LIMIT,
         payload: rndLimit
+    }
+  }
+  export function updateRndCurrent ( rndCurrent ){
+    return {
+        type: UPDATE_RND_CURRENT,
+        payload: rndCurrent
     }
   }
   export function updateLoanType ( rndCurrent ){
@@ -156,6 +166,12 @@ const initialState = {
     return {
         type: UPDATE_NEWS_PLAYING_LIST,
         payload: newsPlayingList
+    }
+  }
+  export function updateNewsPlayedList ( newsPlayedList ){
+    return {
+        type: UPDATE_NEWS_PLAYED_LIST,
+        payload: newsPlayedList
     }
   }
   

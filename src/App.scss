@@ -158,11 +158,17 @@ a:visited {
 }
 
 // HCSet
+.inputTrivCard{
+  @extend .flex-row;
+  justify-content: center;
+  width: 100%;
+}
 .TrivCard {
   width: 300px;
   max-height: 150px;
   border: 2px solid black;
   border-radius: 10px;
+  background-color: $color-green;
   // height: 100px;
   // align-items: space-around;
   margin: 10px 5px;
@@ -324,15 +330,120 @@ a:visited {
   width: 100%;
 }
 .lobby-footer {
-  height: 240px;
-  background-color: red;
+  @extend .flex-col;
+  height: 400px;
+  // background-color: red;
   position: absolute;
   bottom: 0px;
+  width: 90%;
+  padding:5%;
+  align-items: center;
+  justify-content: space-around;
+}
+.lobby-player-arr {
+  @extend .flex-row;
   width: 100%;
+  // align-items: space-around;
+  // align-content: space-around;
+  // justify-items: space-around;
+  justify-content: space-around;
+
 }
-.player-icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
-  background-color: green;
+@function addPx ($num){
+  @return $num + px
 }
+$player-icon-small: 50;
+$player-icon-medium: 100;
+$player-box-h: 150px;
+$player-box-w: 200px;
+$ready-y: green;
+$ready-n: orange;
+.player-box {
+  @extend .flex-col;
+  height: $player-box-h;
+  width: $player-box-w;
+  align-items: center;
+  // background: blue;
+}
+.player-text{
+  @extend .flex-row;
+  height: $player-box-h;
+  align-items: center;
+  // background: pink;
+  font-family: 'Architects Daughter', regular;
+  font-size: 40px; 
+  font-weight: 700;
+}
+.player-text-r {
+  @extend .flex-row;
+  height: $player-box-h;
+  align-items: center;
+  // background: pink;
+  font-family: 'Architects Daughter', regular;
+  font-size: 40px; 
+  font-weight: 700;
+  color: rgb(0, 255, 0);
+  animation: glow-shadow 1s ease-in-out 0s infinite forwards;
+}
+@keyframes glow-shadow {
+  0% { 
+    text-shadow: 0px 0px 0px white;
+  // text-shadow: 0px 0px 2px black;
+  }
+  50% { 
+    text-shadow: 0px 0px 20px white;
+    // text-shadow: 0px 0px 15px black;
+    }
+  100% { 
+    text-shadow: 0px 0px 0px white;
+    // text-shadow: 0px 0px 2px black;
+    }
+}
+// @mixin player {
+//   background-color: yellow;
+//   font-family: 'Overpass Mono', monospace;
+//   font-size: 30px; 
+// }
+// @mixin player-on {
+//   width: 100px;
+//   height: 100px;
+//   // margin: 50px;
+// }
+// @mixin player-off {
+//   width: 50px;
+//   height: 50px;
+//   // margin: 75px;
+// }
+
+// @mixin ready-yes {
+//   color: $ready-y;
+// }
+// @mixin ready-no {
+//   color: $ready-n;
+// }
+// .player-off {
+//   @include player;
+//   @include player-off;
+//   @include ready-no;
+// }
+// .player-on {
+//   @include player;
+//   @include player-on;
+//   @include ready-no;
+// }
+// .player-on-ready {
+//   @include player;
+//   @include player-on;
+//   @include ready-no;
+// }
+// .player-icon {
+//   background-color: yellow;
+//   width: addPx(100);
+//   height: addPx(100);
+//   // width: 100px;
+//   // height: 100px;
+//   background-color: yellow;
+//   font-family: 'Overpass Mono', monospace;
+//   font-size: 30px;  
+//   margin: 50px;
+// }

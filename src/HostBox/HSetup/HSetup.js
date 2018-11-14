@@ -10,15 +10,16 @@ class HSetup extends Component {
   }
   // set newsPlaying list {id: ???, list: ???} upon page load
   componentDidMount = () => {
-    
-    let { newsPlayingList } = this.props;
-    if ( !newsPlayingList.hasOwnProperty('id') ){
+    let { newsPlayingList, newsMyList } = this.props;
+      console.log(this.props.newsMyList)
+    if ( !newsPlayingList.hasOwnProperty('id') && !newsPlayingList['id']){
       newsPlayingList['id'] = 0;
+      const{id} = this.props.newsPlayingList
+      console.log('Hsetup----------------',newsMyList)
+      this.props.updateNewsPlayingList({
+      id: newsPlayingList.id, list: newsMyList[id].cat_name })
+      console.log(id, newsMyList[id].cat_name)
     }
-    const{id} = this.props.newsPlayingList
-    this.props.updateNewsPlayingList({
-      id: newsPlayingList.id, list: this.props.newsMyList[id].cat_name })
-      console.log(id,this.props.newsMyList[id].cat_name)
   }
   rndLimitDecr = () => {
     if (this.props.rndLimit > 3 ){
@@ -72,7 +73,7 @@ class HSetup extends Component {
   // }
   render() {
 
-    // console.log('HSetup, this.props', this.props)
+    console.log('HSetup, this.props', this.props)
     return (
       <div className='setup'>
         {/* <h1>Host Setup</h1> */}
@@ -99,7 +100,7 @@ class HSetup extends Component {
             <div onClick={this.rndLimitIncr} className='arrow-right'></div>
           </div>
         </section>
-        <button className='start-game'>Start Game</button>
+        <button className='start-game'>Next</button>
       </div>
     )
   }
