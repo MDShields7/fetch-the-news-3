@@ -7,14 +7,17 @@ const initialState = {
   mobileDevice: 0,      // determined per user
   rndLimit: 3,          // Round, set by host in lobby
   rndCurrent: null,     // Round, set during game
-  // user: '',             // User { id:#, avName:'', avPhoto:'url' }
+  user: {id:0, name:''},             // User { id:#, avName:'', avPhoto:'url' }
   userList: [],         // List of playing users 
   // userScoreList: [],    // Scores - only party mode
   newsAllList: [],      // Lists available to play
   newsMyList: [],      // Lists available to play
   newsMyListCreated: [],      // Lists available to play
   newsPlayingList: {},  // List played in party mode
-  newsPlayedList: {},  // List played in party mode
+  newsPlayedList: '',  // List played in party mode
+  gameStart: false,
+  gamePhase: 0,
+  gameTimer: 0
   // avatarList: [],       // Hard-coded items
   //    TRIVIA LIST?????
   }
@@ -34,6 +37,9 @@ const initialState = {
   const UPDATE_NEWS_MY_LIST_CREATED = 'NEWS_MY_LIST_CREATED';
   const UPDATE_NEWS_PLAYING_LIST = 'NEWS_PLAYING_LIST';
   const UPDATE_NEWS_PLAYED_LIST = 'NEWS_PLAYED_LIST';
+  const UPDATE_GAME_START = 'GAME_START';
+  const UPDATE_GAME_PHASE = 'GAME_PHASE';
+  const UPDATE_GAME_TIMER = 'GAME_TIMER';
   
   function reducer( state = initialState, action){
     switch(action.type){      
@@ -69,6 +75,12 @@ const initialState = {
             return Object.assign({}, state, {newsPlayingList: action.payload}) 
         case UPDATE_NEWS_PLAYED_LIST:
             return Object.assign({}, state, {newsPlayedList: action.payload}) 
+        case UPDATE_GAME_START:
+            return Object.assign({}, state, {gameStart: action.payload}) 
+        case UPDATE_GAME_PHASE:
+            return Object.assign({}, state, {gamePhase: action.payload}) 
+        case UPDATE_GAME_TIMER:
+            return Object.assign({}, state, {gameTimer: action.payload}) 
         default: return state;
     } 
   }
@@ -172,6 +184,24 @@ const initialState = {
     return {
         type: UPDATE_NEWS_PLAYED_LIST,
         payload: newsPlayedList
+    }
+  }
+  export function updateGameStart ( gameStart ){
+    return {
+        type: UPDATE_GAME_START,
+        payload: gameStart
+    }
+  }
+  export function updateGamePhase ( gamePhase ){
+    return {
+        type: UPDATE_GAME_PHASE,
+        payload: gamePhase
+    }
+  }
+  export function updateGameTimer ( gameTimer ){
+    return {
+        type: UPDATE_GAME_TIMER,
+        payload: gameTimer
     }
   }
   

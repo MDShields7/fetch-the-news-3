@@ -103,19 +103,9 @@ $size-arrow: 50px;
   // background-color: $color-bg;
   height: 100vh;
   $font-title: 'Varela Round', sans-serif;
+  background-color:$color-purple-2;
 }
-a {
-  height: 100%;
-  padding: 20px 30px;
-  text-decoration: none;
-}
-a:hover {
-  color: $color-purple;
-  background-color: $color-white-click;
-}
-a:visited {
-  color: $color-white;
-}
+
 
 /* *** HContent *** */
 .HContent {
@@ -126,7 +116,7 @@ a:visited {
   min-width: 100vh;
   width: 100%;
   max-width: 1000px;
-  background-color:$color-purple;
+  // background-color:$color-purple;
 }
 .Trivbtns {
   @extend .flex-row;
@@ -214,49 +204,79 @@ a:visited {
   height:80px;
   display: flex;
   justify-content: center;
-  background-color: $color-blue;
+  // background-color: $color-blue;
 }
 .NavGroup {
-  // background-color: $color-blue;
+  background-color: $color-blue;
   max-width: 1000px;
   width: 100%;
   height: 100%;
-  // margin: 0 auto;
   display: flex;
-  // padding: 0 10px;
   justify-content: space-between;
   align-items: center;
-  // margin: 0 auto;
-  // flex-direction: row;
-  // justify-items: space-between;
-  // justify-content: center;
-  // align-items: center;
-  // align-content: center;
+  .NavItem {
+    height: 100%;
+    margin: 25px;
+    display:flex;
+    align-items: center;
+    font-size: 24px;
+    color: green;
+    a {
+      height: 100%;
+      padding: 20px 30px;
+      text-decoration: none;
+    }
+    a:hover {
+      color: $color-purple;
+      background-color: $color-white-click;
+    }
+    a:visited {
+      color: $color-white;
+    }
+  }
 }
 .NavGroup2 {
-  // width: 100%;
-  // justify-content: space-around;
+  // background-color: $color-blue;
+  // max-width: 1000px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction:row;
+  justify-content: center;
+  align-items: center;
+  .NavItem2 {
+    height: 100%;
+    margin: 25px;
+    display:flex;
+    align-items: center;
+    font-size: 24px;
+    color: green;
+    a {
+      // padding: 0px 30px;
+      text-decoration: none;
+    }
+  }
 }
 .NavLink {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.NavItem {
-  height: 100%;
-  margin: 25px;
-  display:flex;
-  align-items: center;
-  font-size: 24px;
-  color: green;
-}
+// .NavItem2 {
+//   height: 100%;
+//   margin: 25px;
+//   display:flex;
+//   align-items: center;
+//   font-size: 24px;
+//   color: green;
+//   a {
+//     height: default;
+//     padding: 0px;
+//     text-decoration: none;
+//   }
+// }
 .logo {
   color: white;
-}
-.setup {
-  background-color:$color-purple-2;
-  height: auto;
-  min-height: 100vh;
 }
 .round-limit {
   @extend .flex-row;
@@ -273,6 +293,11 @@ a:visited {
   resize: none;
   font-size: 120px;
   text-shadow: 0px 0px 50px white;
+}
+.setup {
+  background-color:$color-purple-2;
+  height: auto;
+  min-height: 100vh;
 }
 .setup-text {
   font-size: 50px;
@@ -331,7 +356,18 @@ a:visited {
 }
 .lobby-footer {
   @extend .flex-col;
-  height: 400px;
+  height: 300px;
+  // background-color: red;
+  position: absolute;
+  bottom: 0px;
+  width: 90%;
+  padding:5%;
+  align-items: center;
+  justify-content: space-around;
+}
+.lobby-footer-sml {
+  @extend .flex-col;
+  height: 150px;
   // background-color: red;
   position: absolute;
   bottom: 0px;
@@ -356,9 +392,18 @@ $player-icon-small: 50;
 $player-icon-medium: 100;
 $player-box-h: 150px;
 $player-box-w: 200px;
+$player-box-h-sml: 75px;
+$player-box-w-sml: 100px;
 $ready-y: green;
 $ready-n: orange;
 .player-box {
+  @extend .flex-col;
+  height: $player-box-h;
+  width: $player-box-w;
+  align-items: center;
+  // background: blue;
+}
+.player-box-sml {
   @extend .flex-col;
   height: $player-box-h;
   width: $player-box-w;
@@ -372,6 +417,15 @@ $ready-n: orange;
   // background: pink;
   font-family: 'Architects Daughter', regular;
   font-size: 40px; 
+  font-weight: 700;
+}
+.player-text-sml{
+  @extend .flex-row;
+  height: $player-box-h;
+  align-items: center;
+  // background: pink;
+  font-family: 'Architects Daughter', regular;
+  font-size: 24px; 
   font-weight: 700;
 }
 .player-text-r {
