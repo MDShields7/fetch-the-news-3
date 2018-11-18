@@ -25,7 +25,7 @@ class HostNav extends Component {
               {/* <div>Other Nav bar</div> */}
             </div>
             <div className="NavItem2">
-              <div>Cat: {this.props.newsPlayingList.list}</div>
+              <div>Cat: {this.props.newsPlayingList.cat_name}</div>
             </div>
             <div className="NavItem2">
               <div>{this.props.rndLimit} rounds</div>

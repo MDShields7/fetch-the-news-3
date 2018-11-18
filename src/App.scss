@@ -365,6 +365,43 @@ $size-arrow: 50px;
   align-items: center;
   justify-content: space-around;
 }
+.HGame {
+  @extend .flex-col;
+  align-items: center;
+  justify-content: space-around;
+}
+.lobby-timer {
+  @extend .flex-row;
+  height: 50px;
+  position: absolute;
+  bottom: 175px;
+  width: 90%;
+  // margin: 1% 1% auto;
+  // padding:5%;
+  // background: blue;
+}
+.timerBar {
+  flex-grow: 1;
+  // background: red;
+}
+.timerAnimate {
+  animation: timer-shrink 1s forwards;
+  animation-iteration-count: 1;
+  height: 30px;
+  background: green;
+}
+.timerAnimateNot {
+  height: 30px;
+  background: green;
+}
+@keyframes timer-shrink {
+  0% { 
+  width: 100%;
+  }
+  100% { 
+    width: 0%;
+  }
+}
 .lobby-footer-sml {
   @extend .flex-col;
   height: 150px;

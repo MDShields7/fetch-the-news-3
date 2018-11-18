@@ -1,6 +1,6 @@
 const initialState = {
   trivSwitch: 1,
-  id: null,             // given by server upon connection
+  id: 2,             // given by server upon connection
   host: '',             // Host - only assigned from laptop view
   // room: '',             // Typed by host
   // roomList: [],         // Kept by server
@@ -13,11 +13,13 @@ const initialState = {
   newsAllList: [],      // Lists available to play
   newsMyList: [],      // Lists available to play
   newsMyListCreated: [],      // Lists available to play
-  newsPlayingList: {},  // List played in party mode
+  newsPlayingList: {},      // List played in party mode
   newsPlayedList: '',  // List played in party mode
+  qaPlayingList: {},
+  qaPlayingCurrent: {},
   gameStart: false,
   gamePhase: 0,
-  gameTimer: 0
+  gameTimer: 0,
   // avatarList: [],       // Hard-coded items
   //    TRIVIA LIST?????
   }
@@ -32,14 +34,16 @@ const initialState = {
   const UPDATE_USER = 'UPDATE_USER';
   const UPDATE_USER_LIST = 'UPDATE_USER_LIST';
   const UPDATE_USER_SCORE_LIST = 'UPDATE_USER_SCORE_LIST';
-  const UPDATE_NEWS_ALL_LIST = 'NEWS_ALL_LIST';
-  const UPDATE_NEWS_MY_LIST = 'NEWS_MY_LIST';
-  const UPDATE_NEWS_MY_LIST_CREATED = 'NEWS_MY_LIST_CREATED';
-  const UPDATE_NEWS_PLAYING_LIST = 'NEWS_PLAYING_LIST';
-  const UPDATE_NEWS_PLAYED_LIST = 'NEWS_PLAYED_LIST';
-  const UPDATE_GAME_START = 'GAME_START';
-  const UPDATE_GAME_PHASE = 'GAME_PHASE';
-  const UPDATE_GAME_TIMER = 'GAME_TIMER';
+  const UPDATE_NEWS_ALL_LIST = 'UPDATE_NEWS_ALL_LIST';
+  const UPDATE_NEWS_MY_LIST = 'UPDATE_NEWS_MY_LIST';
+  const UPDATE_NEWS_MY_LIST_CREATED = 'UPDATE_NEWS_MY_LIST_CREATED';
+  const UPDATE_NEWS_PLAYING_LIST = 'UPDATE_NEWS_PLAYING_LIST';
+  const UPDATE_NEWS_PLAYED_LIST = 'UPDATE_NEWS_PLAYED_LIST';
+  const UPDATE_QA_PLAYING_LIST = 'UPDATE_QA_PLAYING_LIST';
+  const UPDATE_QA_PLAYING_CURRENT = 'UPDATE_QA_PLAYING_CURRENT';
+  const UPDATE_GAME_START = 'UPDATE_GAME_START';
+  const UPDATE_GAME_PHASE = 'UPDATE_GAME_PHASE';
+  const UPDATE_GAME_TIMER = 'UPDATE_GAME_TIMER';
   
   function reducer( state = initialState, action){
     switch(action.type){      
@@ -75,6 +79,10 @@ const initialState = {
             return Object.assign({}, state, {newsPlayingList: action.payload}) 
         case UPDATE_NEWS_PLAYED_LIST:
             return Object.assign({}, state, {newsPlayedList: action.payload}) 
+        case UPDATE_QA_PLAYING_LIST:
+            return Object.assign({}, state, {qaPlayingList: action.payload}) 
+        case UPDATE_QA_PLAYING_CURRENT:
+            return Object.assign({}, state, {qaPlayingCurrent: action.payload}) 
         case UPDATE_GAME_START:
             return Object.assign({}, state, {gameStart: action.payload}) 
         case UPDATE_GAME_PHASE:
@@ -182,8 +190,20 @@ const initialState = {
   }
   export function updateNewsPlayedList ( newsPlayedList ){
     return {
-        type: UPDATE_NEWS_PLAYED_LIST,
-        payload: newsPlayedList
+      type: UPDATE_NEWS_PLAYED_LIST,
+      payload: newsPlayedList
+    }
+  }
+  export function updateQAPlayingList ( qaPlayingList ){
+    return {
+        type: UPDATE_QA_PLAYING_LIST,
+        payload: qaPlayingList
+    }
+  }
+  export function updateQAPlayingCurrent ( qaPlayingCurrent ){
+    return {
+        type: UPDATE_QA_PLAYING_CURRENT,
+        payload: qaPlayingCurrent
     }
   }
   export function updateGameStart ( gameStart ){

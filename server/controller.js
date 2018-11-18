@@ -27,9 +27,16 @@ module.exports = {
     res.status(500).json({message: 'GetTrivSet error'})
     })
   },
-  // getTrivQASet: (req, res) => {
-  //   const{userId} = req.query;
-  // }
+  getTrivQASet: (req, res) => {
+    const{catId} = req.query;
+    console.log(catId);
+    req.app.get('db').get_triv_qa({cat_id:catId})
+    .then(set => {res.send(set)})
+    .catch(error => {
+      console.log('error in getTrivQA', error);
+  res.status(500).json({message: 'GetTrivQA error'})
+  })
+  },
   postTrivSet: (req, res) => {
     console.log('this is the controller post trivia set')
     const dbInstance = req.app.get('db');

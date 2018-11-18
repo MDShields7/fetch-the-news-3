@@ -1,6 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import { updateUserList } from '../../ducks/reducer';
+import { withRouter } from 'react-router';
 
-export default class HGame extends Component {
+class HGame extends Component {
   constructor (props){
     super (props)
     this.state = {
@@ -17,6 +20,15 @@ export default class HGame extends Component {
     }
 
   }
+  makeTimerArr = () => {
+    let timerArr =[];
+    console.log('HGame, gameTimer', this.props.gameTimer)
+    for (let i = this.props.gameTimer; i > 0; i--){
+      timerArr.push(i);
+    }
+    console.log('HGame, timerArr', timerArr)
+    return timerArr;
+  }
   render() {
     const {playerArr} = this.state;
   //   const gameArr = playerArr.map(elem => {
@@ -26,7 +38,6 @@ export default class HGame extends Component {
   //       </div>
   //     </div>)
   // })
-  
   const topArr = playerArr.map(elem => {
     if (elem['id'] % 2 === 0){
       return (
@@ -45,18 +56,44 @@ export default class HGame extends Component {
     </div>)
     }
   })
+  const timerBar = (this.makeTimerArr()).map(elem => {
     return (
-      <div className='lobby-footer-sml'>
-        {/* <div className='lobby-player-arr'>
-            {gameArr}
-        </div> */}
-        <div className='lobby-player-arr'>
-            {topArr}
+      <div className='timerBar'>
+        { elem === 1 ?
+          <div className='timerAnimate'></div>
+        : <div className='timerAnimateNot'></div> }
+      </div>
+    )
+  });
+    return (
+      //TIMER 
+      <div className='HGame'>
+        <div className='lobby-timer'>
+          {/* <div>TIMER</div> */}
+          {timerBar}
         </div>
-        <div className='lobby-player-arr'>
-            {botArr}
+        
+        <div className='lobby-footer-sml'>
+          <div className='lobby-player-arr'>
+              {topArr}
+          </div>
+          <div className='lobby-player-arr'>
+              {botArr}
+          </div>
         </div>
       </div>
     )
   }
 }
+function mapStateToProps( state ){
+  const { userList, rndLimit, rndCurrent, gameStart, gamePhase, gameTimer} = state;
+  return {
+    userList,
+    rndLimit,
+    rndCurrent,
+    gameStart,
+    gamePhase,
+    gameTimer
+  };
+}
+export default withRouter(connect (mapStateToProps, { updateUserList})(HGame)); 

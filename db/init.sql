@@ -46,9 +46,10 @@ CREATE TABLE ftn_qasets (
 INSERT INTO ftn_qasets 
 ( qa_question, qa_ans1, qa_ans2, qa_ans3, qa_ans4)
 VALUES
-('What SNL cast members dated Arianna Grande?', 'Pete Davidson', 'Michael Che', 'Alex Moffat', 'Colin Jost'),
+('What SNL cast member dated Arianna Grande?', 'Pete Davidson', 'Michael Che', 'Alex Moffat', 'Colin Jost'),
 ('What artists'' work shredded itself upon sale at auction?', 'Banksy', 'Ai Weiwei', 'Marcel Duchamp', 'Salvador Dali'),
-('The physics Nobel prize was awarded to a team of three scientists, including what woman for the first time in 55 years?', 'Donna Strickland', 'Marie Curie', 'Jane Goodall', 'Elizabeth Blackburn');
+('The physics Nobel prize was awarded to a team of three scientists, including what woman for the first time in 55 years?', 'Donna Strickland', 'Marie Curie', 'Jane Goodall', 'Elizabeth Blackburn'),
+('What American actress gave up her career to marry British royal, Prince Harry?', 'Meghan Markle', 'Catherine Ommanney', 'Ellie Goulding', 'Emma Watson');
 
 CREATE TABLE ftn_trivlist (
   tr_id SERIAL PRIMARY KEY,
@@ -68,7 +69,7 @@ CREATE TABLE ftn_catlist (
 INSERT INTO ftn_catlist
 (cl_cat_id, cl_qa_id)
 VALUES
-(1,1),(2,2),(3,3);
+(1,1),(2,2),(3,3),(1,4);
 
 CREATE TABLE ftn_qacreators (
   qacr_id SERIAL PRIMARY KEY,
@@ -78,7 +79,7 @@ CREATE TABLE ftn_qacreators (
 INSERT INTO ftn_qacreators
 (qacr_user_id, qacr_qa_id)
 VALUES
-(1,1),(1,2),(1,3);
+(1,1),(1,2),(1,3),(1,4);
 
 CREATE TABLE ftn_trivcreators (
   tcr_id SERIAL PRIMARY KEY,

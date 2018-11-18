@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-export default class HQA extends Component {
+export default class HScore extends Component {
   render() {
     return (
       <div>
-        <p>Questions here</p>
+        <p>Score here</p>
       </div>
     )
   }

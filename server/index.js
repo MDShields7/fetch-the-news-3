@@ -20,7 +20,7 @@ massive(process.env.CONNECTION_STRING).then (database => {
 app.get('/api/TrivSet', controller.getTrivSet) //FUNCTIONS
 app.get('/api/MyTrivSet', controller.getMyTrivSet) //FUNCTIONS
 app.get('/api/MyTrivSetCreated', controller.getMyTrivCreated) 
-// app.get('/api/TrivQASet', controller.getTrivQASet)
+app.get('/api/TrivQASet', controller.getTrivQASet)
 //FUNCTIONS
 app.put(`/api/EditMyTrivSet/:id`, controller.editMyTrivSet) //FUNCTIONS
 app.delete(`/api/DeleteTrivSet/:id/:userid`, controller.deleteTrivSet) //FUNCTIONS

@@ -14,7 +14,7 @@ class HContent extends Component {
       trivSwitch: 1, // Trivia List buttons on/off assignment
       trivSetName: '',
       trivSetToMap: props.newsAllList,
-      userId: 2,
+      userId: this.props.id,
     }
     this.getTriviaSet();
     this.getMyTriviaSet();
@@ -183,8 +183,9 @@ class HContent extends Component {
   }
 }
 function mapStateToProps( state ){
-  const {trivSwitch, newsAllList, newsMyList, newsMyListCreated} = state;
+  const { id, trivSwitch, newsAllList, newsMyList, newsMyListCreated} = state;
   return {
+    id,
     trivSwitch,
     newsAllList,
     newsMyList,

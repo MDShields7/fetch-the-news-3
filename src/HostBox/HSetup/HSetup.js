@@ -17,7 +17,7 @@ class HSetup extends Component {
       const{id} = this.props.newsPlayingList
       console.log('Hsetup----------------',newsMyList)
       this.props.updateNewsPlayingList({
-      id: newsPlayingList.id, list: newsMyList[id].cat_name })
+      id: newsPlayingList.id, cat_id: newsMyList[id].cat_id, cat_name: newsMyList[id].cat_name })
       console.log(id, newsMyList[id].cat_name)
     }
   }
@@ -36,15 +36,13 @@ class HSetup extends Component {
   newsListDecr = () => {
     if (this.props.newsPlayingList.id > 0){
       let newId = this.props.newsPlayingList.id - 1;
-      this.props.updateNewsPlayingList({id:newId, list: this.props.newsMyList[newId]['cat_name']})
+      this.props.updateNewsPlayingList({id:newId, cat_id: this.props.newsMyList[newId]['cat_id'], cat_name: this.props.newsMyList[newId]['cat_name']})
     }
   }
   newsListIncr = () => {
-    // console.log('new Playing List, before id & list:', this.props.newsPlayingList.id , this.props.newsPlayingList)
     if (this.props.newsPlayingList.id < this.props.newsMyList.length - 1){
       let newId = this.props.newsPlayingList.id + 1;
-      // console.log('new Playing List, after id & list:', newId , this.props.newsMyList[newId])
-      this.props.updateNewsPlayingList({id:newId, list: this.props.newsMyList[newId]['cat_name']})
+      this.props.updateNewsPlayingList({id:newId, cat_id: this.props.newsMyList[newId]['cat_id'], cat_name: this.props.newsMyList[newId]['cat_name']})
     }
   }
 
@@ -83,7 +81,7 @@ class HSetup extends Component {
             <div className='round-limit-center'>
               <div name='round' onClick={this.newsListDecr} className='arrow-left'/>
               <div className='listBox'>
-                <div className='list'>{this.props.newsPlayingList.list}</div>
+                <div className='list'>{this.props.newsPlayingList.cat_name}</div>
               </div>
               <div onClick={this.newsListIncr} className='arrow-right'></div>
             </div>
