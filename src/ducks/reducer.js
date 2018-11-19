@@ -19,7 +19,8 @@ const initialState = {
   qaPlayingCurrent: {},
   gameStart: false,
   gamePhase: 0,
-  gameTimer: 0,
+  gameTimer: null,
+  gameTimerStart: null,
   // avatarList: [],       // Hard-coded items
   //    TRIVIA LIST?????
   }
@@ -44,6 +45,7 @@ const initialState = {
   const UPDATE_GAME_START = 'UPDATE_GAME_START';
   const UPDATE_GAME_PHASE = 'UPDATE_GAME_PHASE';
   const UPDATE_GAME_TIMER = 'UPDATE_GAME_TIMER';
+  const UPDATE_GAME_TIMER_START = 'UPDATE_GAME_TIMER_START';
   
   function reducer( state = initialState, action){
     switch(action.type){      
@@ -89,6 +91,8 @@ const initialState = {
             return Object.assign({}, state, {gamePhase: action.payload}) 
         case UPDATE_GAME_TIMER:
             return Object.assign({}, state, {gameTimer: action.payload}) 
+        case UPDATE_GAME_TIMER_START:
+            return Object.assign({}, state, {gameTimerStart: action.payload}) 
         default: return state;
     } 
   }
@@ -219,9 +223,15 @@ const initialState = {
     }
   }
   export function updateGameTimer ( gameTimer ){
-    return {
+      return {
         type: UPDATE_GAME_TIMER,
         payload: gameTimer
+    }
+  }
+  export function updateGameTimerStart ( gameTimerStart ){
+      return {
+        type: UPDATE_GAME_TIMER_START,
+        payload: gameTimerStart
     }
   }
   

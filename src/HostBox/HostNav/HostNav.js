@@ -14,7 +14,7 @@ class HostNav extends Component {
     this.props.updateGameTimer(0);
   }
   render() {
-    console.log('HostNav, props', this.props.newsPlayingList)
+    // console.log('HostNav, props', this.props.newsPlayingList)
     return (
       <div className='HostNav'>
 

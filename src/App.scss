@@ -385,14 +385,17 @@ $size-arrow: 50px;
   // background: red;
 }
 .timerAnimate {
-  animation: timer-shrink 1s forwards;
+  animation: timer-shrink 1s linear forwards;
   animation-iteration-count: 1;
   height: 30px;
   background: green;
 }
-.timerAnimateNot {
+.timerAnimateSoon {
   height: 30px;
   background: green;
+}
+.timerAnimateAlready {
+  height: 30px;
 }
 @keyframes timer-shrink {
   0% { 

@@ -22,12 +22,29 @@ class HGame extends Component {
   }
   makeTimerArr = () => {
     let timerArr =[];
-    console.log('HGame, gameTimer', this.props.gameTimer)
-    for (let i = this.props.gameTimer; i > 0; i--){
-      timerArr.push(i);
+    const {gameTimer, gameTimerStart} = this.props;
+    console.log('HGame, gameTimerStart', gameTimerStart)
+    if (gameTimerStart){
+      for (let i = gameTimerStart; i > 0; i--){
+        console.log('makeTimerArr, i:', i, 'gameTimerStart', gameTimerStart, 'gameTimer', gameTimer)
+        if ( i > gameTimer) {
+          console.log('first condition, i > gameTimer')
+          timerArr.push({item:i, timePassed:true})
+        } else if ( i === gameTimer) {
+          console.log('first condition, i = gameTimer')
+          timerArr.push({item:i, timePassed:0})
+        } else if ( i < gameTimer) {
+          console.log('first condition, i < gameTimer')
+          timerArr.push({item:i, timePassed:false})
+        }
+        console.log('HGame, timerArr', timerArr)
+      }
+      // console.log('HGame, timerArr', timerArr)
+      console.log('HGame, gameTimerStart', gameTimerStart)
+      return timerArr.reverse();
+    } else {
+      return timerArr;
     }
-    console.log('HGame, timerArr', timerArr)
-    return timerArr;
   }
   render() {
     const {playerArr} = this.state;
@@ -38,6 +55,8 @@ class HGame extends Component {
   //       </div>
   //     </div>)
   // })
+  // let timerArr = if (gameTimerStart) {this.makeTimerArr()}
+  // console.log('HGame, timerArr in render', timerArr)
   const topArr = playerArr.map(elem => {
     if (elem['id'] % 2 === 0){
       return (
@@ -56,15 +75,18 @@ class HGame extends Component {
     </div>)
     }
   })
-  const timerBar = (this.makeTimerArr()).map(elem => {
+  const timerBar = (this.makeTimerArr().map(elem => {
     return (
       <div className='timerBar'>
-        { elem === 1 ?
-          <div className='timerAnimate'></div>
-        : <div className='timerAnimateNot'></div> }
+        { elem['timePassed'] === false ?
+          <div className='timerAnimateSoon'></div>
+        : elem['timePassed'] === 0 ?
+        <div className='timerAnimate'></div>
+        : <div className='timerAnimateAlready'></div>
+        }
       </div>
     )
-  });
+  }))
     return (
       //TIMER 
       <div className='HGame'>
@@ -86,14 +108,15 @@ class HGame extends Component {
   }
 }
 function mapStateToProps( state ){
-  const { userList, rndLimit, rndCurrent, gameStart, gamePhase, gameTimer} = state;
+  const { userList, rndLimit, rndCurrent, gameStart, gamePhase, gameTimer, gameTimerStart} = state;
   return {
     userList,
     rndLimit,
     rndCurrent,
     gameStart,
     gamePhase,
-    gameTimer
+    gameTimer,
+    gameTimerStart
   };
 }
 export default withRouter(connect (mapStateToProps, { updateUserList})(HGame)); 
