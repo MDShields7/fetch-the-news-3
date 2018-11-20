@@ -23,24 +23,20 @@ class HGame extends Component {
   makeTimerArr = () => {
     let timerArr =[];
     const {gameTimer, gameTimerStart} = this.props;
-    console.log('HGame, gameTimerStart', gameTimerStart)
     if (gameTimerStart){
       for (let i = gameTimerStart; i > 0; i--){
-        console.log('makeTimerArr, i:', i, 'gameTimerStart', gameTimerStart, 'gameTimer', gameTimer)
         if ( i > gameTimer) {
-          console.log('first condition, i > gameTimer')
+          // console.log('first condition, i > gameTimer')
           timerArr.push({item:i, timePassed:true})
         } else if ( i === gameTimer) {
-          console.log('first condition, i = gameTimer')
+          // console.log('2nd condition, i = gameTimer')
           timerArr.push({item:i, timePassed:0})
         } else if ( i < gameTimer) {
-          console.log('first condition, i < gameTimer')
+          // console.log('3rd condition, i < gameTimer')
           timerArr.push({item:i, timePassed:false})
         }
-        console.log('HGame, timerArr', timerArr)
+        // console.log('HGame, timerArr', timerArr)
       }
-      // console.log('HGame, timerArr', timerArr)
-      console.log('HGame, gameTimerStart', gameTimerStart)
       return timerArr.reverse();
     } else {
       return timerArr;

@@ -37,30 +37,55 @@ class HParty extends Component {
   //   this.countDown()
   // }
   getTriviaQA = () => {
+    const {newsPlayingList} =this.props;
     axios.get('/api/TrivQASet', {params:{catId:this.props.newsPlayingList.cat_id}})
     .then(res => {
-      // console.log('HLobby, getTriviaQA, res.data', res.data)
-      this.props.updateQAPlayingList(res.data)})
-      .catch(err => {
-        console.log('HLobby, getTriviaQA, error', err)
-      })
+      console.log('HLobby, getTriviaQA, res.data', res.data)
+      this.props.updateQAPlayingList( res.data )
+    })
+    .catch(err => {
+      console.log('HLobby, getTriviaQA, error', err)
+    })
   }
-  nextQAPlayingList (arr){
+  nextQAPlayingList = () => {
+    console.log('----------------------------')
     const {qaPlayingCurrent, qaPlayingList, updateQAPlayingList, updateQAPlayingCurrent} = this.props;
-    if (!qaPlayingCurrent['qa_id']){
+    if (qaPlayingCurrent === []){
       console.log('HLobby, qaPlayingList', qaPlayingList)
       console.log('HLobby, qaPlayingCurrent', qaPlayingCurrent)
       let qaPlayingListCopy = qaPlayingList.slice();
       let item = qaPlayingListCopy.shift();
-      updateQAPlayingCurrent(item)
+      item = this.reorderQA(item);
+      updateQAPlayingCurrent(item);
       updateQAPlayingList(qaPlayingListCopy);
       console.log('HLobby, qaPlayingList after', qaPlayingList)
       console.log('HLobby, qaPlayingCurrent after', qaPlayingCurrent)
+    } else {
+      let item = qaPlayingList.shift();
+      // console.log('qaPlaying List current ----------------------', item);
+      item = this.reorderQA(item);
+      // console.log('qaPlaying List current ----------------------', item);
+      updateQAPlayingCurrent(item);
+      updateQAPlayingList(qaPlayingList);
     }
+  }
+  reorderQA = (item) => {
+    let newItem = {};
+    let ansArr = [];
+    ansArr.push(item.qa_ans1)
+    ansArr.push(item.qa_ans2)
+    ansArr.push(item.qa_ans3)
+    ansArr.push(item.qa_ans4)
+    newItem = {
+      id: item.qa_id,
+      question: item.qa_question,
+      list: ansArr
+    }
+    return newItem;
   }
   countDown () {
     const { rndCurrent, gamePhase, gameTimer, gameTimerStart} = this.props;
-    console.log('HLobby, rndCurrent', rndCurrent, 'gamePhase:',gamePhase,'gameTimer:', gameTimer, 'gameTimerStart:', gameTimerStart )
+    // console.log('HLobby, rndCurrent', rndCurrent, 'gamePhase:',gamePhase,'gameTimer:', gameTimer, 'gameTimerStart:', gameTimerStart )
     if ( this.props.gameTimer < 0 ) {
       this.props.updateGameTimer(null)
     } else if ( this.props.gameTimer === 0 ) {
@@ -76,6 +101,7 @@ class HParty extends Component {
     let listId = newsPlayingList.id;
     let time = 10;
     // console.log('id', listId);
+    this.getTriviaQA();
     updateNewsPlayedList(newsPlayingList.cat_name.slice())
     // add score attributes, equal to zero
     // updateUserList
@@ -85,12 +111,12 @@ class HParty extends Component {
     updateGamePhase(1)
     // round equals 1
     updateRndCurrent(1)
-    this.getTriviaQA();
     updateGameTimer(time);
     updateGameTimerStart(time);
     setTimeout(() => 
     {
-      console.log('gameTimer', this.props.gameTimer)
+      console.log('gameTimer is', this.props.gameTimer)
+      this.nextQAPlayingList();
       this.countDown()
     }, 1000)
     console.log('HLobby, gameTimer is', this.props.gameTimer)
@@ -101,20 +127,35 @@ class HParty extends Component {
     const { updateGamePhase, gamePhase, updateGameTimer, updateGameTimerStart } = this.props;
     console.log(`changing phase from ${gamePhase} to ${gamePhase+1}`)
     if (gamePhase === 1) {
+      let time = 3;
       updateGamePhase(2)
-      updateGameTimer(3) 
-      updateGameTimerStart(3) 
-      this.countDown(this.changePhase)
+      updateGameTimer(time) 
+      updateGameTimerStart(time) 
+      setTimeout(() => 
+      {
+        console.log('gameTimer is', this.props.gameTimer)
+        this.countDown()
+      }, 1000)
     } else if (gamePhase === 2) {
+      let time = 3;
       updateGamePhase(3)
-      updateGameTimer(3)
-      updateGameTimerStart(3) 
-      this.countDown(this.changePhase)
+      updateGameTimer(time) 
+      updateGameTimerStart(time) 
+      setTimeout(() => 
+      {
+        console.log('gameTimer is', this.props.gameTimer)
+        this.countDown()
+      }, 1000)
     } else if (gamePhase === 3) {
+      let time = 3;
       updateGamePhase(4)
-      updateGameTimer(3)
-      updateGameTimerStart(3) 
-      this.countDown(this.changePhase)
+      updateGameTimer(time) 
+      updateGameTimerStart(time) 
+      setTimeout(() => 
+      {
+        console.log('gameTimer is', this.props.gameTimer)
+        this.countDown()
+      }, 1000)
     } else {
     this.changeRound()
     }
@@ -133,13 +174,15 @@ class HParty extends Component {
     // updateRndCurrent
     let nextRound = rndCurrent +1
     if (nextRound < rndLimit) {
+      console.log(`changing round from ${rndCurrent} to ${rndCurrent+1}`)
       updateRndCurrent(nextRound)
     }
     updateGamePhase(1)
+    this.nextQAPlayingList()
   }
 
   render() {
-    // console.log('H  Lobby,  ', this.state.gameTimerState)
+    console.log('HLobby, props', this.props)
     const {playerArr} = this.state;
     const {gameStart, gamePhase, rndCurrent, rndLimit, updateUserList, updateRndCurrent,updateGameStart, updateGamePhase} = this.props;
     // console.log(gameStart)
@@ -191,11 +234,13 @@ class HParty extends Component {
       : <span>{this.props.gameTimer}</span> }
       { !gameStart ?
       Lobby
-      : gameStart && gamePhase === 1 || gamePhase === 1 ?
+      : gamePhase === 1 ?
       <>
         <HQA/>
         <HGame/>
       </>
+      : gamePhase === 2 ?
+      <HQA/>
       : <HScore/>
       }
       </div>

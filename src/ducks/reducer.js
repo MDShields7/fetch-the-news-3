@@ -15,8 +15,8 @@ const initialState = {
   newsMyListCreated: [],      // Lists available to play
   newsPlayingList: {},      // List played in party mode
   newsPlayedList: '',  // List played in party mode
-  qaPlayingList: {},
-  qaPlayingCurrent: {},
+  qaPlayingList: [],
+  qaPlayingCurrent: [],
   gameStart: false,
   gamePhase: 0,
   gameTimer: null,
