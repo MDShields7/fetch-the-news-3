@@ -15,6 +15,7 @@ $color-green-lt: #0e8383;
 $color-green-2: #99dd99;
 $color-green-dk: #072121;
 $color-blue: #223344;
+$color-blue-lt: #728da8;
 $color-blue-dk: #0e141b;
 $color-white:#FFFFFF;
 $color-white-click:#FF85FF;
@@ -388,11 +389,11 @@ $size-arrow: 50px;
   animation: timer-shrink 1s linear forwards;
   animation-iteration-count: 1;
   height: 30px;
-  background: green;
+  background: $color-green-2;
 }
 .timerAnimateSoon {
   height: 30px;
-  background: green;
+  background: $color-green-2;
 }
 .timerAnimateAlready {
   height: 30px;
@@ -476,7 +477,7 @@ $ready-n: orange;
   font-family: 'Architects Daughter', regular;
   font-size: 40px; 
   font-weight: 700;
-  color: rgb(0, 255, 0);
+  color: $color-white-click;
   animation: glow-shadow 1s ease-in-out 0s infinite forwards;
 }
 @keyframes glow-shadow {
@@ -541,6 +542,21 @@ $ready-n: orange;
 //   font-size: 30px;  
 //   margin: 50px;
 // }
+@mixin A-Card {
+  @extend .flex-col;
+  font-size: 30px;
+  width: 40vw;
+  height: 9vh;
+  margin: 2.5vh;
+  border: rgb(45, 45, 45) .25vh solid;
+  justify-content: space-around;
+  A-Card-text {
+    // @extend .flex-row;
+    // height: 100%;
+    align-self: center;
+    justify-self: space-around;
+  }
+}
 
 .HQA-Box {
   height: 55vh;
@@ -548,12 +564,13 @@ $ready-n: orange;
   width: 100%;
   position: absolute;
   bottom: 30vh;
-  background: blue;
+  // background: blue;
   .Q-Box {
     height: 100%;
     width: 100%;
-    // background: orange;
+
     .Q-text{
+      padding: 2.5vh;
       font-size: 48px;
     }
     .A-Box{
@@ -561,17 +578,47 @@ $ready-n: orange;
       flex-wrap: wrap;
       justify-content: space-around;
       width: 100%;
-      height: 35vh;
-      background: purple;
+      height: 30vh;
+      // background: purple;
       position: absolute;
       bottom: 0vh;
-      .A-Card {
-        width: 40vw;
-        height: 10vh;
-        margin: 2.5vh;
-        background: yellow;
+      .A-Card-1 {
+        @include A-Card;
+        background: $color-blue-lt;
+      }
+      .A-Card-false {
+        @include A-Card;
+        background:$color-red;
+      }
+      .A-Card-true {
+        @include A-Card;
+        background:$color-green-lt;
       }
     }
   }
 
 }
+.HScore {
+  .Player-Card {
+    @extend .flex-row;
+    width: 80%;
+    margin: 30px auto 0 auto;
+    font-size: 48px;
+    // background: yellow;
+    .pl-1 {
+      width: 40%;
+      position: relative;
+      left: 15%;
+      // background: orange;
+      text-align-last: left;
+    }
+    .pl-2 {
+      width: 40%;
+      position: relative;
+      left: 28%;
+      // background: green;
+      text-align-last: left;
+    }
+  }
+}
+

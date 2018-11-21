@@ -8,7 +8,16 @@ const initialState = {
   rndLimit: 3,          // Round, set by host in lobby
   rndCurrent: null,     // Round, set during game
   user: {id:0, name:''},             // User { id:#, avName:'', avPhoto:'url' }
-  userList: [],         // List of playing users 
+  userList: [
+    {id: 0, name: 'Jose', isReady: false, roundScore: 100, totalScore:500},
+    {id: 1, name: 'Nathan', isReady:true, roundScore: 0, totalScore:400},
+    {id: 2, name: 'Emilia', isReady: true, roundScore: 200, totalScore:100},
+    {id: 3, name: 'Francois', isReady: false, roundScore: 0, totalScore:200},
+    {id: 4, name: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
+    {id: 5, name: 'Jay', isReady: true, roundScore: 100, totalScore:300},
+    {id: 6, name: 'Bill', isReady: true, roundScore: 100, totalScore:300},
+    {id: 7, name: 'Juan', isReady: false, roundScore: 100, totalScore:400},
+  ],                        // List of playing users 
   // userScoreList: [],    // Scores - only party mode
   newsAllList: [],      // Lists available to play
   newsMyList: [],      // Lists available to play
@@ -16,11 +25,12 @@ const initialState = {
   newsPlayingList: {},      // List played in party mode
   newsPlayedList: '',  // List played in party mode
   qaPlayingList: [],
-  qaPlayingCurrent: [],
+  qaPlayingCurrent: {list:{ansRandom:[], ansKeyRandom:[]}},
   gameStart: false,
   gamePhase: 0,
   gameTimer: null,
   gameTimerStart: null,
+  // answerList: null,
   // avatarList: [],       // Hard-coded items
   //    TRIVIA LIST?????
   }
@@ -46,8 +56,10 @@ const initialState = {
   const UPDATE_GAME_PHASE = 'UPDATE_GAME_PHASE';
   const UPDATE_GAME_TIMER = 'UPDATE_GAME_TIMER';
   const UPDATE_GAME_TIMER_START = 'UPDATE_GAME_TIMER_START';
+  // const UPDATE_ANSWER_LIST = 'UPDATE_ANSWER_LIST';
   
   function reducer( state = initialState, action){
+    console.log('reducer', action.type, action.payload)
     switch(action.type){      
         case UPDATE_TRIV_SWITCH:
             return Object.assign({},state, {trivSwitch: action.payload})
@@ -93,6 +105,8 @@ const initialState = {
             return Object.assign({}, state, {gameTimer: action.payload}) 
         case UPDATE_GAME_TIMER_START:
             return Object.assign({}, state, {gameTimerStart: action.payload}) 
+        // case UPDATE_ANSWER_LIST:
+        //     return Object.assign({}, state, {answerList: action.payload}) 
         default: return state;
     } 
   }
@@ -234,5 +248,11 @@ const initialState = {
         payload: gameTimerStart
     }
   }
+  // export function updateAnswerList ( answerList ){
+  //     return {
+  //       type: UPDATE_ANSWER_LIST,
+  //       payload: answerList
+  //   }
+  // }
   
   export default reducer;

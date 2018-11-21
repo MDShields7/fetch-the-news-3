@@ -25,11 +25,12 @@ class HostNav extends Component {
               {/* <div>Other Nav bar</div> */}
             </div>
             <div className="NavItem2">
-              <div>Cat: {this.props.newsPlayingList.cat_name}</div>
+              <div>Category: {this.props.newsPlayingList.cat_name}</div>
             </div>
             <div className="NavItem2">
               <div>{this.props.rndLimit} rounds</div>
             </div>
+            <div className="NavItem2">{this.props.gameTimer}</div>
           </div>
         : 
         <div className='NavGroup'>
@@ -54,11 +55,12 @@ class HostNav extends Component {
 }
 
 function mapStateToProps( state ){
-  const {gameStart, newsPlayingList, rndLimit} = state;
+  const { gameStart, newsPlayingList, rndLimit, gameTimer } = state;
   return {
     gameStart,
     newsPlayingList,
-    rndLimit
+    rndLimit,
+    gameTimer
   };
 }
 export default withRouter(connect (mapStateToProps, { updateGameStart })(HostNav)); 
