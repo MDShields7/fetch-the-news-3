@@ -7,17 +7,17 @@ const initialState = {
   mobileDevice: 0,      // determined per user
   rndLimit: 3,          // Round, set by host in lobby
   rndCurrent: null,     // Round, set during game
-  user: {id:0, name:''},             // User { id:#, avName:'', avPhoto:'url' }
-  userList: [
-    {id: 0, name: 'Jose', isReady: false, roundScore: 100, totalScore:500},
-    {id: 1, name: 'Nathan', isReady:true, roundScore: 0, totalScore:400},
-    {id: 2, name: 'Emilia', isReady: true, roundScore: 200, totalScore:100},
-    {id: 3, name: 'Francois', isReady: false, roundScore: 0, totalScore:200},
-    {id: 4, name: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
-    {id: 5, name: 'Jay', isReady: true, roundScore: 100, totalScore:300},
-    {id: 6, name: 'Bill', isReady: true, roundScore: 100, totalScore:300},
-    {id: 7, name: 'Juan', isReady: false, roundScore: 100, totalScore:400},
-  ],                        // List of playing users 
+  user: {userId:0, userName:''},             // User { id:#, avName:'', avPhoto:'url' }
+  userList: [],
+  //   {id: 0, name: 'Jose', isReady: false, roundScore: 100, totalScore:500},
+  //   {id: 1, name: 'Nathan', isReady:true, roundScore: 0, totalScore:400},
+  //   {id: 2, name: 'Emilia', isReady: true, roundScore: 200, totalScore:100},
+  //   {id: 3, name: 'Francois', isReady: false, roundScore: 0, totalScore:200},
+  //   {id: 4, name: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
+  //   {id: 5, name: 'Jay', isReady: true, roundScore: 100, totalScore:300},
+  //   {id: 6, name: 'Bill', isReady: true, roundScore: 100, totalScore:300},
+  //   {id: 7, name: 'Juan', isReady: false, roundScore: 100, totalScore:400},
+  // ],                        // List of playing users 
   // userScoreList: [],    // Scores - only party mode
   newsAllList: [],      // Lists available to play
   newsMyList: [],      // Lists available to play

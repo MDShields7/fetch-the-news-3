@@ -357,6 +357,7 @@ $size-arrow: 50px;
 }
 .lobby-footer {
   @extend .flex-col;
+  flex-wrap: wrap;
   height: 300px;
   // background-color: red;
   position: absolute;
@@ -419,6 +420,7 @@ $size-arrow: 50px;
 }
 .lobby-player-arr {
   @extend .flex-row;
+  flex-wrap: wrap;
   width: 100%;
   // align-items: space-around;
   // align-content: space-around;
@@ -432,7 +434,7 @@ $size-arrow: 50px;
 $player-icon-small: 50;
 $player-icon-medium: 100;
 $player-box-h: 150px;
-$player-box-w: 200px;
+$player-box-w: 20vw;
 $player-box-h-sml: 75px;
 $player-box-w-sml: 100px;
 $ready-y: green;
@@ -622,3 +624,16 @@ $ready-n: orange;
   }
 }
 
+@mixin ready-btn {
+  width: 150px;
+  height: 40px;
+}
+
+.ready-btn-on {
+  @include ready-btn;
+  background: $color-green-2;
+}
+.ready-btn-off {
+  @include ready-btn;
+  background: $btn-disable;
+}

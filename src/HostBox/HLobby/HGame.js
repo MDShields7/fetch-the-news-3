@@ -6,18 +6,18 @@ import { withRouter } from 'react-router';
 class HGame extends Component {
   constructor (props){
     super (props)
-    this.state = {
-      playerArr: [
-        {id: 0, name: 'Jose', isReady: false},
-        {id: 1, name: 'Nathan', isReady:true},
-        {id: 2, name: 'Emilia', isReady: true},
-        {id: 3, name: 'Francois', isReady: false},
-        {id: 4, name: 'Xixi', isReady: true},
-        {id: 5, name: 'Jay', isReady: true},
-        {id: 6, name: 'Bill', isReady: true},
-        {id: 7, name: 'Juan', isReady: false},
-      ]
-    }
+    // this.state = {
+      // playerArr: [
+      //   {id: 0, name: 'Jose', isReady: false},
+      //   {id: 1, name: 'Nathan', isReady:true},
+      //   {id: 2, name: 'Emilia', isReady: true},
+      //   {id: 3, name: 'Francois', isReady: false},
+      //   {id: 4, name: 'Xixi', isReady: true},
+      //   {id: 5, name: 'Jay', isReady: true},
+      //   {id: 6, name: 'Bill', isReady: true},
+      //   {id: 7, name: 'Juan', isReady: false},
+      // ]
+    // }
 
   }
   makeTimerArr = () => {
@@ -43,7 +43,8 @@ class HGame extends Component {
     }
   }
   render() {
-    const {playerArr} = this.state;
+    const {userList} = this.props;
+    console.log('userList', this.props.userList)
   //   const gameArr = playerArr.map(elem => {
   //     return (
   //     <div className='player-box-sml'>
@@ -53,7 +54,7 @@ class HGame extends Component {
   // })
   // let timerArr = if (gameTimerStart) {this.makeTimerArr()}
   // console.log('HGame, timerArr in render', timerArr)
-  const topArr = playerArr.map(elem => {
+  const topArr = userList.map(elem => {
     if (elem['id'] % 2 === 0){
       return (
       <div className='player-box-sml'>
@@ -62,7 +63,7 @@ class HGame extends Component {
     </div>)
     }
   })
-  const botArr = playerArr.map(elem => {
+  const botArr = userList.map(elem => {
     if (elem['id'] % 2 !== 0){
       return (
       <div className='player-box'>

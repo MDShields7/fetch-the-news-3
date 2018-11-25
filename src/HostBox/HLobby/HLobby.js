@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import { updateUserList, updateRndCurrent, updateNewsPlayingList, updateQAPlayingList,updateQAPlayingCurrent, updateNewsPlayedList, updateGameStart, updateGamePhase, updateGameTimer, updateGameTimerStart } from '../../ducks/reducer';
+import { updateRndCurrent, updateNewsPlayingList, updateQAPlayingList,updateQAPlayingCurrent, updateNewsPlayedList, updateGameStart, updateGamePhase, updateGameTimer, updateGameTimerStart } from '../../ducks/reducer';
 import { withRouter } from 'react-router';
 import HGame from './HGame';
 import HScore from './HScore';
+// import HLobbyArr from './HLobbyArr';
 import HQA from './HQA';
+
+import socketIOClient from 'socket.io-client';
+const socket = socketIOClient();
 
 class HParty extends Component {
   constructor (props){
@@ -13,44 +17,52 @@ class HParty extends Component {
     this.state = {
       // gameTimerState: null,
       // timerSet: true,
-      // playerArr: [
-      //   {id: 0, name: 'Jose', isReady: false, roundScore: 100, totalScore:500},
-      //   {id: 1, name: 'Nathan', isReady:true, roundScore: 0, totalScore:400},
-      //   {id: 2, name: 'Emilia', isReady: true, roundScore: 200, totalScore:100},
-      //   {id: 3, name: 'Francois', isReady: false, roundScore: 0, totalScore:200},
-      //   {id: 4, name: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
-      //   {id: 5, name: 'Jay', isReady: true, roundScore: 100, totalScore:300},
-      //   {id: 6, name: 'Bill', isReady: true, roundScore: 100, totalScore:300},
-      //   {id: 7, name: 'Juan', isReady: false, roundScore: 100, totalScore:400},
-      // ]
+      userList: []
     }
     this.countDown =this.countDown.bind(this)
+    socket.on('welcome', (welcome) => {
+      console.log('App.js, receiving welcome', welcome);
+      // this.props.updateUser(welcome.user)
+      // this.props.updateUserList(welcome.userList)
+      this.setState({
+        userList: welcome.userList
+      })
+    })
+    socket.on('name welcome', (userJoin) => {
+      console.log('App.js, receiving name welcome', userJoin);
+      // this.props.updateUser(userJoin.user)
+      // this.props.updateUserList(userJoin.userList)
+    })
+    socket.on('user joined', (message) => {
+      console.log('HLobby.js, receiving user join message', message.userList);
+      // this.props.updateUserList(message.userList)
+      this.setState({
+        userList: message.userList
+      })
+    })
+    socket.on('user readied', (message) => {
+      console.log('HLobby.js, receiving user ready message',
+      this.setState({
+        userList: message.userList
+      }))
+    })
   }
   componentDidUpdate(prevProps){
-    // if ( this.props.gameTimer !== prevProps.gameTimer && this.state.timerSet === true){
-    //   console.log('componentDidUpdate, setting gameTimer', this.props.gameTimer)
-    //   this.countDown();
-    // }
+
   }
-  // callCountDown = () => {
-  //   console.log('1223456778890')
-  //   this.countDown()
-  // }
   getTriviaQA = () => {
     const {newsPlayingList} =this.props;
     axios.get('/api/TrivQASet', {params:{catId:this.props.newsPlayingList.cat_id}})
     .then(res => {
-      // console.log('HLobby, getTriviaQA, res.data', res.data)
-      this.props.updateQAPlayingList( res.data )
-    })
+      console.log('getTriviaQA',res.data)
+      this.props.updateQAPlayingList( res.data )})
     .catch(err => {
-      console.log('HLobby, getTriviaQA, error', err)
-    })
+      console.log('HLobby, getTriviaQA, error', err)})
   }
   nextQAPlayingList = () => {
     console.log('----------------------------')
     const {qaPlayingCurrent, qaPlayingList, updateQAPlayingList, updateQAPlayingCurrent} = this.props;
-    if (qaPlayingCurrent === []){
+    if (qaPlayingCurrent.length === 0){
       console.log('HLobby, qaPlayingList', qaPlayingList)
       console.log('HLobby, qaPlayingCurrent', qaPlayingCurrent)
       let qaPlayingListCopy = qaPlayingList.slice();
@@ -61,31 +73,23 @@ class HParty extends Component {
       console.log('HLobby, qaPlayingList after', qaPlayingList)
       console.log('HLobby, qaPlayingCurrent after', qaPlayingCurrent)
     } else {
+      console.log('HLobby, nextQAPlayingList function', qaPlayingList)
+      // console.log('HLobby, qaPlayingCurre÷nt', qaPlayingCurrent)
       let item = qaPlayingList.shift();
-      // console.log('qaPlaying List current ----------------------', item);
       item = this.reorderQA(item);
-      // console.log('qaPlaying List current ----------------------', item);
       updateQAPlayingCurrent(item);
       updateQAPlayingList(qaPlayingList);
     }
   }
   realScramble = (arr1, arr2, arr3, arr4) => {
     let randomNum = Math.floor(Math.random() * arr1.length)
-    // console.log('HLobby randomNum is', randomNum)
-    // console.log('HLobby arr1 is', arr1)
-    // console.log('HLobby arr2 is', arr2)
-    // console.log('HLobby arr1[randomNum] is', arr1[randomNum])
-    // console.log('HLobby arr2[randomNum] is', arr2[randomNum])
     let item = arr1.splice(randomNum,1);
     let itemKey = arr2.splice(randomNum,1);
     arr3.push(item[0])
     arr4.push(itemKey[0])
-    // console.log('HLobby, arr3 is', arr3)
-    // console.log('HLobby, arr4 is', arr4)
     if (!arr1[0]){
       let answers = Object.assign(
-        {ansRandom:arr3, ansKeyRandom:arr4}
-      ,{})
+        {ansRandom:arr3, ansKeyRandom:arr4},{})
       console.log('HLobby, scrambleFn result is', answers)
       return answers
     }
@@ -96,17 +100,16 @@ class HParty extends Component {
     let answerKeyList = [ true, false, false, false ]
     let ansRandom = [];
     let ansKeyRandom = [];
-
     return this.realScramble(answerList, answerKeyList, ansRandom, ansKeyRandom)
   }
   reorderQA = (item) => {
+    console.log('item', item)
     let newItem = {};
     let ansArr = [];
     ansArr.push(item.qa_ans1)
     ansArr.push(item.qa_ans2)
     ansArr.push(item.qa_ans3)
     ansArr.push(item.qa_ans4)
-    // console.log('HLobby, reorderQA finished array is', ansArr)
     newItem = {
       id: item.qa_id,
       question: item.qa_question,
@@ -117,7 +120,6 @@ class HParty extends Component {
 
   countDown () {
     const { rndCurrent, gamePhase, gameTimer, gameTimerStart} = this.props;
-    // console.log('HLobby, rndCurrent', rndCurrent, 'gamePhase:',gamePhase,'gameTimer:', gameTimer, 'gameTimerStart:', gameTimerStart )
     if ( this.props.gameTimer < 0 ) {
       this.props.updateGameTimer(null)
     } else if ( this.props.gameTimer === 0 ) {
@@ -134,16 +136,12 @@ class HParty extends Component {
       userListCopy[i].totalScore = 0;
       userListCopy[i].roundScore = 0;
     }
-    //update userList *******************
   }
   addScores = () => {
     const {userList} = this.props;
     console.log('HLobby, userList before addScore', userList)
     let userListCopy = [...userList];
     for ( let i = userListCopy.length-1; i >= 0; i--){
-      // console.log('HLobby, addScores, userList', userList)
-      // console.log('HLobby, addScores, i, userList[i]', i, userList[i])
-      // console.log('HLobby, addScores, userList[i].totalScore', userList[i].totalScore)
       userListCopy[i].totalScore += userListCopy[i].roundScore;
       userListCopy[i].roundScore = 0;
     }
@@ -153,12 +151,12 @@ class HParty extends Component {
     newList = userListCopy
     console.log('HLobby, userListCopy after addScore, before playerSortTotal', userListCopy)
     console.log('HLobby, newList after playerSortTotal', newList)
-    this.props.updateUserList(newList)
+    // this.props.updateUserList(newList)
   }
   playerSortTotal = (arr) => {
     let newArr = arr.sort( (a,b) => { return b.totalScore-a.totalScore})
     console.log('playersorttotal', newArr)
-    this.props.updateUserList(newArr)
+    // this.props.updateUserList(newArr)
   }
   changePhase = () => {
     const { updateGamePhase, gamePhase, updateGameTimer, updateGameTimerStart } = this.props;
@@ -199,6 +197,7 @@ class HParty extends Component {
     }
   }
   startGame = () => {
+    console.log('HLobby, startGame hit')
     const { newsPlayingList, updateNewsPlayedList, updateGameStart, updateGamePhase, updateRndCurrent, updateGameTimer, updateGameTimerStart} = this.props;
     // let listId = newsPlayingList.id;
     let time = 5;
@@ -214,7 +213,7 @@ class HParty extends Component {
       console.log('gameTimer is', this.props.gameTimer)
       this.nextQAPlayingList();
       this.countDown()
-    }, 1000)
+    }, 3000)
     console.log('HLobby, gameTimer is', this.props.gameTimer)
   }
   changeRound = () => {
@@ -228,31 +227,41 @@ class HParty extends Component {
     updateGamePhase(1)
     this.nextQAPlayingList()
   }
-
+  // componentDidUpdate = (prevProps) => {
+  //   const {userList} = this.props
+  //   if (prevProps.userList !== this.props.userList){
+  //     console.log('reloading!!!!!!!!!!!!!!!')
+  //     this.reloadSwitch()
+  //   }
+  //   setTimeout(this.reloadSwitch(), 500)
+  // }
+  // reloadSwitch = () => {
+  //   this.setState({
+  //     reload: !this.setState.reload
+  //   })
+  // }
   render() {
+    console.log('HLobby, state', this.state)
     console.log('HLobby, props', this.props)
-    const {userList} = this.props;
-    const {gameStart, gamePhase, rndCurrent, rndLimit, updateUserList, updateRndCurrent,updateGameStart, updateGamePhase} = this.props;
+    const {userList} = this.state;
+    const {gameStart, gamePhase, rndCurrent, rndLimit, updateRndCurrent,updateGameStart, updateGamePhase} = this.props;
     // console.log(gameStart)
-    const topArr = userList.map(elem => {
-      if (elem['id'] % 2 === 0){
-        return (
-        <div className='player-box'>
-        <div className={elem.isReady ? 'player-text-r': 'player-text'}>{elem.name}
-        </div>
-      </div>)
-      }
-    })
     const botArr = userList.map(elem => {
-      if (elem['id'] % 2 !== 0){
         return (
-        <div className='player-box'>
-        <div className={elem.isReady ? 'player-text-r': 'player-text'}>{elem.name}
-        </div>
+          <div className='player-box'>
+        <div className={elem.isReady ? 'player-text-r': 'player-text'}>{elem.userName}</div>
       </div>)
-      }
     })
-
+    // const topArr = userList.map(elem => {
+    //   console.log('elem si', elem)
+    //   if (elem === 0 || elem % 2 === 0){
+    //     return (
+    //     <div className='player-box'>
+    //     <div className={elem.isReady ? 'player-text-r': 'player-text'}>{elem.userName}</div>
+    //     <div>{elem}</div>
+    //   </div>)
+    //   }
+    // })
     const Lobby = (
     <div className='lobby'>
       <div className='list'>Category: {this.props.newsPlayingList.cat_name}</div>
@@ -261,9 +270,9 @@ class HParty extends Component {
       <div className={ gameStart ? 'lobby-footer-2' : 'lobby-footer'}>
       { gameStart === false ?
       <>
-        <div className='lobby-player-arr'>
-            {topArr}
-        </div>
+        {/* <div className='lobby-player-arr'>
+            top:{topArr}
+        </div> */}
         <div className='lobby-player-arr'>
             {botArr}
         </div>
@@ -273,13 +282,9 @@ class HParty extends Component {
       }
       </div>
     </div>)
-    // console.log('HLobby, state', this.state)
-    // console.log('HLobby, props', this.props)
+
     return (
       <div>
-      {/* { !gameStart ?
-      <></>
-      : <span>{this.props.gameTimer}</span> } */}
       { !gameStart ?
       Lobby
       : gamePhase === 1 ?
@@ -296,11 +301,9 @@ class HParty extends Component {
   }
 }
 function mapStateToProps( state ){
-  const { id, userList, newsMyList, newsPlayingList, qaPlayingList, qaPlayingCurrent, newsPlayedList, rndLimit, rndCurrent, gameStart, gamePhase, gameTimer, gameTimerStart} = state;
+  const { id, newsMyList, newsPlayingList, qaPlayingList, qaPlayingCurrent, newsPlayedList, rndLimit, rndCurrent, gameStart, gamePhase, gameTimer, gameTimerStart} = state;
   return {
     id,
-    userList,
-    // userScoreList,
     newsMyList,
     newsPlayingList,
     qaPlayingList,
@@ -314,4 +317,4 @@ function mapStateToProps( state ){
     gameTimerStart
   };
 }
-export default withRouter(connect (mapStateToProps, { updateUserList, updateRndCurrent, updateNewsPlayingList, updateQAPlayingList, updateQAPlayingCurrent, updateNewsPlayedList, updateGameStart, updateGamePhase, updateGameTimer, updateGameTimerStart })(HParty)); 
+export default withRouter(connect (mapStateToProps, { updateRndCurrent, updateNewsPlayingList, updateQAPlayingList, updateQAPlayingCurrent, updateNewsPlayedList, updateGameStart, updateGamePhase, updateGameTimer, updateGameTimerStart })(HParty)); 

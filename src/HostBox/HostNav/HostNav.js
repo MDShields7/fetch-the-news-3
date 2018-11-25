@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
-import { updateGameStart, updateRoundCurrent, updateGamePhase, updateGameTimer } from '../../ducks/reducer';
+import { updateGameStart, updateRndCurrent, updateGamePhase, updateGameTimer } from '../../ducks/reducer';
 import { withRouter } from 'react-router';
 
 // import './HostNav.css'
@@ -9,7 +9,7 @@ import { withRouter } from 'react-router';
 class HostNav extends Component {
   exitGame = () => {
     this.props.updateGameStart(false);
-    this.props.updateRoundCurrent(null);
+    this.props.updateRndCurrent(null);
     this.props.updateGamePhase(0);
     this.props.updateGameTimer(0);
   }
@@ -63,4 +63,4 @@ function mapStateToProps( state ){
     gameTimer
   };
 }
-export default withRouter(connect (mapStateToProps, { updateGameStart })(HostNav)); 
+export default withRouter(connect (mapStateToProps, { updateGameStart, updateRndCurrent, updateGamePhase, updateGameTimer })(HostNav)); 

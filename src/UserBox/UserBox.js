@@ -1,45 +1,97 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {updateTrivSwitch, updateNewsAllList, updateNewsMyList, updateNewsMyListCreated} from '../ducks/reducer';
+import { updateUser, updateUserList, updateTrivSwitch, updateNewsAllList, updateNewsMyList, updateNewsMyListCreated} from '../ducks/reducer';
 import { withRouter } from 'react-router';
 import socketIOClient from 'socket.io-client';
-var socket = socketIOClient();
+var socket = socketIOClient("http://192.168.1.5:4001/");
 
 class UserBox extends Component {
   constructor(props){
     super(props)
-    this.state = {}
+    this.state ={
+      // user: {},
+      userName: '',
+      user: {},
+      submitEntry: false,
+      isReady: false,
+    }
     // RECEIVE WELCOME
     socket.on('welcome', (welcome) => {
       console.log('App.js, receiving welcome', welcome);
-      // this.props.updateUserList(welcome.userList)
+      this.setState({user:welcome.user})
+      this.props.updateUser(welcome.user)
+      this.props.updateUserList(welcome.userList)
     })
-
+    socket.on('name welcome', (userJoin) => {
+      console.log('App.js, receiving name welcome', userJoin);
+      this.setState({user:userJoin.user})
+      this.props.updateUser(userJoin.user)
+      this.props.updateUserList(userJoin.userList)
+    })
+    
+  }
+  handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+    this.setState({[name]: value})
+  }
+  handleSubmit = () => {
+    this.setState({
+      submitEntry: true,
+    })
     socket.emit('join user', {
-      user: 1
+      userId: this.props.user.userId,
+      userName: this.state.userName,
     })
+    console.log('UserBox join user', this.props.user, this.state.userName)
+    // console.log(UserBox, submit, )
+  }
+  handleReady = () => {
+    this.setState({
+      isReady: !this.state.isReady,
+    })
+    // let newUser = {...this.state.user)
+    // Object.assign(newUser, {'isReady': this.state.isReady})
+
     socket.emit('ready user', {
-      user: 2
+      isReady: !this.state.isReady
     })
+    console.log('sent ready user message')
   }
 
-
   render() {
-    console.log('----------- socket', socket)
+    const { userName, userCheck, submitEntry, isReady } = this.state;
+    console.log('----------- state', this.state)
+    console.log('----------- props', this.props)
     return (
       <div>
         <h1>User Box</h1>
+        { this.props.userList.length >= 8 ? 
+          <>
+          <h2>Game is Full</h2> </>
+          : !submitEntry ? <>
+          <h2>Username:</h2>
+          <input type="text" name={'userName'} value={userName} onChange={this.handleChange}/>
+          { userCheck ?
+            this.checkItemMsg() : <p></p>}
+          <button onClick={this.handleSubmit}>Submit</button> </> 
+          : <>
+          <h2>Ready?</h2>
+          <button className={isReady ? 'ready-btn-on' : 'ready-btn-off'} onClick={this.handleReady}>Click when ready to play</button> </> 
+        }
       </div>
     )
   }
 }
 function mapStateToProps( state ){
-  const {trivSwitch, newsAllList, newsMyList, newsMyListCreated} = state;
+  const { user, userList, trivSwitch, newsAllList, newsMyList, newsMyListCreated} = state;
   return {
+    user,
+    userList,
     trivSwitch,
     newsAllList,
     newsMyList,
     newsMyListCreated
   };
 }
-export default withRouter(connect (mapStateToProps, {updateTrivSwitch, updateNewsAllList, updateNewsMyList,updateNewsMyListCreated})(UserBox)); 
+export default withRouter(connect (mapStateToProps, { updateUser, updateUserList, updateTrivSwitch, updateNewsAllList, updateNewsMyList,updateNewsMyListCreated})(UserBox)); 

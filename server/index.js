@@ -5,7 +5,7 @@ const controller = require('./controller');
 require('dotenv').config();
 const app = express();
 const server = require('http').createServer(app);
-const io = require('socket.io')(server)
+const io = require('socket.io').listen(server)
 
 massive(process.env.CONNECTION_STRING).then (database => {
   app.set('db', database);
@@ -17,17 +17,85 @@ app.use(bodyParser.json());
 // app.use( express.static( `${__dirname}/../build` ) );
 
 // SOCKETS
+let counter = 1;
+let userList = []
+// let userList = [
+//     {userId: 0, userName: 'Jose', isReady: false, roundScore: 100, totalScore:500},
+//     {userId: 1, userName: 'Nathaniel', isReady: true, roundScore: 0, totalScore:400},
+//     {userId: 2, userName: 'Emilia', isReady: true, roundScore: 200, totalScore:100},
+//     {userId: 3, userName: 'Francois', isReady: false, roundScore: 0, totalScore:200},
+//     {userId: 4, userName: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
+//     {userId: 5, userName: 'Jay', isReady: true, roundScore: 100, totalScore:300},
+//     {userId: 6, userName: 'Bill', isReady: true, roundScore: 100, totalScore:300},
+//     {userId: 7, userName: 'Juan', isReady: false, roundScore: 100, totalScore:400},
+//   ]
 
 io.sockets.on('connection', (socket) => {
-  console.log('user connected', socket['id'])
-  socket.emit('welcome', {id: 1, userList: ["Mike", "Matt"]})
+  let addedToList = false;
+  Object.assign(socket, {'user': {}})
+  // console.log('socket.user', socket.user)
+  const {user} = socket;
+  Object.assign(socket.user, {'userId': counter})
+  // console.log('socket.user', socket.user.userId)
+  // console.log('user connected, user:', user)
+  socket.emit('welcome', {
+    user: socket.user, // userId
+    userList: userList
+  })
   
-  // socket.on('user join', (userJoin) => {
-  //   socket.emit('user join for host')
-  // })
-  // socket.on('disconnect', () => {
-    
-  // })
+  socket.on('join user', (joinUser) => {
+    if (addedToList) return;
+    console.log(!userList[0])
+    Object.assign(socket.user, {userName: joinUser.userName});
+    if (userList.length === 0){
+      Object.assign(joinUser, {driver: true});
+      Object.assign(socket.user, {driver: true});
+    } else {
+      Object.assign(joinUser, {driver: false});
+      Object.assign(socket.user, {driver: false});
+    }
+    const {user} = socket;
+    userList.push(user)
+    console.log('User joined, join user:', joinUser)
+    console.log('User joined, userList:', userList)
+    io.emit('user joined', {
+      userList: userList
+    })
+    socket.emit('name welcome', {
+      user: socket.user,
+      userList: userList
+    })
+  })
+  socket.on('ready user', (readyUser) => {
+    console.log('User ready, readyUser:', readyUser)
+    console.log('ready user, userList before', userList)
+    Object.assign(socket.user, {isReady: readyUser.isReady});
+    const {user} = socket;
+    let newUser = removeUser(user.userId)
+    console.log('newUser:', newUser[0])
+    Object.assign(newUser[0], readyUser)
+    userList.push(newUser[0])
+    console.log('ready user, userList after', userList)
+    io.emit('user readied', {
+      userList: userList
+    })
+  })
+  function removeUser (userId){
+    let removed = {}
+    for (i = userList.length-1; i>=0; i--){
+      if (userList[i]['userId'] === socket.user.userId && socket.user.userId !== undefined){
+      removed = userList.splice(i, 1)
+      return removed
+      }
+    }
+  }
+  socket.on('disconnect', () => {
+    console.log('User left, user:', removeUser(socket.user.userId))
+    // console.log('User left, user:', discon)
+    console.log('User left, userList:', userList)
+    // console.log('User left, userList:', userList)
+  })
+  counter++;
 })
 
 // RESTFUL METHODS
