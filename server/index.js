@@ -14,21 +14,21 @@ massive(process.env.CONNECTION_STRING).then (database => {
 })
 
 app.use(bodyParser.json());
-// app.use( express.static( `${__dirname}/../build` ) );
+app.use( express.static( `${__dirname}/../build` ) );
 
 // SOCKETS
 let counter = 1;
 // let userList = []
-let userList = [
+let userList = []
 //     {userId: 0, userName: 'Jose', isReady: false, roundScore: 100, totalScore:500},
 //     {userId: 1, userName: 'Nathaniel', isReady: true, roundScore: 0, totalScore:400},
 //     {userId: 2, userName: 'Emilia', isReady: true, roundScore: 200, totalScore:100},
-    {userId: 3, userName: 'Francois', isReady: false, roundScore: 0, totalScore:200},
-    {userId: 4, userName: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
-    {userId: 5, userName: 'Jay', isReady: true, roundScore: 100, totalScore:300},
-    {userId: 6, userName: 'Bill', isReady: true, roundScore: 100, totalScore:300},
-    {userId: 7, userName: 'Juan', isReady: false, roundScore: 100, totalScore:400},
-  ]
+  //   {userId: 3, userName: 'Francois', isReady: false, roundScore: 0, totalScore:200},
+  //   {userId: 4, userName: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
+  //   {userId: 5, userName: 'Jay', isReady: true, roundScore: 100, totalScore:300},
+  //   {userId: 6, userName: 'Bill', isReady: true, roundScore: 100, totalScore:300},
+  //   {userId: 7, userName: 'Juan', isReady: false, roundScore: 100, totalScore:400},
+  // ]
 
 io.sockets.on('connection', (socket) => {
   let addedToList = false;
@@ -128,9 +128,9 @@ app.post('/api/TrivSet', controller.postTrivSet) //FUNCTIONS
 app.post('/api/TrivCreator', controller.postTrivCreator) //FUNCTIONS
 
 const path = require('path')
-// app.get('*', (req, res)=>{
-//   res.sendFile(path.join(__dirname, '../build/index.html'));
-// })
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+})
 
 const PORT = 4001 || process.env.CONNECTION_STRING;
 server.listen(PORT, ()=> console.log(`Sockets are listening on port ${PORT}`))
