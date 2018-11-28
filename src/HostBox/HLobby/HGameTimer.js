@@ -43,8 +43,8 @@ class HGame extends Component {
     }
   }
   render() {
-    const {userList} = this.props;
-    console.log('userList', this.props.userList)
+    const {userList, gameTimerStart} = this.props;
+    // console.log('HGame, userList', this.props.userList)
   //   const gameArr = playerArr.map(elem => {
   //     return (
   //     <div className='player-box-sml'>
@@ -54,24 +54,21 @@ class HGame extends Component {
   // })
   // let timerArr = if (gameTimerStart) {this.makeTimerArr()}
   // console.log('HGame, timerArr in render', timerArr)
-  const topArr = userList.map(elem => {
-    if (elem['id'] % 2 === 0){
-      return (
+  // const topArr = userList.map(elem => {
+  //   if (elem['id'] % 2 === 0){
+  //     return (
+  //     <div className='player-box-sml'>
+  //     <div className={elem.isReady ? 'player-text-r': 'player-text-sml'}>{elem.name}
+  //     </div>
+  //   </div>)
+  //   }
+  // })
+  const botArr = this.props.userList.map(elem => {
+    return (
       <div className='player-box-sml'>
-      <div className={elem.isReady ? 'player-text-r': 'player-text-sml'}>{elem.name}
-      </div>
-    </div>)
-    }
-  })
-  const botArr = userList.map(elem => {
-    if (elem['id'] % 2 !== 0){
-      return (
-      <div className='player-box'>
-      <div className={elem.isReady ? 'player-text-r': 'player-text-sml'}>{elem.name}
-      </div>
-    </div>)
-    }
-  })
+    <div className={elem.isReady ? 'player-text-r': 'player-text'}>{elem.userName}</div>
+  </div>)
+})
   const timerBar = (this.makeTimerArr().map(elem => {
     return (
       <div className='timerBar'>
@@ -89,13 +86,15 @@ class HGame extends Component {
       <div className='HGame'>
         <div className='lobby-timer'>
           {/* <div>TIMER</div> */}
-          {timerBar}
+          { gameTimerStart ?
+          timerBar
+          : <></>}
         </div>
         
         <div className='lobby-footer-sml'>
-          <div className='lobby-player-arr'>
+          {/* <div className='lobby-player-arr'>
               {topArr}
-          </div>
+          </div> */}
           <div className='lobby-player-arr'>
               {botArr}
           </div>

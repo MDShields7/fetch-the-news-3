@@ -7,6 +7,9 @@ import UBox from './UserBox/UserBox';
 import HBox from './HostBox/HostBox';
 import './App.scss';
 
+import socketIOClient from 'socket.io-client';
+const socket = socketIOClient();
+
 class App extends Component {
   constructor(props){
     super(props)
@@ -23,9 +26,9 @@ class App extends Component {
       if (this.props.hasOwnProperty('mobileDevice') === false){
         return <h1>Loading</h1>
       } else if (this.props.mobileDevice === true){
-        return <UBox /> //mobile devices given User component
+        return <UBox socket={socket} /> //mobile devices given User component
       } else if (this.props.mobileDevice === false){
-        return <HBox joinHostRequest={this.joinHostRequest}/> //desktop devices given Host component
+        return <HBox socket={socket} joinHostRequest={this.joinHostRequest}/> //desktop devices given Host component
       }
     }
     // console.log(this.props)

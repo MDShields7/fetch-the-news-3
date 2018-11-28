@@ -15,7 +15,7 @@ class HSetup extends Component {
     if ( !newsPlayingList.hasOwnProperty('id') && !newsPlayingList['id']){
       newsPlayingList['id'] = 0;
       const{id} = this.props.newsPlayingList
-      console.log('Hsetup----------------',newsMyList)
+      // console.log('Hsetup----------------',newsMyList)
       this.props.updateNewsPlayingList({
       id: newsPlayingList.id, cat_id: newsMyList[id].cat_id, cat_name: newsMyList[id].cat_name })
       console.log(id, newsMyList[id].cat_name)

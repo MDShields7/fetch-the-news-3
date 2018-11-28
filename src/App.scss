@@ -355,18 +355,7 @@ $size-arrow: 50px;
   height: auto;
   width: 100%;
 }
-.lobby-footer {
-  @extend .flex-col;
-  flex-wrap: wrap;
-  height: 300px;
-  // background-color: red;
-  position: absolute;
-  bottom: 0px;
-  width: 90%;
-  padding:5%;
-  align-items: center;
-  justify-content: space-around;
-}
+
 .HGame {
   @extend .flex-col;
   align-items: center;
@@ -407,12 +396,25 @@ $size-arrow: 50px;
     width: 0%;
   }
 }
+.lobby-footer {
+  @extend .flex-col;
+  flex-wrap: wrap;
+  height: 25vh;
+  // background-color: red;
+  position: absolute;
+  bottom: 0px;
+  width: 90%;
+  padding:5%;
+  align-items: center;
+  justify-content: space-around;
+}
 .lobby-footer-sml {
   @extend .flex-col;
+  flex-wrap: wrap;
   height: 20vh;
   // background-color: red;
   position: absolute;
-  bottom: 0vh;
+  bottom: -5vh;
   width: 90%;
   padding:5%;
   align-items: center;
@@ -435,8 +437,8 @@ $player-icon-small: 50;
 $player-icon-medium: 100;
 $player-box-h: 150px;
 $player-box-w: 20vw;
-$player-box-h-sml: 75px;
-$player-box-w-sml: 100px;
+$player-box-h-sml: 80px;
+$player-box-w-sml: 20vw;
 $ready-y: green;
 $ready-n: orange;
 .player-box {
@@ -448,8 +450,8 @@ $ready-n: orange;
 }
 .player-box-sml {
   @extend .flex-col;
-  height: $player-box-h;
-  width: $player-box-w;
+  height: $player-box-h-sml;
+  width: $player-box-w-sml;
   align-items: center;
   // background: blue;
 }

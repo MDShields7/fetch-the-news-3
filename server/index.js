@@ -18,17 +18,17 @@ app.use(bodyParser.json());
 
 // SOCKETS
 let counter = 1;
-let userList = []
-// let userList = [
+// let userList = []
+let userList = [
 //     {userId: 0, userName: 'Jose', isReady: false, roundScore: 100, totalScore:500},
 //     {userId: 1, userName: 'Nathaniel', isReady: true, roundScore: 0, totalScore:400},
 //     {userId: 2, userName: 'Emilia', isReady: true, roundScore: 200, totalScore:100},
-//     {userId: 3, userName: 'Francois', isReady: false, roundScore: 0, totalScore:200},
-//     {userId: 4, userName: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
-//     {userId: 5, userName: 'Jay', isReady: true, roundScore: 100, totalScore:300},
-//     {userId: 6, userName: 'Bill', isReady: true, roundScore: 100, totalScore:300},
-//     {userId: 7, userName: 'Juan', isReady: false, roundScore: 100, totalScore:400},
-//   ]
+    {userId: 3, userName: 'Francois', isReady: false, roundScore: 0, totalScore:200},
+    {userId: 4, userName: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
+    {userId: 5, userName: 'Jay', isReady: true, roundScore: 100, totalScore:300},
+    {userId: 6, userName: 'Bill', isReady: true, roundScore: 100, totalScore:300},
+    {userId: 7, userName: 'Juan', isReady: false, roundScore: 100, totalScore:400},
+  ]
 
 io.sockets.on('connection', (socket) => {
   let addedToList = false;
@@ -80,6 +80,17 @@ io.sockets.on('connection', (socket) => {
       userList: userList
     })
   })
+  socket.on('clear ready on players', () => {
+    clearReadyOnPlayers()
+    console.log('Index.js clearing ready on players, result', userList)
+    socket.emit('ready cleared on players', {
+      userList: userList
+    })
+  })
+  socket.on('game phase', (message) => {
+    socket.emit('game phase two', {gamePhase: message.gamePhase})
+    console.log('got game phase', message.gamePhase)
+  })
   function removeUser (userId){
     let removed = {}
     for (i = userList.length-1; i>=0; i--){
@@ -88,6 +99,12 @@ io.sockets.on('connection', (socket) => {
       return removed
       }
     }
+  }
+  function clearReadyOnPlayers (){
+    for (i = userList.length-1; i>=0; i--){
+      userList[i].isReady = false;
+    }
+    return userList
   }
   socket.on('disconnect', () => {
     console.log('User left, user:', removeUser(socket.user.userId))
