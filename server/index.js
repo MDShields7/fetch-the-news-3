@@ -5,7 +5,7 @@ const controller = require('./controller');
 require('dotenv').config();
 const app = express();
 const server = require('http').createServer(app);
-const io = require('socket.io').listen(server)
+const io = require('socket.io')(server)
 
 massive(process.env.CONNECTION_STRING).then (database => {
   app.set('db', database);
