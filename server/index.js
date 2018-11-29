@@ -4,7 +4,7 @@ const massive = require('massive');
 const controller = require('./controller');
 require('dotenv').config();
 const app = express();
-const server = require('http').createServer(app);
+const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
 massive(process.env.CONNECTION_STRING).then (database => {
@@ -132,6 +132,6 @@ app.get('*', (req, res)=>{
   res.sendFile(path.join(__dirname, '../build/index.html'));
 })
 
-const PORT = 4001 || process.env.CONNECTION_STRING;
-server.listen(PORT, ()=> console.log(`Sockets are listening on port ${PORT}`))
+// const PORT = 4001 || process.env.CONNECTION_STRING;
+// server.listen(PORT, ()=> console.log(`Sockets are listening on port ${PORT}`))
 app.listen(4000, ()=> console.log(`REST is listening on port 4000`))
