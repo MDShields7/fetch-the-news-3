@@ -132,6 +132,9 @@ app.get('*', (req, res)=>{
   res.sendFile(path.join(__dirname, '../build/index.html'));
 })
 
-// const PORT = 4001 || process.env.CONNECTION_STRING;
-// server.listen(PORT, ()=> console.log(`Sockets are listening on port ${PORT}`))
+const PORT = 4001 || process.env.CONNECTION_STRING;
+server.listen(PORT, ()=> console.log(`Sockets are listening on port ${PORT}`))
 app.listen(4000, ()=> console.log(`REST is listening on port 4000`))
+// server.listen(4000,()=>{
+//   console.log('listening on 4000 🦖');
+// })

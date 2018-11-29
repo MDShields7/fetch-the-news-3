@@ -4,8 +4,11 @@ import { updateUser, updateUserList, updateTrivSwitch, updateNewsAllList, update
 import { withRouter } from 'react-router';
 import UQA from './UQA'
 import socketIOClient from 'socket.io-client';
-// var socket = socketIOClient("http://192.168.1.5:4001/");
-var socket = socketIOClient();
+//dvmtn
+// var socket = socketIOClient("http://192.168.1.5:4001/"); 
+//home
+var socket = socketIOClient("http://192.168.0.34:4001/"); 
+// var socket = socketIOClient();
 
 class UserBox extends Component {
   constructor(props){
