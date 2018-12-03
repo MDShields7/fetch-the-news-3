@@ -14,7 +14,7 @@ massive(process.env.CONNECTION_STRING).then (database => {
 })
 
 app.use(bodyParser.json());
-app.use( express.static( `${__dirname}/../build` ) );
+// app.use( express.static( `${__dirname}/../build` ) );
 
 // SOCKETS
 let counter = 1;
@@ -127,14 +127,14 @@ app.post('/api/TrivList', controller.postTrivList) //FUNCTIONS
 app.post('/api/TrivSet', controller.postTrivSet) //FUNCTIONS
 app.post('/api/TrivCreator', controller.postTrivCreator) //FUNCTIONS
 
-const path = require('path')
-app.get('*', (req, res)=>{
-  res.sendFile(path.join(__dirname, '../build/index.html'));
-})
+// const path = require('path')
+// app.get('*', (req, res)=>{
+  // res.sendFile(path.join(__dirname, '../build/index.html'));
+// })
 
-const PORT = 4001 || process.env.CONNECTION_STRING;
+const PORT = 4000 || process.env.CONNECTION_STRING;
 server.listen(PORT, ()=> console.log(`Sockets are listening on port ${PORT}`))
-app.listen(4000, ()=> console.log(`REST is listening on port 4000`))
+// app.listen(4000, ()=> console.log(`REST is listening on port 4000`))
 // server.listen(4000,()=>{
 //   console.log('listening on 4000 🦖');
 // })
