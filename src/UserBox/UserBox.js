@@ -5,10 +5,9 @@ import { withRouter } from 'react-router';
 import UQA from './UQA'
 import socketIOClient from 'socket.io-client';
 //dvmtn
-var socket = socketIOClient("http://127.0.0.1:4000/"); 
+// var socket = socketIOClient("http://127.0.0.1:4000/"); // TESTING MODE, LAPTOP
 //home
-// var socket = socketIOClient("http://192.168.0.34:4001/"); 
-// var socket = socketIOClient();
+var socket = socketIOClient(); // PRODUCTION BUILD, DIGITAL OCEAN
 
 class UserBox extends Component {
   constructor(props){
