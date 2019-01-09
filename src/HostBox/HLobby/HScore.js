@@ -35,8 +35,8 @@ class HScore extends Component {
         (userList.map(elem => {
           return <div className='Player-Card'>
             {console.log('PH3 elem is', elem)}
-            <div className='pl-1'>name: {elem.userName}</div>
-            <div className='pl-2'>score: {elem.roundScore}</div>
+            <div className='pl-1'>{elem.userName}</div>
+            <div className='pl-2'>{elem.roundScore}</div>
           </div>
         }))
         : gamePhase === 4 && userList ?

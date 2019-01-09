@@ -73,7 +73,7 @@ io.sockets.on("connection", socket => {
     Object.assign(socket.user, { isReady: readyUser.isReady });
     const { user } = socket;
     let newUser = removeUser(user.userId);
-    console.log("newUser:", newUser[0]);
+    console.log("newUser:", newUser);
     Object.assign(newUser[0], readyUser);
     userList.push(newUser[0]);
     console.log("ready user, userList after", userList);
@@ -81,12 +81,9 @@ io.sockets.on("connection", socket => {
       user: readyUser
     });
   });
-  socket.on("clear ready on players", () => {
-    clearReadyOnPlayers();
-    // console.log("Index.js clearing ready on players, result", userList);
-    socket.emit("ready cleared on players", {
-      userList: userList
-    });
+  socket.on("clear ready on players", (user) => {
+    // clearReadyOnPlayers();
+    socket.emit("ready cleared on players", { user });
   });
   socket.on("game phase to server", message => {
     io.emit("game phase to user", { gamePhase: message.gamePhase });
@@ -118,12 +115,12 @@ io.sockets.on("connection", socket => {
       }
     }
   }
-  function clearReadyOnPlayers() {
-    for (i = userList.length - 1; i >= 0; i--) {
-      userList[i].isReady = false;
-    }
-    return userList;
-  }
+  // function clearReadyOnPlayers() {
+  //   for (i = userList.length - 1; i >= 0; i--) {
+  //     userList[i].isReady = false;
+  //   }
+  //   return userList;
+  // }
   socket.on("disconnect", () => {
     console.log("User left, user:", removeUser(socket.user.userId));
     // console.log('User left, user:', discon)

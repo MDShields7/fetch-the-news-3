@@ -46,10 +46,15 @@ class HLobby extends Component {
       });
     });
     socket.on("user readied", message => {
-      console.log("HLobby.js, receiving user ready message", message);
-      this.setState({
-        userList: message.userList
-      });
+      // console.log("HLobby.js, receiving user ready message", message);
+      // this.setState({
+      //   userList: message.userList
+      // });
+      console.log(
+        "HLobby.js, receiving ready cleared on players message",
+        message, message.user.userId, message.user.isReady
+      );
+      this.addUserProperty(message.user.userId, 'isReady', message.user.isReady)
     });
     socket.on("ready cleared on players", message => {
       console.log(
@@ -73,32 +78,43 @@ class HLobby extends Component {
     });
   }
   addRoundScore = (id, score) => {
-    const { userList } = this.state;
+    // const { userList } = this.state;
     const { rndCurrent } = this.props;
-    console.log("***********  HLobby, userList BEFORE addRoundScore", this.state.userList);
-    let userListCopy = [...userList];
+    // console.log("***********  HLobby, userList BEFORE addRoundScore", this.state.userList);
+    console.log("***********  HLobby, addRoundScore, id & score", id, score);
+    console.log("***********  HLobby, userList", this.state.userList);
+    let userListCopy = [...this.state.userList];
     console.log("***********  HLobby, userListCopy", userListCopy);
-    let newUserList = [];
-    userListCopy.map(user => {
+    // let newUserList = [];
+    userListCopy.map(async user => {
       const { userId } = user;
-      let newUser;
-      if (rndCurrent === 1) {
-        newUser = Object.assign({}, user, { roundScore: 0, totalScore: 0 })
-        console.log('????????? newUser', newUser)
+      // let newUser;
+      if (rndCurrent === 1 && user.roundScore === undefined) {
+        // newUser = Object.assign({}, user, { roundScore: 0, totalScore: 0 })
+        // console.log('????????? newUser', newUser)
+        console.log('????????? addUserProperty called case 1, userId', userId, 'roundScore', 0)
+        await this.addUserProperty(userId, 'roundScore', 0)
+        await this.addUserProperty(userId, 'totalScore', 0)
       }
       if (userId === id && score !== undefined) {
-        newUser = Object.assign({}, newUser, { roundScore: score })
-        console.log('newUser is:', newUser)
+        // newUser = Object.assign({}, newUser, { roundScore: score })
+        // console.log('newUser is:', newUser)
+        console.log('????????? addUserProperty called case 2, userId', userId, 'roundScore', score)
+        await this.addUserProperty(userId, 'roundScore', score)
+        if (rndCurrent === 1) {
+          await this.addUserProperty(userId, 'totalScore', 0)
+        }
       }
-      newUserList.push(newUser)
-      console.log("HLobby, addRoundScore, newUserList", newUserList);
+      // newUserList.push(newUser)
+      // console.log("HLobby, addRoundScore, newUserList", newUserList);
     })
-    this.setState({ userList: newUserList })
+    // this.setState({ userList: newUserList })
+    console.log("HLobby, addRoundScore, this.state.userList", this.state.userList);
   }
   addTotalScore = () => {
     // Does not save scores back into userlist
     const { userList } = this.state;
-    console.log("HLobby, userList before addScore", userList);
+    console.log("HLobby, addTotalScore, userList BEFORE", userList);
     let userListCopy = [...userList];
     for (let i = userListCopy.length - 1; i >= 0; i--) {
       userListCopy[i].totalScore += userListCopy[i].roundScore;
@@ -109,7 +125,7 @@ class HLobby extends Component {
     console.log(this.playerSortTotal(userListCopy));
     newList = userListCopy;
     console.log(
-      "HLobby, userListCopy after addScore, before playerSortTotal",
+      "HLobby, userListCopy after addTotalScore, after playerSortTotal",
       userListCopy
     );
     console.log("HLobby, newList after playerSortTotal", newList);
@@ -121,7 +137,25 @@ class HLobby extends Component {
     });
     console.log("playersorttotal", newArr);
   };
-
+  addUserProperty = (id, propKey, propValue) => {
+    const { userList } = this.state;
+    let userListCopy = [...userList];
+    console.log("%%%%%___%%%%%___%%%%%  HLobby, addUserProperty, id", id, 'Key:', propKey, 'Value', propValue);
+    let newUserList = [];
+    userListCopy.map(user => {
+      const { userId } = user;
+      let newUser;
+      if (userId === id) {
+        newUser = Object.assign({}, user, { [propKey]: propValue })
+        console.log('newUser is:', newUser)
+        newUserList.push(newUser)
+      } else {
+        newUserList.push(user)
+      }
+      console.log("HLobby, addUserProperty, newUserList", newUserList)
+    })
+    this.setState({ userList: newUserList })
+  }
   getTriviaQA = async () => {
     const { newsPlayingList } = this.props;
     await axios
@@ -220,11 +254,11 @@ class HLobby extends Component {
       setTimeout(() => this.countDown(), 1000);
     }
   }
-  clearReady = () => {
-    this.props.socket.emit("clear ready on players", {
-      clearReady: "yes please"
-    });
-  };
+  // clearReady = () => {
+  //   this.props.socket.emit("clear ready on players", {
+  //     clearReady: "yes please"
+  //   });
+  // };
   sendGamePhase = phase => {
     console.log("sending game phase to user --------", phase);
     this.props.socket.emit("game phase to server", {
@@ -273,26 +307,28 @@ class HLobby extends Component {
   phaseChange = async time => {
     console.log("!!!! phasechange !!!!!");
     const {
-      gamePhase,
       updateGamePhase,
       updateGameTimer,
       updateGameTimerStart
     } = this.props;
     let phaseNumber;
-    if (gamePhase === 4) {
-      await this.addTotalScore()
+    if (this.props.gamePhase === 4) {
       phaseNumber = 1
-    } else if (gamePhase === 3) {
-      await this.addRoundScore(0, 0)
-      phaseNumber = gamePhase + 1
     } else {
-      phaseNumber = gamePhase + 1
+      phaseNumber = this.props.gamePhase + 1
     }
     // await this.clearReady();
     await updateGamePhase(phaseNumber);
     this.sendGamePhase(phaseNumber);
     await updateGameTimer(time);
     await updateGameTimerStart(time);
+    if (this.props.gamePhase === 4) {
+      console.log('this.props.gamePhase is', this.props.gamePhase, 'calling addTotalScore')
+      await this.addTotalScore()
+    } else if (this.props.gamePhase === 3) {
+      console.log('this.props.gamePhase is', this.props.gamePhase, 'calling addRoundScore')
+      await this.addRoundScore(0, 0)
+    }
     this.countDown();
   };
   endGame = () => {
