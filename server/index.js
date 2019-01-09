@@ -78,7 +78,7 @@ io.sockets.on("connection", socket => {
     userList.push(newUser[0]);
     console.log("ready user, userList after", userList);
     io.emit("user readied", {
-      userList: userList
+      user: readyUser
     });
   });
   socket.on("clear ready on players", () => {

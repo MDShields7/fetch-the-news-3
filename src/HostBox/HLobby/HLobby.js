@@ -25,6 +25,7 @@ class HLobby extends Component {
     this.state = {
       // gameTimerState: null,
       // timerSet: true,
+      phaseTime: [7, 3, 5, 5],
       userList: []
     };
     this.countDown = this.countDown.bind(this);
@@ -73,6 +74,7 @@ class HLobby extends Component {
   }
   addRoundScore = (id, score) => {
     const { userList } = this.state;
+    const { rndCurrent } = this.props;
     console.log("***********  HLobby, userList BEFORE addRoundScore", this.state.userList);
     let userListCopy = [...userList];
     console.log("***********  HLobby, userListCopy", userListCopy);
@@ -80,20 +82,20 @@ class HLobby extends Component {
     userListCopy.map(user => {
       const { userId } = user;
       let newUser;
-      if (userId === id && score !== undefined) {
-        newUser = Object.assign({}, user, { roundScore: score })
-        // console.log('newUser is:', newUser)
-        newUserList.push(newUser)
-      } else if (userId === id && user.roundScore === undefined) {
-        newUser = Object.assign({}, user, { roundScore: 0 })
-        // console.log('newUser is:', newUser)
-        newUserList.push(newUser)
+      if (rndCurrent === 1) {
+        newUser = Object.assign({}, user, { roundScore: 0, totalScore: 0 })
+        console.log('????????? newUser', newUser)
       }
+      if (userId === id && score !== undefined) {
+        newUser = Object.assign({}, newUser, { roundScore: score })
+        console.log('newUser is:', newUser)
+      }
+      newUserList.push(newUser)
       console.log("HLobby, addRoundScore, newUserList", newUserList);
-      this.setState({ userList: newUserList })
     })
+    this.setState({ userList: newUserList })
   }
-  totalScores = () => {
+  addTotalScore = () => {
     // Does not save scores back into userlist
     const { userList } = this.state;
     console.log("HLobby, userList before addScore", userList);
@@ -111,6 +113,7 @@ class HLobby extends Component {
       userListCopy
     );
     console.log("HLobby, newList after playerSortTotal", newList);
+    this.setState({ userList: newList })
   };
   playerSortTotal = arr => {
     let newArr = arr.sort((a, b) => {
@@ -136,17 +139,7 @@ class HLobby extends Component {
   };
   nextQAPlayingList = () => {
     console.log("----------------------------");
-    const { qaPlayingCurrent, qaPlayingList } = this.props;
-    // if (qaPlayingCurrent.length === 0) {
-    //   // Loading questions if first round
-    //   console.log("HLobby, qaPlayingList", qaPlayingList);
-    //   console.log("HLobby, qaPlayingCurrent", qaPlayingCurrent);
-    //   let qaPlayingListCopy = qaPlayingList.slice();
-    //   let item = qaPlayingListCopy.shift();
-    //   this.loadCurrentQA(item, qaPlayingListCopy);
-    //   console.log("HLobby, qaPlayingList after", qaPlayingList);
-    //   console.log("HLobby, qaPlayingCurrent after", qaPlayingCurrent);
-    // } else
+    const { qaPlayingList } = this.props;
     if (qaPlayingList.length >= 1) {
       // Loading questions if any rounds remaining
       console.log(
@@ -253,7 +246,7 @@ class HLobby extends Component {
       rndLimit,
       updateRndCurrent
     } = this.props;
-    let phaseTime = [5, 2, 20, 2]; // Array of phase timer amounts
+    const { phaseTime } = this.state;
     console.log(`changing phase from ${gamePhase} to ${gamePhase + 1}`);
     if (gamePhase === 0) {
       // Game not started condition
@@ -286,12 +279,17 @@ class HLobby extends Component {
       updateGameTimerStart
     } = this.props;
     let phaseNumber;
-    gamePhase === 4 ? (phaseNumber = 1) : (phaseNumber = gamePhase + 1);
-    if (phaseNumber === 4) {
-      this.totalScores();
+    if (gamePhase === 4) {
+      await this.addTotalScore()
+      phaseNumber = 1
+    } else if (gamePhase === 3) {
+      await this.addRoundScore(0, 0)
+      phaseNumber = gamePhase + 1
+    } else {
+      phaseNumber = gamePhase + 1
     }
-    await this.clearReady();
-    updateGamePhase(phaseNumber);
+    // await this.clearReady();
+    await updateGamePhase(phaseNumber);
     this.sendGamePhase(phaseNumber);
     await updateGameTimer(time);
     await updateGameTimerStart(time);

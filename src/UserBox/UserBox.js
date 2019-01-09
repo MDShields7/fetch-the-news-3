@@ -71,6 +71,7 @@ class UserBox extends Component {
     // console.log(UserBox, submit, )
   };
   handleReady = () => {
+    const { userId } = this.props.user;
     this.setState({
       isReady: !this.state.isReady
     });
@@ -78,7 +79,8 @@ class UserBox extends Component {
     // Object.assign(newUser, {'isReady': this.state.isReady})
 
     socket.emit("ready user", {
-      isReady: !this.state.isReady
+      isReady: !this.state.isReady,
+      userId: userId
     });
     // console.log('sent ready user message')
   };
