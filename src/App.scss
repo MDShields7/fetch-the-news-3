@@ -1,9 +1,9 @@
 //  VARIABLES
-@import 'reset';
+@import "reset";
 
-$font-title: 'Varela Round', sans-serif;
-$font-title-2: 'Open Sans', sans-serif;
-$font-body: 'Source Serif Pro', serif;
+$font-title: "Varela Round", sans-serif;
+$font-title-2: "Open Sans", sans-serif;
+$font-body: "Source Serif Pro", serif;
 
 $color-bg: #222222;
 $color-purple: #553344;
@@ -17,8 +17,8 @@ $color-green-dk: #072121;
 $color-blue: #223344;
 $color-blue-lt: #728da8;
 $color-blue-dk: #0e141b;
-$color-white:#FFFFFF;
-$color-white-click:#FF85FF;
+$color-white: #ffffff;
+$color-white-click: #ff85ff;
 $color-trans: transparent;
 // Buttons
 $btn-able: #e4e4e4;
@@ -39,22 +39,21 @@ $size-arrow: 50px;
 }
 //  MIXINS
 
-@mixin btn ($color){
+@mixin btn($color) {
   font-size: 16px;
-  background-color:$color;
+  background-color: $color;
   margin: 20px 10px 0px;
   border: 3px solid $color;
-
 }
-@mixin large-btn ($color){
-  @include btn ($color);
+@mixin large-btn($color) {
+  @include btn($color);
   width: 200px;
   height: 50px;
   border-radius: 10px 10px 0px 0px;
   margin: 20px 0px 0px;
 }
-@mixin med-btn ($color){
-  @include btn ($color);
+@mixin med-btn($color) {
+  @include btn($color);
   width: 100px;
   height: 25px;
   border-radius: 5px;
@@ -62,31 +61,31 @@ $size-arrow: 50px;
 }
 
 .btn {
-  @include large-btn ($color-green);
+  @include large-btn($color-green);
   align-content: flex-end;
 }
-.btn:hover{
+.btn:hover {
   background-color: $btn-hov;
   background-color: $btn-hov;
 }
 .btn-off {
-  @include large-btn ($color-green-lt);
+  @include large-btn($color-green-lt);
 }
 .btn-submit {
-  @include large-btn ($btn-submit);
+  @include large-btn($btn-submit);
 }
 .btn-2 {
-  @include med-btn ($btn-able);
+  @include med-btn($btn-able);
 }
-.btn-2:hover{
+.btn-2:hover {
   background-color: $btn-hov;
 }
 .btn-2-off {
-  @include med-btn ($btn-disable);
+  @include med-btn($btn-disable);
   visibility: hidden;
 }
 .btn-2-submit {
-  @include med-btn ($btn-submit);
+  @include med-btn($btn-submit);
 }
 //  FUNCTIONS
 //  hover on buttons
@@ -95,18 +94,13 @@ $size-arrow: 50px;
 
 //  PARTIAL & IMPORT
 
-
-
-
-
 .App {
   text-align: center;
   // background-color: $color-bg;
   height: 100vh;
-  $font-title: 'Varela Round', sans-serif;
-  background-color:$color-purple-2;
+  $font-title: "Varela Round", sans-serif;
+  background-color: $color-purple-2;
 }
-
 
 /* *** HContent *** */
 .HContent {
@@ -139,7 +133,7 @@ $size-arrow: 50px;
   @extend .flex-row;
   background-color: $color-green;
   width: 100%;
-  min-height:100vh;
+  min-height: 100vh;
   // height: auto;
   margin: 60 10px auto;
   // padding: 0 0px;
@@ -149,7 +143,7 @@ $size-arrow: 50px;
 }
 
 // HCSet
-.inputTrivCard{
+.inputTrivCard {
   @extend .flex-row;
   justify-content: center;
   width: 100%;
@@ -168,8 +162,8 @@ $size-arrow: 50px;
   font-size: 24px;
   margin: 15px auto;
 }
-.inputTrivText{
-  text-align:center;
+.inputTrivText {
+  text-align: center;
   height: 90px;
   resize: none;
   width: 300px;
@@ -179,7 +173,7 @@ $size-arrow: 50px;
   /* background-color: rgb(255, 200, 178); */
   // height: auto;
   // overflow: auto;
-  background:transparent;
+  background: transparent;
   border: none;
   border-color: transparent;
 }
@@ -201,8 +195,8 @@ $size-arrow: 50px;
 }
 // *** HOSTNAV ***
 .HostNav {
-  width:100%;
-  height:10vh;
+  width: 100%;
+  height: 10vh;
   display: flex;
   justify-content: center;
   // background-color: $color-blue;
@@ -218,7 +212,7 @@ $size-arrow: 50px;
   .NavItem {
     height: 100%;
     margin: 25px;
-    display:flex;
+    display: flex;
     align-items: center;
     font-size: 24px;
     color: green;
@@ -242,13 +236,13 @@ $size-arrow: 50px;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   .NavItem2 {
     height: 100%;
     margin: 25px;
-    display:flex;
+    display: flex;
     align-items: center;
     font-size: 24px;
     color: green;
@@ -290,22 +284,22 @@ $size-arrow: 50px;
   align-items: center;
 }
 .roundNum {
-  text-align:center;
+  text-align: center;
   resize: none;
   font-size: 120px;
   text-shadow: 0px 0px 50px white;
 }
 .setup {
-  background-color:$color-purple-2;
+  background-color: $color-purple-2;
   height: auto;
   min-height: 100vh;
 }
 .setup-text {
   font-size: 50px;
 }
-@mixin arrow (){
-  width: 0; 
-  height: 0; 
+@mixin arrow() {
+  width: 0;
+  height: 0;
   border-top: $size-arrow solid transparent;
   border-bottom: $size-arrow solid transparent;
   margin: 0 50px;
@@ -317,23 +311,23 @@ $size-arrow: 50px;
 
 .arrow-left {
   @include arrow;
-  border-right: $size-arrow solid $color-green-2; 
+  border-right: $size-arrow solid $color-green-2;
 }
 .roundNumBox {
   // @extend .flex-col;
   // background-color: red;
-  width:150px;
-  height:150px;
+  width: 150px;
+  height: 150px;
 }
 .listBox {
   // @extend .flex-col;
   // background-color: red;
-  width:500px;
-  height:250px;
+  width: 500px;
+  height: 250px;
 }
 .list {
   font-family: $font-title-2;
-  text-align:center;
+  text-align: center;
   resize: none;
   font-size: 60px;
   text-shadow: 0px 0px 30px white;
@@ -343,14 +337,14 @@ $size-arrow: 50px;
   width: 300px;
   border: none;
   border-radius: 10px;
-  background-image: linear-gradient($color-green-2,$color-green-lt);
-  font-size: 48px; 
+  background-image: linear-gradient($color-green-2, $color-green-lt);
+  font-size: 48px;
   margin: 50px;
 }
 
 // *** SETUP ***
 .lobby {
-  background-color:$color-purple-2;
+  background-color: $color-purple-2;
   min-height: 100vh;
   height: auto;
   width: 100%;
@@ -389,10 +383,10 @@ $size-arrow: 50px;
   height: 30px;
 }
 @keyframes timer-shrink {
-  0% { 
-  width: 100%;
+  0% {
+    width: 100%;
   }
-  100% { 
+  100% {
     width: 0%;
   }
 }
@@ -404,7 +398,7 @@ $size-arrow: 50px;
   position: absolute;
   bottom: 0px;
   width: 90%;
-  padding:5%;
+  padding: 5%;
   align-items: center;
   justify-content: space-around;
 }
@@ -416,7 +410,7 @@ $size-arrow: 50px;
   position: absolute;
   bottom: -5vh;
   width: 90%;
-  padding:5%;
+  padding: 5%;
   align-items: center;
   justify-content: space-around;
 }
@@ -428,10 +422,9 @@ $size-arrow: 50px;
   // align-content: space-around;
   // justify-items: space-around;
   justify-content: space-around;
-
 }
-@function addPx ($num){
-  @return $num + px
+@function addPx($num) {
+  @return $num + px;
 }
 $player-icon-small: 50;
 $player-icon-medium: 100;
@@ -455,22 +448,22 @@ $ready-n: orange;
   align-items: center;
   // background: blue;
 }
-.player-text{
+.player-text {
   @extend .flex-row;
   height: $player-box-h;
   align-items: center;
   // background: pink;
-  font-family: 'Architects Daughter', regular;
-  font-size: 40px; 
+  font-family: "Architects Daughter", regular;
+  font-size: 40px;
   font-weight: 700;
 }
-.player-text-sml{
+.player-text-sml {
   @extend .flex-row;
   height: $player-box-h;
   align-items: center;
   // background: pink;
-  font-family: 'Architects Daughter', regular;
-  font-size: 24px; 
+  font-family: "Architects Daughter", regular;
+  font-size: 24px;
   font-weight: 700;
 }
 .player-text-r {
@@ -478,30 +471,30 @@ $ready-n: orange;
   height: $player-box-h;
   align-items: center;
   // background: pink;
-  font-family: 'Architects Daughter', regular;
-  font-size: 40px; 
+  font-family: "Architects Daughter", regular;
+  font-size: 40px;
   font-weight: 700;
   color: $color-white-click;
   animation: glow-shadow 1s ease-in-out 0s infinite forwards;
 }
 @keyframes glow-shadow {
-  0% { 
-    text-shadow: 0px 0px 0px white;
-  // text-shadow: 0px 0px 2px black;
-  }
-  50% { 
-    text-shadow: 0px 0px 20px white;
-    // text-shadow: 0px 0px 15px black;
-    }
-  100% { 
+  0% {
     text-shadow: 0px 0px 0px white;
     // text-shadow: 0px 0px 2px black;
-    }
+  }
+  50% {
+    text-shadow: 0px 0px 20px white;
+    // text-shadow: 0px 0px 15px black;
+  }
+  100% {
+    text-shadow: 0px 0px 0px white;
+    // text-shadow: 0px 0px 2px black;
+  }
 }
 // @mixin player {
 //   background-color: yellow;
 //   font-family: 'Overpass Mono', monospace;
-//   font-size: 30px; 
+//   font-size: 30px;
 // }
 // @mixin player-on {
 //   width: 100px;
@@ -543,7 +536,7 @@ $ready-n: orange;
 //   // height: 100px;
 //   background-color: yellow;
 //   font-family: 'Overpass Mono', monospace;
-//   font-size: 30px;  
+//   font-size: 30px;
 //   margin: 50px;
 // }
 @mixin A-Card {
@@ -552,7 +545,7 @@ $ready-n: orange;
   width: 40vw;
   height: 9vh;
   margin: 2.5vh;
-  border: rgb(45, 45, 45) .25vh solid;
+  border: rgb(45, 45, 45) 0.25vh solid;
   justify-content: space-around;
   A-Card-text {
     // @extend .flex-row;
@@ -561,7 +554,55 @@ $ready-n: orange;
     justify-self: space-around;
   }
 }
-
+@mixin B-Card {
+  @extend .flex-col;
+  font-size: 18px;
+  width: 40vw;
+  height: 30vh;
+  margin: 2.5vh;
+  border: rgb(45, 45, 45) 0.25vh solid;
+  justify-content: space-around;
+  B-Card-text {
+    // @extend .flex-row;
+    // height: 100%;
+    align-self: center;
+    justify-self: space-around;
+  }
+}
+.HQA-User-Box {
+  height: 55vh;
+  min-height: 80vh;
+  width: 100%;
+  position: absolute;
+  bottom: 0vh;
+  // background: blue;
+  .Q-Box {
+    height: 100%;
+    width: 100%;
+    .B-Box {
+      @extend .flex-row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      width: 100%;
+      height: 80vh;
+      // background: purple;
+      position: absolute;
+      bottom: 0vh;
+      .B-Card-1 {
+        @include B-Card;
+        background: $color-blue-lt;
+      }
+      .B-Card-false {
+        @include B-Card;
+        background: $color-red;
+      }
+      .B-Card-true {
+        @include B-Card;
+        background: $color-green-lt;
+      }
+    }
+  }
+}
 .HQA-Box {
   height: 55vh;
   min-height: 40vh;
@@ -573,16 +614,16 @@ $ready-n: orange;
     height: 100%;
     width: 100%;
 
-    .Q-text{
+    .Q-text {
       padding: 2.5vh;
       font-size: 48px;
     }
-    .A-Box{
+    .A-Box {
       @extend .flex-row;
       flex-wrap: wrap;
       justify-content: space-around;
       width: 100%;
-      height: 30vh;
+      height: 25vh;
       // background: purple;
       position: absolute;
       bottom: 0vh;
@@ -592,15 +633,14 @@ $ready-n: orange;
       }
       .A-Card-false {
         @include A-Card;
-        background:$color-red;
+        background: $color-red;
       }
       .A-Card-true {
         @include A-Card;
-        background:$color-green-lt;
+        background: $color-green-lt;
       }
     }
   }
-
 }
 .HScore {
   .Player-Card {
