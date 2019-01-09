@@ -50,8 +50,8 @@ class HScore extends Component {
           : <div>WHAT ?????</div>)
     return (
       <div className='HScore'>
-        {gamePhase === 3 ? <div>SCORES</div>
-          : gamePhase === 4 ? <div>TOTAL SCORES</div>
+        {gamePhase === 3 ? <h1>SCORES</h1>
+          : gamePhase === 4 ? <h1>TOTAL SCORES</h1>
             : <></>}
         {userList ?
           <>{totalScores}</>

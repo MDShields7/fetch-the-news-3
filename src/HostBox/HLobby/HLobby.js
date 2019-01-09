@@ -23,8 +23,6 @@ class HLobby extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // gameTimerState: null,
-      // timerSet: true,
       phaseTime: [7, 3, 5, 5],
       userList: []
     };
@@ -46,10 +44,6 @@ class HLobby extends Component {
       });
     });
     socket.on("user readied", message => {
-      // console.log("HLobby.js, receiving user ready message", message);
-      // this.setState({
-      //   userList: message.userList
-      // });
       console.log(
         "HLobby.js, receiving ready cleared on players message",
         message, message.user.userId, message.user.isReady
@@ -73,46 +67,34 @@ class HLobby extends Component {
         message.message.user.roundScore
       );
       console.log("message.message.user:", message.message.user);
-      // console.log("this.props.userList:", props.userList)
       this.addRoundScore(message.message.user.userId, message.message.user.roundScore)
     });
   }
   addRoundScore = (id, score) => {
-    // const { userList } = this.state;
     const { rndCurrent } = this.props;
-    // console.log("***********  HLobby, userList BEFORE addRoundScore", this.state.userList);
     console.log("***********  HLobby, addRoundScore, id & score", id, score);
     console.log("***********  HLobby, userList", this.state.userList);
     let userListCopy = [...this.state.userList];
     console.log("***********  HLobby, userListCopy", userListCopy);
-    // let newUserList = [];
     userListCopy.map(async user => {
       const { userId } = user;
       // let newUser;
       if (rndCurrent === 1 && user.roundScore === undefined) {
-        // newUser = Object.assign({}, user, { roundScore: 0, totalScore: 0 })
-        // console.log('????????? newUser', newUser)
         console.log('????????? addUserProperty called case 1, userId', userId, 'roundScore', 0)
         await this.addUserProperty(userId, 'roundScore', 0)
         await this.addUserProperty(userId, 'totalScore', 0)
       }
       if (userId === id && score !== undefined) {
-        // newUser = Object.assign({}, newUser, { roundScore: score })
-        // console.log('newUser is:', newUser)
         console.log('????????? addUserProperty called case 2, userId', userId, 'roundScore', score)
         await this.addUserProperty(userId, 'roundScore', score)
         if (rndCurrent === 1) {
           await this.addUserProperty(userId, 'totalScore', 0)
         }
       }
-      // newUserList.push(newUser)
-      // console.log("HLobby, addRoundScore, newUserList", newUserList);
     })
-    // this.setState({ userList: newUserList })
     console.log("HLobby, addRoundScore, this.state.userList", this.state.userList);
   }
   addTotalScore = () => {
-    // Does not save scores back into userlist
     const { userList } = this.state;
     console.log("HLobby, addTotalScore, userList BEFORE", userList);
     let userListCopy = [...userList];
@@ -301,7 +283,6 @@ class HLobby extends Component {
   };
   setupGame = async () => {
     await this.getTriviaQA();
-    // await updateNewsPlayedList(newsPlayingList.cat_name.slice());
     this.props.updateRndCurrent(1);
   };
   phaseChange = async time => {
@@ -337,17 +318,11 @@ class HLobby extends Component {
   };
   render() {
     const {
-      socket,
       gameStart,
       gameEnd,
       gamePhase,
       gameTimer,
-      rndCurrent,
-      rndLimit,
-      updateRndCurrent,
-      updateGameStart,
-      updateGameEnd,
-      updateGamePhase
+      rndCurrent
     } = this.props;
     const { userList } = this.state;
     console.log(
@@ -404,7 +379,9 @@ class HLobby extends Component {
             {Users}
           </>
         ) : gameStart && gameEnd ? (
-          <>{gameOver}</>
+          <>{gameOver}
+            <HScore gamePhase={gamePhase} userList={this.state.userList} />
+          </>
         ) : gamePhase === 1 ? (
           <>
             <HQA />
