@@ -7,18 +7,10 @@ const initialState = {
   mobileDevice: 0, // determined per user
   rndLimit: 3, // Round, set by host in lobby
   rndCurrent: null, // Round, set during game
-  user: { userId: 0, userName: "" }, // User { id:#, avName:'', avPhoto:'url' }
+  login: { loginUser: '', loginPassword: '' },
+  reg: { regUser: '', regEmail: '', regPassword: '' },
+  user: { userId: 2, userName: "" }, // User { id:#, avName:'', avPhoto:'url' }
   userList: [],
-  //   {id: 0, name: 'Jose', isReady: false, roundScore: 100, totalScore:500},
-  //   {id: 1, name: 'Nathan', isReady:true, roundScore: 0, totalScore:400},
-  //   {id: 2, name: 'Emilia', isReady: true, roundScore: 200, totalScore:100},
-  //   {id: 3, name: 'Francois', isReady: false, roundScore: 0, totalScore:200},
-  //   {id: 4, name: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
-  //   {id: 5, name: 'Jay', isReady: true, roundScore: 100, totalScore:300},
-  //   {id: 6, name: 'Bill', isReady: true, roundScore: 100, totalScore:300},
-  //   {id: 7, name: 'Juan', isReady: false, roundScore: 100, totalScore:400},
-  // ],                        // List of playing users
-  // userScoreList: [],    // Scores - only party mode
   newsAllList: [], // Lists available to play
   newsMyList: [], // Lists available to play
   newsMyListCreated: [], // Lists available to play
@@ -31,9 +23,6 @@ const initialState = {
   gamePhase: 0,
   gameTimer: null,
   gameTimerStart: null
-  // answerList: null,
-  // avatarList: [],       // Hard-coded items
-  //    TRIVIA LIST?????
 };
 const UPDATE_TRIV_SWITCH = "TRIV_SWITCH";
 const UPDATE_ID = "UPDATE_ID";
@@ -43,6 +32,8 @@ const UPDATE_ROOM_LIST = "UPDATE_ROOM_LIST";
 const UPDATE_MOBILE_DEVICE = "UPDATE_MOBILE_DEVICE";
 const UPDATE_RND_LIMIT = "UPDATE_RND_LIMIT";
 const UPDATE_RND_CURRENT = "UPDATE_RND_CURRENT";
+const UPDATE_LOGIN = "UPDATE_LOGIN";
+const UPDATE_REG = "UPDATE_REG";
 const UPDATE_USER = "UPDATE_USER";
 const UPDATE_USER_LIST = "UPDATE_USER_LIST";
 const UPDATE_USER_SCORE_LIST = "UPDATE_USER_SCORE_LIST";
@@ -79,6 +70,10 @@ function reducer(state = initialState, action) {
       return Object.assign({}, state, { rndLimit: action.payload });
     case UPDATE_RND_CURRENT:
       return Object.assign({}, state, { rndCurrent: action.payload });
+    case UPDATE_LOGIN:
+      return Object.assign({}, state, { login: action.payload });
+    case UPDATE_REG:
+      return Object.assign({}, state, { reg: action.payload });
     case UPDATE_USER:
       return Object.assign({}, state, { user: action.payload });
     case UPDATE_USER_LIST:
@@ -161,6 +156,18 @@ export function updateRndCurrent(rndCurrent) {
   return {
     type: UPDATE_RND_CURRENT,
     payload: rndCurrent
+  };
+}
+export function updateLogin(login) {
+  return {
+    type: UPDATE_LOGIN,
+    payload: login
+  };
+}
+export function updateReg(reg) {
+  return {
+    type: UPDATE_REG,
+    payload: reg
   };
 }
 export function updateLoanType(rndCurrent) {
@@ -259,11 +266,5 @@ export function updateGameTimerStart(gameTimerStart) {
     payload: gameTimerStart
   };
 }
-// export function updateAnswerList ( answerList ){
-//     return {
-//       type: UPDATE_ANSWER_LIST,
-//       payload: answerList
-//   }
-// }
 
 export default reducer;

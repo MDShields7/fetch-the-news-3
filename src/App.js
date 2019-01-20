@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { updateMobileDevice } from "./ducks/reducer";
 import { isMobile } from "react-device-detect";
 import { withRouter } from "react-router";
+import axios from 'axios';
 import UBox from "./UserBox/UserBox";
 import HBox from "./HostBox/HostBox";
 import "./App.scss";
@@ -14,14 +15,35 @@ var socket = socketIOClient();
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+    }
   }
+  // sayHi = () => {
+  //   one();
+  // }
   componentDidMount = () => {
-    // console.log(isMobile)
     this.props.updateMobileDevice(isMobile);
   };
   propsBtn = () => {
     console.log(this.props);
   };
+  // register = () => {
+  //   axios.post('/register', {
+  //     // username,
+  //     // email,
+  //     // password
+  //   }).then(response => {
+  //     console.log('App.js, register user complete:', response)
+  //   }).catch(error => {
+  //     console.log('App.js, register user fail:', error)
+  //   });
+  // }
+  login = () => {
+
+  }
+  logout = () => {
+
+  }
   render() {
     const viewType = () => {
       if (this.props.hasOwnProperty("mobileDevice") === false) {
@@ -35,21 +57,15 @@ class App extends Component {
     // console.log(this.props)
     return (
       <div className="App">
-        {/* <div className='AppStuff'>
-          <h4>App</h4>
-          <div>mobile device: {String(this.props.mobileDevice)}</div>
-          <button onClick={this.propsBtn}>Check App.js Props</button>
-        </div> */}
-        <div>{viewType()}</div>
+        {viewType()}
       </div>
     );
   }
 }
 function mapStateToProps(state) {
-  const { host, mobileDevice } = state;
+  const { mobileDevice } = state;
   return {
-    host,
-    mobileDevice
+    mobileDevice,
   };
 }
 export default withRouter(

@@ -11,7 +11,7 @@ CREATE TABLE ftn_users (
     user_id SERIAL PRIMARY KEY,
     user_name VARCHAR(50) NOT NULL,
     user_email VARCHAR(100) NOT NULL,
-    user_password VARCHAR(50) NOT NULL
+    user_password VARCHAR(100) NOT NULL
 );
 INSERT INTO ftn_users 
 (user_name, user_email, user_password)

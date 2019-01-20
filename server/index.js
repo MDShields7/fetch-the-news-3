@@ -4,6 +4,7 @@ const massive = require("massive");
 const controller = require("./controller");
 require("dotenv").config();
 const app = express();
+const session = require('express-session');
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
@@ -17,31 +18,22 @@ massive(process.env.CONNECTION_STRING)
 
 app.use(bodyParser.json());
 app.use(express.static(`${__dirname}/../build`));
+app.use(session({
+  secret: "ftnAppSecret",
+  saveUninitialized: false,
+  resave: false,
+}));
 
 // SOCKETS
 let counter = 1;
-// let userList = []
 let userList = [];
-//     {userId: 0, userName: 'Jose', isReady: false, roundScore: 100, totalScore:500},
-//     {userId: 1, userName: 'Nathaniel', isReady: true, roundScore: 0, totalScore:400},
-//     {userId: 2, userName: 'Emilia', isReady: true, roundScore: 200, totalScore:100},
-//   {userId: 3, userName: 'Francois', isReady: false, roundScore: 0, totalScore:200},
-//   {userId: 4, userName: 'Xixi', isReady: true, roundScore: 0, totalScore:300},
-//   {userId: 5, userName: 'Jay', isReady: true, roundScore: 100, totalScore:300},
-//   {userId: 6, userName: 'Bill', isReady: true, roundScore: 100, totalScore:300},
-//   {userId: 7, userName: 'Juan', isReady: false, roundScore: 100, totalScore:400},
-// ]
-
 io.sockets.on("connection", socket => {
   let addedToList = false;
   Object.assign(socket, { user: {} });
-  // console.log('socket.user', socket.user)
   const { user } = socket;
   Object.assign(socket.user, { userId: counter });
-  // console.log('socket.user', socket.user.userId)
-  // console.log('user connected, user:', user)
   socket.emit("welcome", {
-    user: socket.user, // userId
+    user: socket.user,
     userList: userList
   });
 
@@ -131,16 +123,18 @@ io.sockets.on("connection", socket => {
 });
 
 // RESTFUL METHODS
-app.get("/api/TrivSet", controller.getTrivSet); //FUNCTIONS
-app.get("/api/MyTrivSet", controller.getMyTrivSet); //FUNCTIONS
+app.get("/api/TrivSet", controller.getTrivSet);
+app.get("/api/MyTrivSet", controller.getMyTrivSet);
 app.get("/api/MyTrivSetCreated", controller.getMyTrivCreated);
 app.get("/api/TrivQASet", controller.getTrivQASet);
-//FUNCTIONS
-app.put(`/api/EditMyTrivSet/:id`, controller.editMyTrivSet); //FUNCTIONS
-app.delete(`/api/DeleteTrivSet/:id/:userid`, controller.deleteTrivSet); //FUNCTIONS
-app.post("/api/TrivList", controller.postTrivList); //FUNCTIONS
-app.post("/api/TrivSet", controller.postTrivSet); //FUNCTIONS
-app.post("/api/TrivCreator", controller.postTrivCreator); //FUNCTIONS
+app.put(`/api/EditMyTrivSet/:id`, controller.editMyTrivSet);
+app.delete(`/api/DeleteTrivSet/:id/:userid`, controller.deleteTrivSet);
+app.post("/api/TrivList", controller.postTrivList);
+app.post("/api/TrivSet", controller.postTrivSet);
+app.post("/api/TrivCreator", controller.postTrivCreator);
+
+app.post("/api/registerUser", controller.registerUser);
+app.get("/api/getUsers", controller.getUsers)
 
 const path = require("path");
 app.get("*", (req, res) => {

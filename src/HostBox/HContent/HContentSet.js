@@ -12,12 +12,18 @@ class HContentSet extends Component {
       editText: false,
       tempTrivId: '',
       tempTrivName: '',
-      editElement: null
+      editElement: null,
+      TrivCard: []
     }
+    this.loadCard()
   }
   componentDidMount() {
+    this.loadCard()
   }
   componentDidUpdate(prevProps) {
+    if (this.props.trivArray !== prevProps.trivArray) {
+      this.loadCard()
+    }
   }
 
   editTriviaSet = (catId, catName) => {
@@ -56,10 +62,10 @@ class HContentSet extends Component {
     const value = e.target.value
     this.setState({ [name]: value })
   }
-  render() {
-    const { editCheck, editText, tempTrivName } = this.state;
+  loadCard = () => {
+    console.log('HCONTENT, trivArray is', trivArray)
     const { trivArray } = this.props;
-
+    const { tempTrivName } = this.state;
     const TrivCard = trivArray.map(elem => {
       let elemId = elem.cat_id;
       let elemName = elem.cat_name;
@@ -87,12 +93,14 @@ class HContentSet extends Component {
         <button className='btn-2' onClick={deleteBtn}>Delete</button>
       </div>)
     })
-    // console.log('HContentSet, this.state',this.state)
-    // console.log('HContentSet, this.props', this.props)
-
+    this.setState({ TrivCard: TrivCard })
+  }
+  render() {
+    console.log('HContentSet, this.state is', this.state)
+    console.log('HContentSet, this.props is', this.props)
     return (
       <>
-        {TrivCard}
+        {this.state.TrivCard}
       </>
     )
   }

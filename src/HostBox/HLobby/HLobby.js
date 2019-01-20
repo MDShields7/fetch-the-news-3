@@ -24,7 +24,7 @@ class HLobby extends Component {
     super(props);
     this.state = {
       phaseTime: [7, 3, 5, 5],
-      userList: []
+      userList: [],
     };
     this.countDown = this.countDown.bind(this);
     const { socket } = props;

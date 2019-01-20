@@ -41,22 +41,22 @@ class HostNav extends Component {
             <div className="NavItem2">{this.props.gameTimer}</div>
           </div>
         ) : (
-          <div className="NavGroup">
-            {/* <div className='NavGroup2'> */}
-            <div className="NavItem">Logo</div>
-            <div className="NavLink">
-              <div className="NavItem">
-                <NavLink to="/">Content</NavLink>
-              </div>
-              <div className="NavItem">
-                <NavLink to="/setup">Setup</NavLink>
-              </div>
-              <div className="NavItem">
-                <NavLink to="/lobby">Lobby</NavLink>
+            <div className="NavGroup">
+              {/* <div className='NavGroup2'> */}
+              <div className="NavItem">Logo</div>
+              <div className="NavLink">
+                <div className="NavItem">
+                  <NavLink to="/">Content</NavLink>
+                </div>
+                <div className="NavItem">
+                  <NavLink to="/setup">Play Game</NavLink>
+                </div>
+                <div className="NavItem">
+                  <NavLink to="/login">Login</NavLink>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     );
   }
