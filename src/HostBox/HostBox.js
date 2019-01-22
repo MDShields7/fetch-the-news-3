@@ -22,36 +22,33 @@ class HostBox extends Component {
     this.getMyTriviaCreated();
   }
   getTriviaSet = () => {
-    if (this.props.id) {
-      console.log('getTriviaSet')
-      axios.get('/api/TrivSet').then(res => {
-        this.props.updateNewsAllList(res.data)
-        this.setState({
-          trivSetToMap: this.props.newsAllList
-        })
-        // console.log('HContent, this.props.newAllList', this.props.newsAllList)
+    console.log('getTriviaSet')
+    axios.get('/api/TrivSet').then(res => {
+      this.props.updateNewsAllList(res.data)
+      this.setState({
+        trivSwitch: 1,
+        trivSetToMap: this.props.newsAllList
       })
-        .catch(err => console.log('error at get TriviaSet', err))
-    }
+    })
+      .catch(err => console.log('error at get TriviaSet', err))
+
   }
   getMyTriviaSet = () => {
-    if (this.props.id) {
+    if (this.props.host && this.props.host.userId) {
       console.log('getMyTriviaSet')
-      axios.get('/api/MyTrivSet', { params: { userId: this.props.id, } }).then(res => {
+      axios.get('/api/MyTrivSet', { params: { userId: this.props.host.userId } }).then(res => {
         this.props.updateNewsMyList(res.data)
-        // console.log('HContent, this.props.newsMyList', this.props.newsMyList)
       })
         .catch(err => console.log('error at get TriviaSet', err))
     }
   }
   getMyTriviaCreated = () => {
-    if (this.props.id) {
+    if (this.props.host && this.props.host.userId) {
       console.log('getTriviaSetCreated')
-      // axios.get(`/api/MyTrivSetCreated/userId=${this.props.id}`)
-      axios.get('/api/MyTrivSetCreated', { params: { userId: this.props.id } }).then(res => {
-        this.props.updateNewsMyListCreated(res.data)
-        console.log('HContent, this.props.newsMyListCreated', this.props.newsMyListCreated)
-      })
+      axios.get('/api/MyTrivSetCreated', { params: { userId: this.props.host.userId } })
+        .then(res => {
+          this.props.updateNewsMyListCreated(res.data)
+        })
         .catch(err => console.log('error at get TriviaSet', err))
     }
   }

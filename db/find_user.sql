@@ -1,0 +1,1 @@
+SELECT * FROM ftn_users WHERE user_name = ${user_name};

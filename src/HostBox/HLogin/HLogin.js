@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
-import { updateReg, updateLogin } from "../../ducks/reducer";
+import { updateHost, updateReg, updateLogin, updateUser } from "../../ducks/reducer";
 import { withRouter } from 'react-router';
 import axios from 'axios';
 import * as Lib from '../../Library/Library';
@@ -75,13 +75,37 @@ export class HLogin extends Component {
       });
     }
   }
-
+  checkLoginUser = () => {
+    const loginUserMin = 6;
+    const loginPasswordMin = 8;
+    const regUserMax = 50;
+    const regPasswordMax = 50;
+    const empty = Lib.fieldsNotEmpty(this.props.login.loginUser, this.props.login.loginEmail, this.props.login.loginPassword);
+    const min = Lib.fieldsCharsMin(loginUserMin, this.props.login.loginUser, loginPasswordMin, this.props.login.loginPassword);
+    const max = Lib.fieldsCharsMax(regUserMax, this.props.login.loginUser, regPasswordMax, this.props.login.loginPassword);
+  }
   login = () => {
-
-  }
+    axios.post('/api/login', {
+      user_name: this.props.login.loginUser,
+      user_password: this.props.login.loginPassword
+    })
+      .then(response => {
+        console.log('HLogin, login, post response', response)
+        this.props.updateHost({ userId: response.data.user.user_id, userName: response.data.user.user_name })
+      }).catch(error => {
+        console.log('Error in login', error)
+      });
+  };
   logout = () => {
+    axios.post('/api/logout').then(response => {
+      console.log('HLogin, logout, post response', response)
+      this.props.updateHost(null)
+    }).catch(error => {
+      console.log('Error in logout', error)
+      // this.setState({ message: 'Something went wrong: ' + this.getMessage(error) });
+    });
+  };
 
-  }
   handleRegChange = async (e) => {
     const name = e.target.name
     const value = e.target.value
@@ -92,13 +116,14 @@ export class HLogin extends Component {
     console.log('HLogin.js, this.props:', this.props)
     console.log('HLogin.js, this.state:', this.state)
   }
-  handleLogin = (e) => {
+  handleLogin = async (e) => {
     const name = e.target.name
     const value = e.target.value
     let newLogin = Object.assign(this.props.login, { [name]: value });
     console.log('HLogin, handleChange, newLogin', newLogin)
-    this.props.updateLogin(newLogin)
+    await this.props.updateLogin(newLogin)
   }
+
   render() {
     console.log('this.state:', this.state)
     console.log('this.props:', this.props)
@@ -110,40 +135,44 @@ export class HLogin extends Component {
     }
 
     return (
-      <div className='HLogin'>
-        <section className='login-group'>
-          <h2>Login</h2>
-          {input('loginUser', 'Username', 'handleLogin')}
-          {input('loginPassword', 'Password', 'handleLogin')}
-          <button className='btn-3' >Submit</button>
-        </section>
-        <section className='login-group'>
-          <h2>Register</h2>
-          {input('regUser', 'Username', 'handleRegChange')}
-          {input('regEmail', 'Email', 'handleRegChange')}
-          {input('regPassword', 'Password', 'handleRegChange')}
-          <button className='btn-3' onClick={this.register}>Submit</button>
-        </section>
+      <div className='HLogin' >
+        {this.props.host === null ? <>
+          <section className='login-group'>
+            <h2>Login</h2>
+            {input('loginUser', 'Username', 'handleLogin')}
+            {input('loginPassword', 'Password', 'handleLogin')}
+            <button className='btn-3' onClick={this.login}>Submit</button>
+          </section>
+          <section className='login-group'>
+            <h2>Register</h2>
+            {input('regUser', 'Username', 'handleRegChange')}
+            {input('regEmail', 'Email', 'handleRegChange')}
+            {input('regPassword', 'Password', 'handleRegChange')}
+            <button className='btn-3' onClick={this.register}>Submit</button>
+          </section> </>
+          : <></>}
         {this.state.regErrorMessage ?
           <section>
             <h2>Error</h2>
             <p>{this.state.regErrorMessage}</p>
-          </section>
+          </section >
           : <></>}
       </div >
     )
   }
 }
+
 function mapStateToProps(state) {
-  const { reg, login } = state;
+  const { reg, login, host } = state;
   return {
     reg,
-    login
+    login,
+    host
   };
 }
 export default withRouter(
   connect(
     mapStateToProps,
-    { updateReg, updateLogin }
+    { updateHost, updateReg, updateLogin, updateUser }
   )(HLogin)
 );

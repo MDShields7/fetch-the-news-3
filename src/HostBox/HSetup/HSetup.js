@@ -8,20 +8,34 @@ import { withRouter } from 'react-router';
 class HSetup extends Component {
   constructor() {
     super();
+    this.state = {
+      host: false,
+      message: '',
+    }
   }
   // set newsPlaying list {id: ???, list: ???} upon page load
   componentDidMount = () => {
-    let { newsPlayingList, newsMyList } = this.props;
-    console.log(this.props.newsMyList)
-    if (!newsPlayingList.hasOwnProperty('id') && !newsPlayingList['id']) {
-      newsPlayingList['id'] = 0;
-      const { id } = this.props.newsPlayingList
-      // console.log('Hsetup----------------',newsMyList)
-      this.props.updateNewsPlayingList({
-        id: newsPlayingList.id, cat_id: newsMyList[id].cat_id, cat_name: newsMyList[id].cat_name
-      })
-      console.log(id, newsMyList[id].cat_name)
+    if (this.checkForHost() === true) {
+      let { newsPlayingList, newsMyList } = this.props;
+      console.log(this.props.newsMyList)
+      if (!newsPlayingList.hasOwnProperty('id') && !newsPlayingList['id']) {
+        newsPlayingList['id'] = 0;
+        const { id } = this.props.newsPlayingList
+        // console.log('Hsetup----------------',newsMyList)
+        this.props.updateNewsPlayingList({
+          id: newsPlayingList.id, cat_id: newsMyList[id].cat_id, cat_name: newsMyList[id].cat_name
+        })
+        console.log(id, newsMyList[id].cat_name)
+      }
     }
+  }
+  checkForHost = () => {
+    if (this.props.host === null) {
+      this.setState({ message: 'Please login to play' })
+      return false
+    }
+    this.setState({ host: true })
+    return true
   }
   rndLimitDecr = () => {
     if (this.props.rndLimit > 3) {
@@ -49,40 +63,44 @@ class HSetup extends Component {
   }
 
   render() {
+    const { host, message } = this.state;
     console.log('HSetup, this.props', this.props)
     return (
       <div className='setup'>
-        <section>
-          <div className='setup-text'>Choose a News Category</div>
+        {host === true ? <>
+          <section>
+            <div className='setup-text'>Choose a News Category</div>
+            <section className='round-limit'>
+              <div className='round-limit-center'>
+                <div name='round' onClick={this.newsListDecr} className='arrow-left' />
+                <div className='listBox'>
+                  <div className='list'>{this.props.newsPlayingList.cat_name}</div>
+                </div>
+                <div onClick={this.newsListIncr} className='arrow-right'></div>
+              </div>
+            </section>
+
+          </section>
+          <div className='setup-text'>Choose Number of Rounds</div>
           <section className='round-limit'>
             <div className='round-limit-center'>
-              <div name='round' onClick={this.newsListDecr} className='arrow-left' />
-              <div className='listBox'>
-                <div className='list'>{this.props.newsPlayingList.cat_name}</div>
+              <div name='round' onClick={this.rndLimitDecr} className='arrow-left' />
+              <div className='roundNumBox'>
+                <div className='roundNum'>{this.props.rndLimit}</div>
               </div>
-              <div onClick={this.newsListIncr} className='arrow-right'></div>
+              <div onClick={this.rndLimitIncr} className='arrow-right'></div>
             </div>
           </section>
-
-        </section>
-        <div className='setup-text'>Choose Number of Rounds</div>
-        <section className='round-limit'>
-          <div className='round-limit-center'>
-            <div name='round' onClick={this.rndLimitDecr} className='arrow-left' />
-            <div className='roundNumBox'>
-              <div className='roundNum'>{this.props.rndLimit}</div>
-            </div>
-            <div onClick={this.rndLimitIncr} className='arrow-right'></div>
-          </div>
-        </section>
-        <NavLink to="/lobby"><button className='start-game'>Create Game</button></NavLink>
+          <NavLink to="/lobby"><button className='start-game'>Create Game</button></NavLink>
+        </> : <div>{message}</div>}
       </div>
     )
   }
 }
 function mapStateToProps(state) {
-  const { newsMyList, newsPlayingList, rndLimit } = state;
+  const { host, newsMyList, newsPlayingList, rndLimit } = state;
   return {
+    host,
     newsMyList,
     newsPlayingList,
     rndLimit

@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const pwSaltRounds = 11;
-// const controller = require('./controller')
+// const session = require('express-session');
 
 module.exports = {
   getTrivSet: (req, res) => {
@@ -13,7 +13,6 @@ module.exports = {
   },
   getMyTrivSet: (req, res) => {
     const { userId } = req.query;
-    // console.log(userId);
     req.app.get('db').get_my_triv_set({ userId: userId })
       .then(set => { res.json(set) })
       .catch(error => {
@@ -23,7 +22,6 @@ module.exports = {
   },
   getMyTrivCreated: (req, res) => {
     const { userId } = req.query;
-    // console.log(userId);
     req.app.get('db').get_my_triv_created({ userId: userId })
       .then(set => { res.json(set) })
       .catch(error => {
@@ -155,6 +153,28 @@ module.exports = {
           })
       })
   },
-
-
+  loginUser: (req, res) => {
+    const dbInstance = req.app.get('db');
+    const { user_name, user_password } = req.body;
+    console.log('controller, loginUser starting', user_name, user_password)
+    dbInstance.find_user({ user_name: user_name }).then(users => {
+      console.log('user found:', users[0])
+      if (users.length) {
+        bcrypt.compare(user_password, users[0].user_password).then(passwordsMatch => {
+          if (passwordsMatch) {
+            req.session.user = { user_id: users[0].user_id, user_name: users[0].user_name };
+            res.json({ user: req.session.user });
+          } else {
+            res.status(403).json({ message: 'Wrong password' })
+          }
+        })
+      } else {
+        res.status(403).json({ message: "That user is not registered" })
+      }
+    });
+  },
+  logoutUser: (req, res) => {
+    req.session.destroy();
+    res.status(200).send();
+  }
 }

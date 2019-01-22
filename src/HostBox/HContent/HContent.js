@@ -12,7 +12,7 @@ class HContent extends Component {
       trivSwitch: 1, // Trivia List buttons on/off assignment
       trivSetName: '',
       trivSetToMap: props.newsAllList,
-      userId: this.props.id,
+      // userId: this.props.id,
     }
   }
   componentDidMount = () => {
@@ -22,7 +22,7 @@ class HContent extends Component {
     }
   }
   componentDidUpdate = (prevProps) => {
-    if (this.props.newsMyListCreated !== prevProps.newsMyListCreated) {
+    if (this.props.newsAllList !== prevProps.newsAllList) {
       this.loadButtons()
       this.loadContent()
     }
@@ -34,12 +34,6 @@ class HContent extends Component {
     })
   }
   getAllSets = (num) => {
-    // if (num === 0) {
-    //   console.log('getting alll sets')
-    //   this.getMyTriviaSet();
-    //   this.getMyTriviaCreated();
-    //   this.getTriviaSet();
-    // } else 
     if (num === 1) {
       this.getTriviaSet();
     } else if (num === 2) {
@@ -49,36 +43,35 @@ class HContent extends Component {
     }
   }
   getTriviaSet = () => {
-    if (this.state.userId) {
-      console.log('getTriviaSet')
-      axios.get('/api/TrivSet').then(res => {
+    console.log('getTriviaSet')
+    axios.get('/api/TrivSet')
+      .then(res => {
         this.props.updateNewsAllList(res.data)
         this.setState({
           trivSwitch: 1,
           trivSetToMap: this.props.newsAllList
         })
-        // console.log('HContent, this.props.newAllList', this.props.newsAllList)
       })
-        .catch(err => console.log('error at get TriviaSet', err))
-    }
+      .catch(err => console.log('error at get TriviaSet', err))
+
   }
   getMyTriviaSet = () => {
-    if (this.state.userId) {
+    if (this.props.host && this.props.host.userId) {
       console.log('getMyTriviaSet')
-      axios.get('/api/MyTrivSet', { params: { userId: this.state.userId } }).then(res => {
-        this.props.updateNewsMyList(res.data)
-        // console.log('HContent, this.props.newsMyList', this.props.newsMyList)
-      })
+      axios.get('/api/MyTrivSet', { params: { userId: this.props.host.userId } })
+        .then(res => {
+          this.props.updateNewsMyList(res.data)
+        })
         .catch(err => console.log('error at get TriviaSet', err))
     }
   }
   getMyTriviaCreated = () => {
-    if (this.state.userId) {
+    if (this.props.host && this.props.host.userId) {
       console.log('getTriviaSetCreated')
-      axios.get('/api/MyTrivSetCreated', { params: { userId: this.state.userId } }).then(res => {
-        this.props.updateNewsMyListCreated(res.data)
-        // console.log('HContent, this.props.newsMyListCreated', this.props.newsMyListCreated)
-      })
+      axios.get('/api/MyTrivSetCreated', { params: { userId: this.props.host.userId } })
+        .then(res => {
+          this.props.updateNewsMyListCreated(res.data)
+        })
         .catch(err => console.log('error at get TriviaSet', err))
     }
   }
@@ -143,12 +136,8 @@ class HContent extends Component {
     this.setState({ triviaButtons: triviaButtons })
     // return triviaButtons;
   }
-
   render() {
-    const { trivSetToMap, trivSetName, trivSwitch } = this.state;
-
-    // console.log('HContent, this.props', this.props)
-    // console.log('HContent, this.state', this.state)
+    const { trivSetName, } = this.state;
     return (
       <div className='HContent'>
         <div className='inputTrivCard'>
@@ -166,7 +155,7 @@ class HContent extends Component {
         </div>
         <div className='TrivBox'>
           <HCSet getAllSets={this.getAllSets}
-            trivArray={trivSetToMap} userId={this.state.userId} />
+            trivArray={this.state.trivSetToMap} userId={this.state.userId} />
         </div>
 
       </div>
@@ -174,9 +163,9 @@ class HContent extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { id, trivSwitch, newsAllList, newsMyList, newsMyListCreated } = state;
+  const { host, trivSwitch, newsAllList, newsMyList, newsMyListCreated } = state;
   return {
-    id,
+    host,
     trivSwitch,
     newsAllList,
     newsMyList,

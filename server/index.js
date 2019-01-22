@@ -1,10 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require('express-session');
 const massive = require("massive");
 const controller = require("./controller");
 require("dotenv").config();
 const app = express();
-const session = require('express-session');
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
@@ -17,11 +17,11 @@ massive(process.env.CONNECTION_STRING)
   });
 
 app.use(bodyParser.json());
-app.use(express.static(`${__dirname}/../build`));
 app.use(session({
-  secret: "ftnAppSecret",
+  secret: process.env.SESSION_SECRET,
   saveUninitialized: false,
   resave: false,
+  maxAge: 1000 * 60 * 60 * 24 * 14
 }));
 
 // SOCKETS
@@ -36,7 +36,6 @@ io.sockets.on("connection", socket => {
     user: socket.user,
     userList: userList
   });
-
   socket.on("join user", joinUser => {
     if (addedToList) return;
     console.log("User joined, join user:", joinUser.userInfo);
@@ -88,12 +87,7 @@ io.sockets.on("connection", socket => {
   socket.on("roundScore to server", message => {
     console.log('ROUNDSCORE RAW DATA, message', message)
     io.emit("roundScore to host", { message });
-    console.log(
-      "got roundScore",
-      message,
-      // message.user.userName,
-      // message.user.roundScore
-    );
+    console.log("got roundScore", message);
   });
   function removeUser(userId) {
     let removed = {};
@@ -115,9 +109,7 @@ io.sockets.on("connection", socket => {
   // }
   socket.on("disconnect", () => {
     console.log("User left, user:", removeUser(socket.user.userId));
-    // console.log('User left, user:', discon)
     console.log("User left, userList:", userList);
-    // console.log('User left, userList:', userList)
   });
   counter++;
 });
@@ -134,6 +126,8 @@ app.post("/api/TrivSet", controller.postTrivSet);
 app.post("/api/TrivCreator", controller.postTrivCreator);
 
 app.post("/api/registerUser", controller.registerUser);
+app.post("/api/login", controller.loginUser);
+app.post("/api/logout", controller.logoutUser);
 app.get("/api/getUsers", controller.getUsers)
 
 const path = require("path");
@@ -143,7 +137,4 @@ app.get("*", (req, res) => {
 
 const PORT = 4000 || process.env.CONNECTION_STRING;
 server.listen(PORT, () => console.log(`Sockets are listening on port ${PORT}`));
-// app.listen(4000, ()=> console.log(`REST is listening on port 4000`))
-// server.listen(4000,()=>{
-//   console.log('listening on 4000 🦖');
-// })
+

@@ -15,7 +15,7 @@ class HContentSet extends Component {
       editElement: null,
       TrivCard: []
     }
-    this.loadCard()
+    // this.loadCard()
   }
   componentDidMount() {
     this.loadCard()
@@ -66,38 +66,43 @@ class HContentSet extends Component {
     console.log('HCONTENT, trivArray is', trivArray)
     const { trivArray } = this.props;
     const { tempTrivName } = this.state;
-    const TrivCard = trivArray.map(elem => {
-      let elemId = elem.cat_id;
-      let elemName = elem.cat_name;
-      // let key = elemId;
-      let sharedIndex = this.props.newsMyListCreated.findIndex(e => e.cat_id === elemId) !== -1
-      let editBtn = () => {
-        this.setState({ editElement: elemId });
-        this.editTriviaSet(elemId, elemName);
-      }
-      let submitBtn = () => {
-        this.setState({ tempTrivId: elemId, tempTrivName: elemName });
-        this.submitTriviaSet(elemId);
-        this.setState({ editElement: '' });
-      }
-      let deleteBtn = () => {
-        this.deleteTrivSet(elemId);
-        console.log('deleteBtn finished')
-      }
-      return (<div key={elemId} className='TrivCard'>
-        <textarea className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId ? tempTrivName : elemName} onChange={this.handleChange} />
+    let TrivCard;
+    if (trivArray[0] === undefined) {
+      TrivCard = [<div>Login to use this page</div>]
+    } else {
+      TrivCard = trivArray.map(elem => {
+        let elemId = elem.cat_id;
+        let elemName = elem.cat_name;
+        // let key = elemId;
+        let sharedIndex = this.props.newsMyListCreated.findIndex(e => e.cat_id === elemId) !== -1
+        let editBtn = () => {
+          this.setState({ editElement: elemId });
+          this.editTriviaSet(elemId, elemName);
+        }
+        let submitBtn = () => {
+          this.setState({ tempTrivId: elemId, tempTrivName: elemName });
+          this.submitTriviaSet(elemId);
+          this.setState({ editElement: '' });
+        }
+        let deleteBtn = () => {
+          this.deleteTrivSet(elemId);
+          console.log('deleteBtn finished')
+        }
+        return (<div key={elemId} className='TrivCard'>
+          <textarea className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId ? tempTrivName : elemName} onChange={this.handleChange} />
 
-        <button className={sharedIndex ? 'btn-2' : 'btn-2-off'} onClick={this.state.editElement === elemId ? submitBtn : editBtn}>
-          {this.state.editElement === elemId ? 'Submit' : 'Edit'}</button>
+          <button className={sharedIndex ? 'btn-2' : 'btn-2-off'} onClick={this.state.editElement === elemId ? submitBtn : editBtn}>
+            {this.state.editElement === elemId ? 'Submit' : 'Edit'}</button>
 
-        <button className='btn-2' onClick={deleteBtn}>Delete</button>
-      </div>)
-    })
+          <button className='btn-2' onClick={deleteBtn}>Delete</button>
+        </div>)
+      })
+    }
     this.setState({ TrivCard: TrivCard })
   }
   render() {
-    console.log('HContentSet, this.state is', this.state)
-    console.log('HContentSet, this.props is', this.props)
+    console.log('HContentSet, this.props', this.props)
+    console.log('HContentSet, this.state', this.state)
     return (
       <>
         {this.state.TrivCard}
