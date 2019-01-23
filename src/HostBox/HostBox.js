@@ -21,6 +21,12 @@ class HostBox extends Component {
     this.getMyTriviaSet();
     this.getMyTriviaCreated();
   }
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.host !== this.props.host) {
+      this.getMyTriviaSet();
+      this.getMyTriviaCreated();
+    }
+  }
   getTriviaSet = () => {
     console.log('getTriviaSet')
     axios.get('/api/TrivSet').then(res => {
@@ -34,6 +40,7 @@ class HostBox extends Component {
 
   }
   getMyTriviaSet = () => {
+    console.log('GETTTTING TRIVIA getMyTriviaSet')
     if (this.props.host && this.props.host.userId) {
       console.log('getMyTriviaSet')
       axios.get('/api/MyTrivSet', { params: { userId: this.props.host.userId } }).then(res => {
@@ -43,6 +50,7 @@ class HostBox extends Component {
     }
   }
   getMyTriviaCreated = () => {
+    console.log('GETTTTING TRIVIA getMyTriviaCreated')
     if (this.props.host && this.props.host.userId) {
       console.log('getTriviaSetCreated')
       axios.get('/api/MyTrivSetCreated', { params: { userId: this.props.host.userId } })
@@ -55,6 +63,7 @@ class HostBox extends Component {
 
   render() {
     const { userList } = this.state;
+    console.log('HBOX, props', this.props)
     return (
       <>
 
@@ -78,9 +87,9 @@ class HostBox extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { id, newsAllList, newsMyList, newsMyListCreated } = state;
+  const { host, newsAllList, newsMyList, newsMyListCreated } = state;
   return {
-    id,
+    host,
     newsAllList,
     newsMyList,
     newsMyListCreated

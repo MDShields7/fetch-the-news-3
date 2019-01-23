@@ -25,13 +25,28 @@ class HContent extends Component {
     if (this.props.newsAllList !== prevProps.newsAllList) {
       this.loadButtons()
       this.loadContent()
+    } else if (this.props.trivSwitch !== prevProps.trivSwitch) {
+      this.loadButtons()
+      this.loadContent()
     }
   }
   loadContent = () => {
-    this.setState({
-      trivSwitch: 1,
-      trivSetToMap: this.props.newsAllList
-    })
+    if (this.props.trivSwitch === 1) {
+      this.setState({
+        trivSwitch: 1,
+        trivSetToMap: this.props.newsAllList
+      })
+    } else if (this.props.trivSwitch === 2) {
+      this.setState({
+        trivSwitch: 2,
+        trivSetToMap: this.props.newsMyList
+      })
+    } else if (this.props.trivSwitch === 3) {
+      this.setState({
+        trivSwitch: 3,
+        trivSetToMap: this.props.newsMyListCreated
+      })
+    }
   }
   getAllSets = (num) => {
     if (num === 1) {
@@ -111,14 +126,14 @@ class HContent extends Component {
     const value = e.target.value
     this.setState({ [name]: value })
   }
-  handleSelect = (e) => {
+  handleSelect = async (e) => {
     let id = e.target.id
     let value = e.target.value
+    console.log('HCONTANT button, id', id, 'value', value)
+    await this.setState({
+      trivSetToMap: this.props[value]
+    })
     this.props.updateTrivSwitch(Number(id));
-    this.setState({
-      trivSwitch: Number(id),
-      trivSetToMap: this.props[value],
-    });
   }
   propsBtn = () => {
     console.log(this.props);
@@ -126,11 +141,12 @@ class HContent extends Component {
   loadButtons = () => {
     const { handleSelect } = this;
     const trivBtns = [
-      { id: 1, value: 'newsAllList', text: 'All Trivia' },
+      { id: 1, value: 'newsAllList', text: 'Browse All Trivia' },
       { id: 2, value: 'newsMyList', text: 'My Trivia Collection' },
       { id: 3, value: 'newsMyListCreated', text: 'My Trivia Sets Creations' }];
     const triviaButtons = trivBtns.map(elem => {
-      return <button key={elem.id} id={elem.id} value={elem.value} className={elem.id === this.state.trivSwitch ? 'btn' : 'btn-off'} onClick={handleSelect}>{elem.text}</button>
+      // console.log('button from', elem.text, 'id:', elem.id, 'trivSwitch', this.props.trivSwitch)
+      return <button key={elem.id} id={elem.id} value={elem.value} className={elem.id === this.props.trivSwitch ? 'btn' : 'btn-off'} onClick={handleSelect}>{elem.text}</button>
     })
     // console.log('here are the trivia buttons', triviaButtons)
     this.setState({ triviaButtons: triviaButtons })
@@ -138,6 +154,8 @@ class HContent extends Component {
   }
   render() {
     const { trivSetName, } = this.state;
+    console.log('HContent, this.state', this.state)
+    console.log('HContent, this.props', this.props)
     return (
       <div className='HContent'>
         <div className='inputTrivCard'>
@@ -155,7 +173,7 @@ class HContent extends Component {
         </div>
         <div className='TrivBox'>
           <HCSet getAllSets={this.getAllSets}
-            trivArray={this.state.trivSetToMap} userId={this.state.userId} />
+            trivArray={this.state.trivSetToMap} />
         </div>
 
       </div>

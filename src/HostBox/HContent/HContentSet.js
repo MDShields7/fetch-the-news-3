@@ -12,6 +12,7 @@ class HContentSet extends Component {
       editText: false,
       tempTrivId: '',
       tempTrivName: '',
+      removeElement: null,
       editElement: null,
       TrivCard: []
     }
@@ -63,41 +64,73 @@ class HContentSet extends Component {
     this.setState({ [name]: value })
   }
   loadCard = () => {
-    console.log('HCONTENT, trivArray is', trivArray)
-    const { trivArray } = this.props;
+    console.log('HCONTENTSET, trivArray is', this.props.trivArray)
+    // const { this.props.trivArray } = this.props;
     const { tempTrivName } = this.state;
     let TrivCard;
-    if (trivArray[0] === undefined) {
-      TrivCard = [<div>Login to use this page</div>]
+    if (this.props.trivArray[0] === undefined) {
+      TrivCard = [<div key='one'>Login to use this page</div>]
     } else {
-      TrivCard = trivArray.map(elem => {
+      // console.log('mapping over trivArray')
+      TrivCard = this.props.trivArray.map(elem => {
         let elemId = elem.cat_id;
         let elemName = elem.cat_name;
         // let key = elemId;
-        let sharedIndex = this.props.newsMyListCreated.findIndex(e => e.cat_id === elemId) !== -1
-        let editBtn = () => {
-          this.setState({ editElement: elemId });
-          this.editTriviaSet(elemId, elemName);
+        // let sharedIndex = this.props.newsMyListCreated.findIndex(e => e.cat_id === elemId) !== -1
+        let addFavorite = () => {
+          axios.post("/api/TrivList", { tr_user_id: this.props.host.userId, tr_cat_id: this.state.tempTrivId })
+            .then(response => {
+              console.log('HContentSet, addFav, post response', response)
+              this.props.updateHost({ userId: response.data.user.user_id, userName: response.data.user.user_name })
+            }).catch(error => {
+              console.log('Error in login', error)
+            });
         }
-        let submitBtn = () => {
-          this.setState({ tempTrivId: elemId, tempTrivName: elemName });
-          this.submitTriviaSet(elemId);
-          this.setState({ editElement: '' });
-        }
-        let deleteBtn = () => {
-          this.deleteTrivSet(elemId);
-          console.log('deleteBtn finished')
+
+        let buttons = (id, name) => {
+          if (this.props.trivSwitch === 1) {
+            // Add to Favorites
+            let addFavBtn = () => {
+              this.setState({ tempTrivId: id, tempTrivName: name });
+            }
+            return <>
+              addFavBtn</>
+          } else if (this.props.trivSwitch === 2) {
+            // Remove from favorites
+            let removeFavBtn = (id) => {
+              this.setState({ editElement: id });
+            }
+            return <>
+              removeFavBtn</>
+          } else if (this.props.trivSwitch === 3) {
+            // Edit my trivia set
+            let submitBtn = () => {
+              this.setState({ tempTrivId: id, tempTrivName: name });
+              this.submitTriviaSet(id);
+              this.setState({ editElement: '' });
+            }
+            let editBtn = (id, name) => {
+              this.setState({ editElement: id });
+              this.editTriviaSet(id, name);
+            }
+            let deleteBtn = (id) => {
+              this.deleteTrivSet(id);
+              console.log('deleteBtn finished')
+            }
+            return <>
+              <button className='btn-2' onClick={this.state.editElement === elemId ? submitBtn(id, name) : editBtn(id, name)}>
+                {this.state.editElement === id ? 'Submit' : 'Edit'}</button>
+              <button className='btn-2' onClick={deleteBtn(id)} name>Delete</button></>
+          }
         }
         return (<div key={elemId} className='TrivCard'>
           <textarea className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId ? tempTrivName : elemName} onChange={this.handleChange} />
-
-          <button className={sharedIndex ? 'btn-2' : 'btn-2-off'} onClick={this.state.editElement === elemId ? submitBtn : editBtn}>
-            {this.state.editElement === elemId ? 'Submit' : 'Edit'}</button>
-
-          <button className='btn-2' onClick={deleteBtn}>Delete</button>
+          {buttons(elemId, elemName)}
         </div>)
+
       })
     }
+    // console.log('setting TrivCard to state!!!!!!!!!')
     this.setState({ TrivCard: TrivCard })
   }
   render() {
@@ -111,8 +144,9 @@ class HContentSet extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { newsMyListCreated } = state;
+  const { trivSwitch, newsMyListCreated } = state;
   return {
+    trivSwitch,
     newsMyListCreated
   };
 }

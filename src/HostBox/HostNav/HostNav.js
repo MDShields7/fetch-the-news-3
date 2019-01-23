@@ -8,6 +8,7 @@ import {
   updateGamePhase,
   updateGameTimer
 } from "../../ducks/reducer";
+import genericUser from "../../Images/genericUser.svg"
 import { withRouter } from "react-router";
 
 // import './HostNav.css'
@@ -51,9 +52,11 @@ class HostNav extends Component {
                 <div className="NavItem">
                   <NavLink to="/setup">Play Game</NavLink>
                 </div>
-                <div className="NavItem">
-                  <NavLink to="/login">Login</NavLink>
-                </div>
+                {this.props.host ?
+                  <img src={genericUser} alt="generic user image" />
+                  : <div className="NavItem">
+                    <NavLink to="/login">Login</NavLink>
+                  </div>}
               </div>
             </div>
           )}
@@ -63,8 +66,9 @@ class HostNav extends Component {
 }
 
 function mapStateToProps(state) {
-  const { gameStart, gameEnd, newsPlayingList, rndLimit, gameTimer } = state;
+  const { host, gameStart, gameEnd, newsPlayingList, rndLimit, gameTimer } = state;
   return {
+    host,
     gameStart,
     gameEnd,
     newsPlayingList,

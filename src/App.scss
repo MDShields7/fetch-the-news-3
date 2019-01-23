@@ -228,6 +228,15 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  img {
+    height: 65px;
+    width: 65px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    padding: 20px 30px;
+    border-radius: 50%;
+  }
   .NavItem {
     height: 100%;
     margin: 10px;
