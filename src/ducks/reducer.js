@@ -1,5 +1,5 @@
 const initialState = {
-  trivSwitch: 1,
+  trivSwitch: null,
   id: 1, // given by server upon connection
   host: null, // Host - only assigned from laptop view
   // room: '',             // Typed by host

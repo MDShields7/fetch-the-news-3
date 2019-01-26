@@ -16,17 +16,16 @@ class HContentSet extends Component {
       editElement: null,
       TrivCard: []
     }
-    // this.loadCard()
   }
   componentDidMount() {
     this.loadCard()
   }
   componentDidUpdate(prevProps) {
-    if (this.props.trivArray !== prevProps.trivArray) {
+    if (this.props.trivArray !== prevProps.trivArray
+      || this.props.trivSwitch !== prevProps.trivSwitch) {
       this.loadCard()
     }
   }
-
   editTriviaSet = (catId, catName) => {
     console.log('editTriviaSet firing off')
     this.setState({
@@ -42,21 +41,42 @@ class HContentSet extends Component {
       .then(res => {
         console.log('******HContentSet, submit Trivia Set, res.data', res.data);
         console.log('submit trivia -------------', this.props.trivArray.id)
-        this.props.getAllSets(0);
+        this.props.getAllSets(3);
       })
-      .catch(err => console.log('error at post editTriviaSet', err))
-    this.props.getAllSets(0);
+      .catch(err => console.log('error at post submitTriviaSet', err))
+    this.props.getAllSets(3);
   }
-  deleteTrivSet = (catId) => {
-    console.log('deleteTrivSet starting now... ')
-    const { userId } = this.props;
-    axios.delete(`/api/DeleteTrivSet/${catId}/${userId}`)
+  deleteTrivCreator = (catId) => {
+    console.log('deleteTrivCreator starting now... ')
+    const { userId } = this.props.host;
+    axios.delete(`/api/DeleteTrivCreator/${catId}/${userId}`)
       .then(res => {
         console.log('******HContentSet, delete Trivia Set, res.data', res.data);
-        this.props.getAllSets(0);
+        this.props.getAllSets(3);
       })
-      .catch(err => console.log('error at post editTriviaSet', err))
-
+      .catch(err => console.log('error at post deleteTriviaSet', err))
+  }
+  addFavTrivList = () => {
+    axios.post("/api/AddTrivList", { tr_user_id: this.props.host.userId, tr_cat_id: this.state.tempTrivId })
+      .then(response => {
+        console.log('HContentSet, addFav, post response', response)
+        this.props.getAllSets(1);
+        this.props.getAllSets(2);
+      }).catch(error => {
+        console.log('Error in addFavTrivSet', error)
+      });
+  }
+  removeFavTrivList = () => {
+    const { userId } = this.props.host
+    const catId = this.state.tempTrivId
+    axios.delete(`/api/RemoveTrivList/${catId}/${userId}`)
+      .then(response => {
+        console.log('HContentSet, removeFav, post response', response)
+        this.props.getAllSets(1);
+        this.props.getAllSets(2);
+      }).catch(error => {
+        console.log('Error in addFavTrivSet', error)
+      });
   }
   handleChange = (e) => {
     const name = e.target.name
@@ -65,7 +85,7 @@ class HContentSet extends Component {
   }
   loadCard = () => {
     console.log('HCONTENTSET, trivArray is', this.props.trivArray)
-    // const { this.props.trivArray } = this.props;
+    console.log('HCONTENTSET, trivSwitch is', this.props.trivSwitch)
     const { tempTrivName } = this.state;
     let TrivCard;
     if (this.props.trivArray[0] === undefined) {
@@ -75,33 +95,37 @@ class HContentSet extends Component {
       TrivCard = this.props.trivArray.map(elem => {
         let elemId = elem.cat_id;
         let elemName = elem.cat_name;
-        // let key = elemId;
-        // let sharedIndex = this.props.newsMyListCreated.findIndex(e => e.cat_id === elemId) !== -1
-        let addFavorite = () => {
-          axios.post("/api/TrivList", { tr_user_id: this.props.host.userId, tr_cat_id: this.state.tempTrivId })
-            .then(response => {
-              console.log('HContentSet, addFav, post response', response)
-              this.props.updateHost({ userId: response.data.user.user_id, userName: response.data.user.user_name })
-            }).catch(error => {
-              console.log('Error in login', error)
-            });
-        }
 
+        let sharedIndexMyList = () => {
+          if (this.props.newsMyListCreated.findIndex(e => e.cat_id) === elemId) { return true } else { return false }
+        }
+        let sharedIndexMyListCreated = () => {
+          if (this.props.newsMyListCreated.findIndex(e => e.cat_id) === elemId) { return true } else { return false }
+        }
+        let sharedIndex = () => {
+          if (sharedIndexMyList() || sharedIndexMyListCreated()) { return true } else { return false }
+        }
         let buttons = (id, name) => {
           if (this.props.trivSwitch === 1) {
             // Add to Favorites
-            let addFavBtn = () => {
-              this.setState({ tempTrivId: id, tempTrivName: name });
+            console.log('button 1', sharedIndex())
+            let addFavBtn = async () => {
+              await this.setState({ tempTrivId: id });
+              this.addFavTrivList(id)
             }
-            return <>
-              addFavBtn</>
+            // Add
+            // return <div>{sharedIndex()}</div>
+            return <>{sharedIndex() ? <button className='btn-2' onClick={addFavBtn} >Add</button> : <div>in my collection</div>}</>
           } else if (this.props.trivSwitch === 2) {
             // Remove from favorites
-            let removeFavBtn = (id) => {
-              this.setState({ editElement: id });
+            console.log('button 2', sharedIndexMyList())
+            let removeFavBtn = async () => {
+              await this.setState({ tempTrivId: id, tempTrivName: name });
+              this.removeFavTrivList(id)
             }
-            return <>
-              removeFavBtn</>
+            // Remove
+            // return <div>{sharedIndexMyList()}</div>
+            return <>{sharedIndexMyList() ? <button className='btn-2' onClick={removeFavBtn} >Remove</button> : <div>in my creations</div>}</>
           } else if (this.props.trivSwitch === 3) {
             // Edit my trivia set
             let submitBtn = () => {
@@ -113,14 +137,14 @@ class HContentSet extends Component {
               this.setState({ editElement: id });
               this.editTriviaSet(id, name);
             }
-            let deleteBtn = (id) => {
-              this.deleteTrivSet(id);
+            let deleteBtn = () => {
+              this.deleteTrivCreator(id);
               console.log('deleteBtn finished')
             }
             return <>
-              <button className='btn-2' onClick={this.state.editElement === elemId ? submitBtn(id, name) : editBtn(id, name)}>
+              <button className='btn-2' onClick={this.state.editElement === elemId ? submitBtn : editBtn}>
                 {this.state.editElement === id ? 'Submit' : 'Edit'}</button>
-              <button className='btn-2' onClick={deleteBtn(id)} name>Delete</button></>
+              <button className='btn-2' onClick={deleteBtn}>Delete</button></>
           }
         }
         return (<div key={elemId} className='TrivCard'>
@@ -144,9 +168,11 @@ class HContentSet extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { trivSwitch, newsMyListCreated } = state;
+  const { host, trivSwitch, newsMyList, newsMyListCreated } = state;
   return {
+    host,
     trivSwitch,
+    newsMyList,
     newsMyListCreated
   };
 }

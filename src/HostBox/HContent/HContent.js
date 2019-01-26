@@ -9,21 +9,23 @@ class HContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trivSwitch: 1, // Trivia List buttons on/off assignment
+      // trivSwitch: 1, // Trivia List buttons on/off assignment
       trivSetName: '',
       trivSetToMap: props.newsAllList,
       // userId: this.props.id,
     }
   }
-  componentDidMount = () => {
+  componentDidMount = async () => {
     if (this.props.newsAllList) {
-      this.loadButtons()
-      this.loadContent();
+      this.loadButtons();
+      this.getAllSets(1);
+      this.getAllSets(2);
+      this.getAllSets(3);
+      await this.loadContent();
     }
   }
   componentDidUpdate = (prevProps) => {
-    if (this.props.newsAllList !== prevProps.newsAllList) {
-      this.loadButtons()
+    if (this.props.newsAllList !== prevProps.newsAllList || this.props.newsMyList !== prevProps.newsMyList || this.props.newsMyListCreated !== prevProps.newsMyListCreated) {
       this.loadContent()
     } else if (this.props.trivSwitch !== prevProps.trivSwitch) {
       this.loadButtons()
@@ -33,23 +35,24 @@ class HContent extends Component {
   loadContent = () => {
     if (this.props.trivSwitch === 1) {
       this.setState({
-        trivSwitch: 1,
         trivSetToMap: this.props.newsAllList
       })
     } else if (this.props.trivSwitch === 2) {
       this.setState({
-        trivSwitch: 2,
         trivSetToMap: this.props.newsMyList
       })
     } else if (this.props.trivSwitch === 3) {
       this.setState({
-        trivSwitch: 3,
         trivSetToMap: this.props.newsMyListCreated
       })
     }
   }
   getAllSets = (num) => {
-    if (num === 1) {
+    if (num === 0) {
+      this.getTriviaSet();
+      this.getMyTriviaSet();
+      this.getMyTriviaCreated();
+    } else if (num === 1) {
       this.getTriviaSet();
     } else if (num === 2) {
       this.getMyTriviaSet();
@@ -62,10 +65,9 @@ class HContent extends Component {
     axios.get('/api/TrivSet')
       .then(res => {
         this.props.updateNewsAllList(res.data)
-        this.setState({
-          trivSwitch: 1,
-          trivSetToMap: this.props.newsAllList
-        })
+        // this.setState({
+        //   trivSetToMap: this.props.newsAllList
+        // })
       })
       .catch(err => console.log('error at get TriviaSet', err))
 
@@ -98,7 +100,7 @@ class HContent extends Component {
         this.createTrivCreator(res.data[0]['cat_id']);
       })
       .catch(err => console.log('error at post TriviaSet', err))
-    this.getAllSets(this.state.trivSwitch);
+    // this.getAllSets(this.props.trivSwitch);
   }
   createTrivCreator = (catId) => {
     const { userId } = this.state;
@@ -138,7 +140,10 @@ class HContent extends Component {
   propsBtn = () => {
     console.log(this.props);
   }
-  loadButtons = () => {
+  loadButtons = async () => {
+    if (this.props.trivSwitch === null) {
+      await this.props.updateTrivSwitch(1)
+    }
     const { handleSelect } = this;
     const trivBtns = [
       { id: 1, value: 'newsAllList', text: 'Browse All Trivia' },
@@ -158,13 +163,8 @@ class HContent extends Component {
     console.log('HContent, this.props', this.props)
     return (
       <div className='HContent'>
-        <div className='inputTrivCard'>
-          <div className='TrivCard'>
-            {/* <div>Reminder to put 'Create a new trivia set' My Trivia Set Creations</div> */}
-            <textarea className='inputTrivText' placeholder='New Trivia Set' name='trivSetName' value={trivSetName} onChange={this.handleChange} />
-            <button className='btn-2' onClick={this.createTriviaSet}>Create</button>
-          </div>
-        </div>
+
+
         <div className='TrivBtns'>
           <div className='BtnBox'>
             {/* {triviaButtons} */}
@@ -176,7 +176,7 @@ class HContent extends Component {
             trivArray={this.state.trivSetToMap} />
         </div>
 
-      </div>
+      </div >
     )
   }
 }
@@ -190,4 +190,12 @@ function mapStateToProps(state) {
     newsMyListCreated
   };
 }
-export default withRouter(connect(mapStateToProps, { updateTrivSwitch, updateNewsAllList, updateNewsMyList, updateNewsMyListCreated })(HContent)); 
+export default withRouter(connect(mapStateToProps, { updateTrivSwitch, updateNewsAllList, updateNewsMyList, updateNewsMyListCreated })(HContent));
+
+{/* <div className='inputTrivCard'>
+<div className='TrivCard'>
+  {/* <div>Reminder to put 'Create a new trivia set' My Trivia Set Creations</div>
+  <textarea className='inputTrivText' placeholder='New Trivia Set' name='trivSetName' value={trivSetName} onChange={this.handleChange} />
+  <button className='btn-2' onClick={this.createTriviaSet}>Create</button>
+</div> 
+      </div>*/}

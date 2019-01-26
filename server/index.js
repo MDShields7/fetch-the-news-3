@@ -113,22 +113,28 @@ io.sockets.on("connection", socket => {
   });
   counter++;
 });
-
-// RESTFUL METHODS
-app.get("/api/TrivSet", controller.getTrivSet);
-app.get("/api/MyTrivSet", controller.getMyTrivSet);
-app.get("/api/MyTrivSetCreated", controller.getMyTrivCreated);
-app.get("/api/TrivQASet", controller.getTrivQASet);
-app.put(`/api/EditMyTrivSet/:id`, controller.editMyTrivSet);
-app.delete(`/api/DeleteTrivSet/:id/:userid`, controller.deleteTrivSet);
-app.post("/api/TrivList", controller.postTrivList);
-app.post("/api/TrivSet", controller.postTrivSet);
-app.post("/api/TrivCreator", controller.postTrivCreator);
-
+// USER REGISTER / LOGIN
+app.get("/api/getUsers", controller.getUsers)
 app.post("/api/registerUser", controller.registerUser);
 app.post("/api/login", controller.loginUser);
 app.post("/api/logout", controller.logoutUser);
-app.get("/api/getUsers", controller.getUsers)
+//VIEWING ALL SITE CONTENT
+app.get("/api/TrivSet", controller.getTrivSet);
+// USER VIEW SET
+app.get("/api/MyTrivSet", controller.getMyTrivSet);
+app.get("/api/MyTrivSetCreated", controller.getMyTrivCreated);
+// USER CREATE SET
+app.post("/api/TrivSet", controller.postTrivSet);
+app.post("/api/TrivCreator", controller.postTrivCreator);
+// USER EDIT SET
+app.put(`/api/EditMyTrivSet/:id`, controller.editMyTrivSet);
+// USER DELETE SET
+app.delete('/api/DeleteTrivCreator/:id/:userid', controller.deleteTrivCreator);
+// USER LISTS (FAVORITES)
+app.post("/api/AddTrivList", controller.postTrivList);
+app.delete("/api/RemoveTrivList/:catId/:userId", controller.removeTrivList);
+// PLAYING GAME - SET QUESTIONS
+app.get("/api/TrivQASet", controller.getTrivQASet);
 
 const path = require("path");
 app.get("*", (req, res) => {
