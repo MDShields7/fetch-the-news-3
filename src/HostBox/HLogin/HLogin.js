@@ -92,6 +92,7 @@ export class HLogin extends Component {
       .then(response => {
         console.log('HLogin, login, post response', response)
         this.props.updateHost({ userId: response.data.user.user_id, userName: response.data.user.user_name })
+        this.props.history.push("/")
       }).catch(error => {
         console.log('Error in login', error)
       });
@@ -150,7 +151,10 @@ export class HLogin extends Component {
             {input('regPassword', 'Password', 'handleRegChange')}
             <button className='btn-3' onClick={this.register}>Submit</button>
           </section> </>
-          : <></>}
+          : <section className='login-group'>
+            <h2>Logout</h2>
+            <button className='btn-3' onClick={this.logout}>Logout</button>
+          </section>}
         {this.state.regErrorMessage ?
           <section>
             <h2>Error</h2>

@@ -1,5 +1,5 @@
 INSERT INTO ftn_catsets
-  (cat_name)
+  (cat_name, qa_amount)
 VALUES
   ($
-{cat_name}) RETURNING *;
+{cat_name}, 0) RETURNING *;

@@ -53,7 +53,7 @@ class HostNav extends Component {
                   <NavLink to="/setup">Play Game</NavLink>
                 </div>
                 {this.props.host ?
-                  <img src={genericUser} alt="generic user image" />
+                  <NavLink to="/login"><img src={genericUser} alt="generic user image" /></NavLink>
                   : <div className="NavItem">
                     <NavLink to="/login">Login</NavLink>
                   </div>}

@@ -21,13 +21,26 @@ class HContentSet extends Component {
     this.loadCard()
   }
   componentDidUpdate(prevProps) {
-    if (this.props.trivArray !== prevProps.trivArray
-      || this.props.trivSwitch !== prevProps.trivSwitch
-      || this.props.newsAllList !== prevProps.newsAllList
-      || this.props.newsMyList !== prevProps.newsMyList
-      || this.props.newsMyListCreated !== prevProps.newsMyListCreated) {
+    const { trivArray, trivSwitch, newsAllList, newsMyList, newsMyListCreated } = this.props;
+    if (trivArray !== prevProps.trivArray
+      || trivSwitch !== prevProps.trivSwitch
+      || newsAllList !== prevProps.newsAllList
+      || newsMyList !== prevProps.newsMyList
+      || newsMyListCreated !== prevProps.newsMyListCreated
+    ) {
       this.loadCard()
     }
+    // if (newsAllList && newsMyList && newsMyListCreated) {
+    //   console.log('qaAmount is', newsAllList.qaAmount)
+    //   console.log('prevProps.qaAmount is', prevProps.qaAmount)
+    //   if (
+    //     newsAllList.qaAmount !== prevProps.newsAllList.qaAmount
+    //     || newsMyList.qaAmount !== prevProps.newsMyList.qaAmount
+    //     || newsMyListCreated.qaAmount !== prevProps.newsMyListCreated.qaAmount
+    //   ) {
+    //     this.loadCard()
+    //   }
+    // }
   }
   editTriviaSet = (catId, catName) => {
     console.log('editTriviaSet firing off')
@@ -114,7 +127,7 @@ class HContentSet extends Component {
               this.addFavTrivList(id)
             }
             // Add
-            return <>{sharedIndex ? <div>in my collection</div> : <button className='btn-2' onClick={addFavBtn} >Add</button>}</>
+            return <>{sharedIndex ? <div>(in my collection)</div> : <button className='btn-2' onClick={addFavBtn} >Add</button>}</>
           } else if (this.props.trivSwitch === 2) {
             // Remove from favorites
             console.log('button 2', sharedIndexMyList)
@@ -123,7 +136,7 @@ class HContentSet extends Component {
               this.removeFavTrivList(id)
             }
             // Remove
-            return <>{sharedIndexMyListCreated ? <div>in my creations</div> : <button className='btn-2' onClick={removeFavBtn} >Remove</button>}</>
+            return <>{sharedIndexMyListCreated ? <div>(in my creations)</div> : <button className='btn-2' onClick={removeFavBtn} >Remove</button>}</>
           } else if (this.props.trivSwitch === 3) {
             // Edit my trivia set
             let submitBtn = () => {
@@ -147,6 +160,7 @@ class HContentSet extends Component {
         }
         return (<div key={elemId} className='TrivCard'>
           <textarea className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId ? tempTrivName : elemName} onChange={this.handleChange} />
+          <div>{elem.qa_amount}{elem.qaAmount !== 1 ? ' questions' : ' question'}</div>
           {buttons(elemId, elemName)}
         </div>)
 

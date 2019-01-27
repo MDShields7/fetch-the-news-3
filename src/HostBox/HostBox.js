@@ -23,21 +23,18 @@ class HostBox extends Component {
   }
   componentDidUpdate = (prevProps) => {
     if (prevProps.host !== this.props.host) {
+      this.getTriviaSet();
       this.getMyTriviaSet();
       this.getMyTriviaCreated();
     }
   }
   getTriviaSet = () => {
-    console.log('getTriviaSet')
-    axios.get('/api/TrivSet').then(res => {
-      this.props.updateNewsAllList(res.data)
-      this.setState({
-        trivSwitch: 1,
-        trivSetToMap: this.props.newsAllList
+    console.log('HBox, getTriviaSet')
+    axios.get('/api/TrivSet')
+      .then(res => {
+        this.props.updateNewsAllList(res.data)
       })
-    })
       .catch(err => console.log('error at get TriviaSet', err))
-
   }
   getMyTriviaSet = () => {
     console.log('GETTTTING TRIVIA getMyTriviaSet')

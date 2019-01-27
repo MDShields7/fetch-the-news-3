@@ -23,7 +23,7 @@ class HSetup extends Component {
         const { id } = this.props.newsPlayingList
         // console.log('Hsetup----------------',newsMyList)
         this.props.updateNewsPlayingList({
-          id: newsPlayingList.id, cat_id: newsMyList[id].cat_id, cat_name: newsMyList[id].cat_name
+          id: newsPlayingList.id, cat_id: newsMyList[id].cat_id, cat_name: newsMyList[id].cat_name, qa_amount: newsMyList[id].qa_amount
         })
         console.log(id, newsMyList[id].cat_name)
       }
@@ -38,13 +38,13 @@ class HSetup extends Component {
     return true
   }
   rndLimitDecr = () => {
-    if (this.props.rndLimit > 3) {
+    if (this.props.rndLimit > 1) {
       let newLimit = this.props.rndLimit - 1;
       this.props.updateRndLimit(newLimit);
     }
   }
   rndLimitIncr = () => {
-    if (this.props.rndLimit < 15) {
+    if (this.props.rndLimit < this.props.newsPlayingList.qa_amount) {
       let newLimit = this.props.rndLimit + 1;
       this.props.updateRndLimit(newLimit);
     }
@@ -52,13 +52,13 @@ class HSetup extends Component {
   newsListDecr = () => {
     if (this.props.newsPlayingList.id > 0) {
       let newId = this.props.newsPlayingList.id - 1;
-      this.props.updateNewsPlayingList({ id: newId, cat_id: this.props.newsMyList[newId]['cat_id'], cat_name: this.props.newsMyList[newId]['cat_name'] })
+      this.props.updateNewsPlayingList({ id: newId, cat_id: this.props.newsMyList[newId]['cat_id'], cat_name: this.props.newsMyList[newId]['cat_name'], qa_amount: this.props.newsMyList[newId]['qa_amount'] })
     }
   }
   newsListIncr = () => {
     if (this.props.newsPlayingList.id < this.props.newsMyList.length - 1) {
       let newId = this.props.newsPlayingList.id + 1;
-      this.props.updateNewsPlayingList({ id: newId, cat_id: this.props.newsMyList[newId]['cat_id'], cat_name: this.props.newsMyList[newId]['cat_name'] })
+      this.props.updateNewsPlayingList({ id: newId, cat_id: this.props.newsMyList[newId]['cat_id'], cat_name: this.props.newsMyList[newId]['cat_name'], qa_amount: this.props.newsMyList[newId]['qa_amount'] })
     }
   }
 
@@ -86,13 +86,13 @@ class HSetup extends Component {
             <div className='round-limit-center'>
               <div name='round' onClick={this.rndLimitDecr} className='arrow-left' />
               <div className='roundNumBox'>
-                <div className='roundNum'>{this.props.rndLimit}</div>
+                <div className='roundNum'>{this.props.newsPlayingList.qa_amount}</div>
               </div>
               <div onClick={this.rndLimitIncr} className='arrow-right'></div>
             </div>
           </section>
           <NavLink to="/lobby"><button className='start-game'>Create Game</button></NavLink>
-        </> : <div>{message}</div>}
+        </> : <h3>{message}</h3>}
       </div>
     )
   }
