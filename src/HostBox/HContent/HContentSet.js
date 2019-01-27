@@ -22,7 +22,10 @@ class HContentSet extends Component {
   }
   componentDidUpdate(prevProps) {
     if (this.props.trivArray !== prevProps.trivArray
-      || this.props.trivSwitch !== prevProps.trivSwitch) {
+      || this.props.trivSwitch !== prevProps.trivSwitch
+      || this.props.newsAllList !== prevProps.newsAllList
+      || this.props.newsMyList !== prevProps.newsMyList
+      || this.props.newsMyListCreated !== prevProps.newsMyListCreated) {
       this.loadCard()
     }
   }
@@ -96,36 +99,31 @@ class HContentSet extends Component {
         let elemId = elem.cat_id;
         let elemName = elem.cat_name;
 
-        let sharedIndexMyList = () => {
-          if (this.props.newsMyListCreated.findIndex(e => e.cat_id) === elemId) { return true } else { return false }
-        }
-        let sharedIndexMyListCreated = () => {
-          if (this.props.newsMyListCreated.findIndex(e => e.cat_id) === elemId) { return true } else { return false }
-        }
-        let sharedIndex = () => {
-          if (sharedIndexMyList() || sharedIndexMyListCreated()) { return true } else { return false }
-        }
+        let sharedIndexMyList =
+          this.props.newsMyList.findIndex(e => e.cat_id === elemId) !== -1
+        let sharedIndexMyListCreated =
+          this.props.newsMyListCreated.findIndex(e => e.cat_id === elemId) !== -1
+        let sharedIndex = sharedIndexMyList || sharedIndexMyListCreated
         let buttons = (id, name) => {
           if (this.props.trivSwitch === 1) {
             // Add to Favorites
-            console.log('button 1', sharedIndex())
+            // console.log('sharedIndexMyList', sharedIndexMyList)
+            // console.log('sharedIndexMyListCreated', sharedIndexMyListCreated)
             let addFavBtn = async () => {
               await this.setState({ tempTrivId: id });
               this.addFavTrivList(id)
             }
             // Add
-            // return <div>{sharedIndex()}</div>
-            return <>{sharedIndex() ? <button className='btn-2' onClick={addFavBtn} >Add</button> : <div>in my collection</div>}</>
+            return <>{sharedIndex ? <div>in my collection</div> : <button className='btn-2' onClick={addFavBtn} >Add</button>}</>
           } else if (this.props.trivSwitch === 2) {
             // Remove from favorites
-            console.log('button 2', sharedIndexMyList())
+            console.log('button 2', sharedIndexMyList)
             let removeFavBtn = async () => {
               await this.setState({ tempTrivId: id, tempTrivName: name });
               this.removeFavTrivList(id)
             }
             // Remove
-            // return <div>{sharedIndexMyList()}</div>
-            return <>{sharedIndexMyList() ? <button className='btn-2' onClick={removeFavBtn} >Remove</button> : <div>in my creations</div>}</>
+            return <>{sharedIndexMyListCreated ? <div>in my creations</div> : <button className='btn-2' onClick={removeFavBtn} >Remove</button>}</>
           } else if (this.props.trivSwitch === 3) {
             // Edit my trivia set
             let submitBtn = () => {
@@ -168,10 +166,11 @@ class HContentSet extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { host, trivSwitch, newsMyList, newsMyListCreated } = state;
+  const { host, trivSwitch, newsAllList, newsMyList, newsMyListCreated } = state;
   return {
     host,
     trivSwitch,
+    newsAllList,
     newsMyList,
     newsMyListCreated
   };

@@ -26,6 +26,8 @@ class HContent extends Component {
   }
   componentDidUpdate = (prevProps) => {
     if (this.props.newsAllList !== prevProps.newsAllList || this.props.newsMyList !== prevProps.newsMyList || this.props.newsMyListCreated !== prevProps.newsMyListCreated) {
+      // console.log('PREVPROPS.newsMyList', prevProps.newsMyList)
+      // console.log('this.props.newsMyList', this.props.newsMyList)
       this.loadContent()
     } else if (this.props.trivSwitch !== prevProps.trivSwitch) {
       this.loadButtons()
