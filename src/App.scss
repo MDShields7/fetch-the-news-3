@@ -12,14 +12,14 @@ $color-purple: #553344;
 $color-purple-2: #86556e;
 $color-red: #bb4455;
 $color-red-dk: #1e0b0e;
-// $color-green: #43c0c0;
 $color-green: #99dd99;
-// $color-green-lt: #0e8383;
-$color-green-lt: #6ab46a;
-$color-green-2: #99dd99;
+// $color-green-lt: #6ab46a;
+// $color-green-2: #99dd99;
+$color-green-lt: #85ca85;
+$color-green-2: #b4ddb4;
 $color-green-dk: #072121;
 $color-blue: #223344;
-$color-blue-lt: #728da8;
+$color-blue-lt: #304458;
 $color-blue-dk: #0e141b;
 $color-white: #ffffff;
 $color-white-click: #ff85ff;
@@ -138,7 +138,7 @@ body {
   // position: absolute;
   bottom: 60vh;
   align-items: flex-end;
-
+  background-color: $color-blue;
 }
 .BtnBox {
   // margin-left: 20%;
@@ -150,7 +150,7 @@ body {
 }
 .TrivBox {
   @extend .flex-row;
-  background-color: $color-green;
+  background-color: $color-green-2;
   width: 100%;
   max-width: 1000px;
   min-height: 85vh;
@@ -175,7 +175,7 @@ body {
   height: 170px;
   border: 2px solid black;
   border-radius: 10px;
-  background-color: $color-green;
+  // background-color: $color-green;
   // height: 100px;
   // align-items: space-around;
   margin: 10px 5px;
@@ -233,37 +233,53 @@ body {
   justify-content: space-between;
   align-items: center;
   .profile {
-    height: 65px;
-    width: 65px;
-    margin: 10px;
+    height: 80px;
+    // width: 65px;
+    margin: 20px;
     display: flex;
     align-items: center;
-    padding: 20px 30px;
-    border-radius: 50%;
+    padding: 5px;
+    // padding: 20px 30px;
+    // border-radius: 50%;
+  }
+  .profile:hover {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: $color-blue-lt;
   }
   .logo {
-    height: 80%;
-    margin: 10px;
+    height: 100%;
+    margin: 20px;
     display: flex;
     align-items: center;
-    padding: 20px 20px;
+    padding: 5px;
+    // padding: 20px 20px;
+  }
+  .logo:hover {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: $color-blue-lt;
   }
  
   .NavItem {
-    height: 100%;
-    margin: 10px;
+    // height: 100%;
+    margin: 25px 0px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    font-size: 24px;
+    font-size: 30px;
     color: green;
-    padding: 20px 30px;
+    padding: 30px 30px;
     a {
       height: 100%;
+      padding: 5px;
       text-decoration: none;
     }
     a:hover {
       color: $color-purple;
-      background-color: $color-white-click;
+      padding: 5px;
+      border-radius: 5px;
+      background-color: $color-blue-lt;
     }
     a:visited {
       color: $color-white;
@@ -298,9 +314,9 @@ body {
   align-items: center;
 }
 
-.logo {
-  color: white;
-}
+// .logo {
+//   color: white;
+// }
 .round-limit {
   @extend .flex-row;
   margin: 20px;

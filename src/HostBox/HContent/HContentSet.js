@@ -105,7 +105,11 @@ class HContentSet extends Component {
     const { tempTrivName } = this.state;
     let TrivCard;
     if (this.props.trivArray[0] === undefined) {
-      TrivCard = [<div key='one'>Login to use this page</div>]
+      if (this.props.trivSwitch === 2) {
+        TrivCard = [<h3 key='one'>Login to start a trivia collection</h3>]
+      } else if (this.props.trivSwitch === 3) {
+        TrivCard = [<h3 key='one'>Login to create a trivia category</h3>]
+      }
     } else {
       // console.log('mapping over trivArray')
       TrivCard = this.props.trivArray.map(elem => {

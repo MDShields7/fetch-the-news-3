@@ -59,25 +59,17 @@ class HostBox extends Component {
   }
 
   render() {
-    const { userList } = this.state;
     console.log('HBOX, props', this.props)
     return (
       <section className='HBox'>
-
-        {console.log(this.props)}
-
-        {/* <h4>HostBox</h4> */}
         <HNav />
-
         <Switch>
-
           <Route exact path='/' component={HContent} />
           <Route path='/setup' component={HSetup} />
           <Route path='/login' component={HLogin} />
           <Route path='/lobby' render={() => {
             return <HLobby socket={this.props.socket} />
           }} />
-
         </Switch>
       </section>
     )
