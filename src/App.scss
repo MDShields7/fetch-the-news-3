@@ -172,7 +172,7 @@ body {
 .TrivCard {
   width: 300px;
   // max-height: 150px;
-  height: 18vh;
+  height: 170px;
   border: 2px solid black;
   border-radius: 10px;
   background-color: $color-green;
@@ -232,7 +232,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  img {
+  .profile {
     height: 65px;
     width: 65px;
     margin: 10px;
@@ -241,6 +241,14 @@ body {
     padding: 20px 30px;
     border-radius: 50%;
   }
+  .logo {
+    height: 80%;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    padding: 20px 20px;
+  }
+ 
   .NavItem {
     height: 100%;
     margin: 10px;
@@ -309,13 +317,18 @@ body {
   font-size: 120px;
   text-shadow: 0px 0px 50px white;
 }
-.setup {
-  background-color: $color-bg-grey;
+.setup, .HBox, .HLobby {
+  background-color: $color-bg-grey-2;
   height: auto;
-  min-height: 100vh;
+
 }
 .setup-text {
   font-size: 50px;
+  
+}
+.HBox {
+  background-color: $color-bg-grey-2;
+  height: auto;
 }
 @mixin arrow() {
   width: 0;
@@ -369,12 +382,12 @@ body {
 }
 
 // *** SETUP ***
-.lobby {
-  background-color: $color-bg-grey;
-  min-height: 100vh;
-  height: auto;
-  width: 100%;
-}
+// .lobby {
+//   background-color: $color-bg-grey;
+//   min-height: 100vh;
+//   height: auto;
+//   width: 100%;
+// }
 
 .HGame {
   @extend .flex-col;
@@ -565,6 +578,20 @@ $ready-n: orange;
 //   font-size: 30px;
 //   margin: 50px;
 // }
+.UBoxNav {
+  @extend .flex-col;
+  // background-color: $color-blue;
+  widows: 100%;
+  height: 240px;
+  .ULogo, .USlogan {
+    margin: auto;
+    height: 120px;
+    width: 120px;
+  }
+}
+.UBoxContent {
+
+}
 @mixin A-Card {
   @extend .flex-col;
   font-size: 30px;

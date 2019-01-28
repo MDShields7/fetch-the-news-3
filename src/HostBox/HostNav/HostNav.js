@@ -10,6 +10,8 @@ import {
 } from "../../ducks/reducer";
 import genericUser from "../../Images/genericUser.svg"
 import { withRouter } from "react-router";
+import Logo from '../../Images/ftn-logo-blu-wht.svg'
+import Slogan from '../../Images/ftn-slogan-blu-wht.svg'
 
 // import './HostNav.css'
 
@@ -44,7 +46,8 @@ class HostNav extends Component {
         ) : (
             <div className="NavGroup">
               {/* <div className='NavGroup2'> */}
-              <div className="NavItem">Logo</div>
+              <img className='logo' src={Logo} alt="" />
+              {/* <div className="NavItem">{Logo}</div> */}
               <div className="NavLink">
                 <div className="NavItem">
                   <NavLink to="/">Content</NavLink>
@@ -53,7 +56,7 @@ class HostNav extends Component {
                   <NavLink to="/setup">Play Game</NavLink>
                 </div>
                 {this.props.host ?
-                  <NavLink to="/login"><img src={genericUser} alt="generic user image" /></NavLink>
+                  <NavLink to="/login"><img className='profile' src={genericUser} alt="generic user image" /></NavLink>
                   : <div className="NavItem">
                     <NavLink to="/login">Login</NavLink>
                   </div>}

@@ -62,7 +62,7 @@ class HostBox extends Component {
     const { userList } = this.state;
     console.log('HBOX, props', this.props)
     return (
-      <>
+      <section className='HBox'>
 
         {console.log(this.props)}
 
@@ -79,7 +79,7 @@ class HostBox extends Component {
           }} />
 
         </Switch>
-      </>
+      </section>
     )
   }
 }

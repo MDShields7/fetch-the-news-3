@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 408 350">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #223343;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-linejoin: round;
+        stroke-width: 4px;
+        font-size: 120px;
+      }
+
+      .cls-2, .cls-3 {
+        font-family: NeutraTextExp-Bold, Neutra Text Expert;
+        font-weight: 700;
+      }
+
+      .cls-3 {
+        fill: #fff;
+        font-size: 70px;
+      }
+    </style>
+  </defs>
+  <g id="Group_8" data-name="Group 8" transform="translate(-516 -695)">
+    <rect id="Rectangle_2" data-name="Rectangle 2" class="cls-1" width="400" height="350" transform="translate(520 695)"/>
+    <g id="Group_5" data-name="Group 5" transform="translate(2.5 138)">
+      <text id="FETCH_NEWS_" data-name="FETCH 
+NEWS!" class="cls-2" transform="translate(517.5 582)"><tspan x="12.2" y="94">FETCH </tspan><tspan x="17.72" y="274">NEWS!</tspan></text>
+      <text id="THE" class="cls-3" transform="translate(543.5 696)"><tspan x="108.035" y="55">THE</tspan></text>
+    </g>
+  </g>
+</svg>

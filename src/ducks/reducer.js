@@ -5,7 +5,7 @@ const initialState = {
   // room: '',             // Typed by host
   // roomList: [],         // Kept by server
   mobileDevice: 0, // determined per user
-  rndLimit: 3, // Round, set by host in lobby
+  rndLimit: null, // Round, set by host in lobby
   rndCurrent: null, // Round, set during game
   login: { loginUser: '', loginPassword: '' },
   reg: { regUser: '', regEmail: '', regPassword: '' },

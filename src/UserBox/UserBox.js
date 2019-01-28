@@ -11,6 +11,8 @@ import {
 import { withRouter } from "react-router";
 import UQA from "./UQA";
 import socketIOClient from "socket.io-client";
+import Logo from '../Images/ftn_dog_logo.svg'
+import Slogan from '../Images/ftn_slogan.svg'
 //dvmtn
 // var socket = socketIOClient("http://127.0.0.1:4000/"); // TESTING MODE, LAPTOP
 //home
@@ -100,14 +102,18 @@ class UserBox extends Component {
     // console.log('----------- props', this.props)
     return (
       <div>
-        <h1>User Box</h1>
+        <section className='UBoxNav'>
+          <img className='ULogo' src={Logo} alt="" />
+          <img className='USlogan' src={Slogan} alt="" />
+        </section>
+        <section className='UBoxContent'></section>
         {gamePhase === null && this.props.userList.length >= 8 ? (
           <>
             <h2>Game is Full</h2>{" "}
           </>
         ) : gamePhase === null && !submitEntry ? (
           <>
-            <h2>Username:</h2>
+            <h3>Enter username:</h3>
             <input
               type="text"
               name={"userName"}
@@ -124,7 +130,7 @@ class UserBox extends Component {
               className={isReady ? "ready-btn-on" : "ready-btn-off"}
               onClick={this.handleReady}
             >
-              Click when ready to play
+              {isReady ? 'Ready' : 'Click when ready to play'}
             </button>{" "}
           </>
         ) : gamePhase === 1 ? (

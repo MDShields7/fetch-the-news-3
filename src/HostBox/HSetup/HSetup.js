@@ -15,6 +15,10 @@ class HSetup extends Component {
   }
   // set newsPlaying list {id: ???, list: ???} upon page load
   componentDidMount = () => {
+    if (!this.props.rndLimit) {
+      console.log(this.calcLimit())
+      this.props.updateRndLimit(this.calcLimit())
+    }
     if (this.checkForHost() === true) {
       let { newsPlayingList, newsMyList } = this.props;
       console.log(this.props.newsMyList)
@@ -23,11 +27,25 @@ class HSetup extends Component {
         const { id } = this.props.newsPlayingList
         // console.log('Hsetup----------------',newsMyList)
         this.props.updateNewsPlayingList({
-          id: newsPlayingList.id, cat_id: newsMyList[id].cat_id, cat_name: newsMyList[id].cat_name, qa_amount: newsMyList[id].qa_amount
+          id: newsMyList.id, cat_id: newsMyList[id].cat_id, cat_name: newsMyList[id].cat_name, qa_amount: newsMyList[id].qa_amount
         })
         console.log(id, newsMyList[id].cat_name)
       }
     }
+  }
+  componentDidUpdate = (prevProps) => {
+    if (this.props.rndLimit !== prevProps.rndLimit) {
+      this.setState({ rndLimit: true })
+    }
+  }
+  calcLimit = () => {
+    let limit;
+    if (this.props.newsPlayingList.qa_amount < 15) {
+      limit = this.props.newsPlayingList.qa_amount
+    } else {
+      limit = 15
+    }
+    return limit
   }
   checkForHost = () => {
     if (this.props.host === null) {
@@ -86,11 +104,12 @@ class HSetup extends Component {
             <div className='round-limit-center'>
               <div name='round' onClick={this.rndLimitDecr} className='arrow-left' />
               <div className='roundNumBox'>
-                <div className='roundNum'>{this.props.newsPlayingList.qa_amount}</div>
+                <div className='roundNum'>{this.props.rndLimit}</div>
               </div>
               <div onClick={this.rndLimitIncr} className='arrow-right'></div>
             </div>
           </section>
+          <h4 >(Only {this.props.newsPlayingList.qa_amount} question{this.props.newsPlayingList.qa_amount.length > 1 ? 's' : ''} available in this category)</h4>
           <NavLink to="/lobby"><button className='start-game'>Create Game</button></NavLink>
         </> : <h3>{message}</h3>}
       </div>
