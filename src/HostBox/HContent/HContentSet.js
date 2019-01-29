@@ -164,7 +164,7 @@ class HContentSet extends Component {
         }
         return (<div key={elemId} className='TrivCard'>
           <textarea className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId ? tempTrivName : elemName} onChange={this.handleChange} />
-          <div>{elem.qa_amount}{elem.qa_amount !== 1 ? ' questions' : ' question'}</div>
+          <div className='TrivText'>{elem.qa_amount}{elem.qa_amount !== 1 ? ' questions' : ' question'}</div>
           {buttons(elemId, elemName)}
         </div>)
 

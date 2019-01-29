@@ -23,7 +23,7 @@ class HLobby extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      phaseTime: [7, 3, 5, 5],
+      phaseTime: [10, 3, 5, 5],
       userList: [],
     };
     this.countDown = this.countDown.bind(this);
@@ -236,11 +236,6 @@ class HLobby extends Component {
       setTimeout(() => this.countDown(), 1000);
     }
   }
-  // clearReady = () => {
-  //   this.props.socket.emit("clear ready on players", {
-  //     clearReady: "yes please"
-  //   });
-  // };
   sendGamePhase = phase => {
     console.log("sending game phase to user --------", phase);
     this.props.socket.emit("game phase to server", {
@@ -270,11 +265,11 @@ class HLobby extends Component {
       this.phaseChange(phaseTime[0]); // Phase setup, start
     } else if (gamePhase === 4) {
       let nextRound = rndCurrent + 1;
-      if (nextRound < rndLimit) {
+      if (nextRound === rndLimit) {
         console.log(`changing round from ${rndCurrent} to ${rndCurrent + 1}`);
         updateRndCurrent(nextRound); // Change round
         this.phaseChange(phaseTime[0]); //  Start round, phase
-      } else if (nextRound === rndLimit) {
+      } else if (nextRound > rndLimit) {
         this.endGame();
       }
     } else {
@@ -347,6 +342,7 @@ class HLobby extends Component {
         <button className="start-game" onClick={this.startGame}>
           Start
         </button>
+        <h2>Players can now join (by phone only)</h2>
       </div>
     );
     const gameOver = <h1>Game Over</h1>;

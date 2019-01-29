@@ -14,9 +14,9 @@ import socketIOClient from "socket.io-client";
 import Logo from '../Images/ftn-logo-green.svg'
 import Slogan from '../Images/ftn-slogan-green.svg'
 //dvmtn
-// var socket = socketIOClient("http://127.0.0.1:4000/"); // TESTING MODE, LAPTOP
+var socket = socketIOClient("http://127.0.0.1:4000/"); // TESTING MODE, LAPTOP
 //home
-var socket = socketIOClient(); // PRODUCTION BUILD, DIGITAL OCEAN
+// var socket = socketIOClient(); // PRODUCTION BUILD, DIGITAL OCEAN
 
 class UserBox extends Component {
   constructor(props) {
