@@ -4,4 +4,4 @@ JOIN ftn_catlist cl
 ON cs.cat_id = cl.cl_cat_id
 JOIN ftn_qasets qa
 ON cl.cl_qa_id = qa.qa_id
-WHERE cat_id = ${cat_id};
+WHERE cs.cat_id = ${cat_id};

@@ -117,24 +117,24 @@ class HLobby extends Component {
     let newArr = arr.sort((a, b) => {
       return b.totalScore - a.totalScore;
     });
-    console.log("playersorttotal", newArr);
+    // console.log("playersorttotal", newArr);
   };
   addUserProperty = (id, propKey, propValue) => {
     const { userList } = this.state;
     let userListCopy = [...userList];
-    console.log("%%%%%___%%%%%___%%%%%  HLobby, addUserProperty, id", id, 'Key:', propKey, 'Value', propValue);
+    // console.log("%%%%%___%%%%%___%%%%%  HLobby, addUserProperty, id", id, 'Key:', propKey, 'Value', propValue);
     let newUserList = [];
     userListCopy.map(user => {
       const { userId } = user;
       let newUser;
       if (userId === id) {
         newUser = Object.assign({}, user, { [propKey]: propValue })
-        console.log('newUser is:', newUser)
+        // console.log('newUser is:', newUser)
         newUserList.push(newUser)
       } else {
         newUserList.push(user)
       }
-      console.log("HLobby, addUserProperty, newUserList", newUserList)
+      // console.log("HLobby, addUserProperty, newUserList", newUserList)
     })
     this.setState({ userList: newUserList })
   }
@@ -146,6 +146,8 @@ class HLobby extends Component {
       })
       .then(res => {
         console.log("getTriviaQA", res.data);
+        console.log("getTriviaQA, res.data[0]", res.data[0]);
+        console.log("getTriviaQA, res.data[1]", res.data[1]);
         this.props.updateQAPlayingList(res.data);
       })
       .catch(err => {
@@ -158,13 +160,17 @@ class HLobby extends Component {
     const { qaPlayingList } = this.props;
     if (qaPlayingList.length >= 1) {
       // Loading questions if any rounds remaining
-      console.log(
-        "HLobby, nextQAPlayingList func, qaPlayingList[0]",
+      // console.log(
+      "HLobby, nextQAPlayingList func, qaPlayingList",
         qaPlayingList
       );
-      let item = qaPlayingList.shift();
-      console.log("item is", item);
-      this.loadCurrentQA(item, qaPlayingList);
+      let qaList = qaPlayingList.slice()
+      // console.log("item is", item, 'typeof qaList is', typeof qaList, 'qaList is', qaList);
+      // console.log('qaList[0]', qaList[0]);
+      // console.log("Array.isArray(qaList)", Array.isArray(qaList));
+      let item = qaList.shift();
+      // console.log("item is", item, 'qaList is', qaList);
+      this.loadCurrentQA(item, qaList);
     }
   };
   loadCurrentQA = (qa, qaList) => {
@@ -173,7 +179,7 @@ class HLobby extends Component {
       updateQAPlayingCurrent
     } = this.props;
     qa = this.reorderQA(qa);
-    console.log("HLobby, loadCurrentQA func, qa:", qa, "qaPlayingList", qaList);
+    // console.log("HLobby, loadCurrentQA func, qa:", qa, "qaPlayingList", qaList);
     updateQAPlayingCurrent(qa);
     updateQAPlayingList(qaList);
     this.sendQAList(qa);
@@ -301,6 +307,7 @@ class HLobby extends Component {
     if (this.props.gamePhase === 4) {
       console.log('this.props.gamePhase is', this.props.gamePhase, 'calling addTotalScore')
       await this.addTotalScore()
+      this.nextQAPlayingList();
     } else if (this.props.gamePhase === 3) {
       console.log('this.props.gamePhase is', this.props.gamePhase, 'calling addRoundScore')
       await this.addRoundScore(0, 0)

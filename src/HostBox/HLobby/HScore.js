@@ -29,12 +29,12 @@ class HScore extends Component {
 
   render() {
     const { userList, gamePhase } = this.props;
-    console.log('////////////// HScore, this.props', this.props)
+    // console.log('////////////// HScore, this.props', this.props)
     const totalScores = (
       gamePhase === 3 && userList ?
         (userList.map(elem => {
           return <div className='Player-Card'>
-            {console.log('PH3 elem is', elem)}
+            {/* {console.log('PH3 elem is', elem)} */}
             <div className='pl-1'>{elem.userName}</div>
             <div className='pl-2'>{elem.roundScore}</div>
           </div>
@@ -42,7 +42,7 @@ class HScore extends Component {
         : gamePhase === 4 && userList ?
           (userList.map(elem => {
             return <div className='Player-Card'>
-              {console.log('PH4 elem is', elem)}
+              {/* {console.log('PH4 elem is', elem)} */}
               <div className='pl-1'>{elem.userName}</div>
               <div className='pl-2'>{elem.totalScore}</div>
             </div>
