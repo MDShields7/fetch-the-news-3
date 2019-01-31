@@ -18,9 +18,17 @@ class HContentSet extends Component {
     }
   }
   componentDidMount() {
+
+    console.log('I feel like a NEEEEEEEW man!!!, componentDidMount')
     this.loadCard()
   }
+  // componentDidUpdate(prevState) {
+  //   if (prevState.tempTrivName !== this.state.tempTrivName) {
+  //     this.loadCard()
+  //   }
+  // }
   componentDidUpdate(prevProps) {
+    console.log('I\'m RELOADIIIIIIIING!, componentDidUpdate')
     const { trivArray, trivSwitch, newsAllList, newsMyList, newsMyListCreated } = this.props;
     if (trivArray !== prevProps.trivArray
       || trivSwitch !== prevProps.trivSwitch
@@ -30,21 +38,12 @@ class HContentSet extends Component {
     ) {
       this.loadCard()
     }
-    // if (newsAllList && newsMyList && newsMyListCreated) {
-    //   console.log('qaAmount is', newsAllList.qaAmount)
-    //   console.log('prevProps.qaAmount is', prevProps.qaAmount)
-    //   if (
-    //     newsAllList.qaAmount !== prevProps.newsAllList.qaAmount
-    //     || newsMyList.qaAmount !== prevProps.newsMyList.qaAmount
-    //     || newsMyListCreated.qaAmount !== prevProps.newsMyListCreated.qaAmount
-    //   ) {
-    //     this.loadCard()
-    //   }
-    // }
   }
   editTriviaSet = (catId, catName) => {
-    console.log('editTriviaSet firing off')
+    console.log(`editTriviaSet firing off: editText, tempTrivId,
+tempTrivName`)
     this.setState({
+      editElement: catId,
       editText: true,
       tempTrivId: catId,
       tempTrivName: catName,
@@ -94,14 +93,21 @@ class HContentSet extends Component {
         console.log('Error in addFavTrivSet', error)
       });
   }
-  handleChange = (e) => {
+  handleChange = async (e) => {
+    console.log('HContentSet, handleChange, e.target.name', e.target.name)
+    console.log('HContentSet, handleChange, e.target.value', e.target.value)
     const name = e.target.name
     const value = e.target.value
-    this.setState({ [name]: value })
+    await this.setState({ [name]: value })
+    this.loadCard()
+  }
+  updateCard = () => {
+
   }
   loadCard = () => {
     console.log('HCONTENTSET, trivArray is', this.props.trivArray)
     console.log('HCONTENTSET, trivSwitch is', this.props.trivSwitch)
+    console.log('HCONTENTSET, this.state.editElement is', this.state.editElement)
     const { tempTrivName } = this.state;
     let TrivCard;
     if (this.props.trivArray[0] === undefined) {
@@ -111,10 +117,12 @@ class HContentSet extends Component {
         TrivCard = [<h3 key='one'>Login to create a trivia category</h3>]
       }
     } else {
-      // console.log('mapping over trivArray')
       TrivCard = this.props.trivArray.map(elem => {
+        const { tempTrivName } = this.state;
         let elemId = elem.cat_id;
         let elemName = elem.cat_name;
+        console.log('this.state.editElement', this.state.editElement)
+        console.log('elemId', elemId)
 
         let sharedIndexMyList =
           this.props.newsMyList.findIndex(e => e.cat_id === elemId) !== -1
@@ -122,6 +130,10 @@ class HContentSet extends Component {
           this.props.newsMyListCreated.findIndex(e => e.cat_id === elemId) !== -1
         let sharedIndex = sharedIndexMyList || sharedIndexMyListCreated
         let buttons = (id, name) => {
+          console.log('buttons, id', id)
+          console.log('buttons, name', name)
+          console.log('this.state.editElement', this.state.editElement)
+          console.log('elemId', elemId)
           if (this.props.trivSwitch === 1) {
             // Add to Favorites
             // console.log('sharedIndexMyList', sharedIndexMyList)
@@ -148,14 +160,18 @@ class HContentSet extends Component {
               this.submitTriviaSet(id);
               this.setState({ editElement: '' });
             }
-            let editBtn = (id, name) => {
-              this.setState({ editElement: id });
-              this.editTriviaSet(id, name);
+            let editBtn = async () => {
+              console.log('ACTIVATED edit button, id, name', id, name)
+              // this.setState({ editElement: id });
+              await this.editTriviaSet(id, name);
+              this.loadCard()
             }
             let deleteBtn = () => {
               this.deleteTrivCreator(id);
               console.log('deleteBtn finished')
             }
+            // console.log('submitBtn', submitBtn)
+            // console.log('editBtn', editBtn)
             return <>
               <button className='btn-2' onClick={this.state.editElement === elemId ? submitBtn : editBtn}>
                 {this.state.editElement === id ? 'Submit' : 'Edit'}</button>
@@ -165,6 +181,8 @@ class HContentSet extends Component {
         return (<div key={elemId} className='TrivCard'>
           <textarea className='inputTrivText' type="text" name='tempTrivName' value={this.state.editElement === elemId ? tempTrivName : elemName} onChange={this.handleChange} />
           <div className='TrivText'>{elem.qa_amount}{elem.qa_amount !== 1 ? ' questions' : ' question'}</div>
+          {console.log('inside return, elemId', elemId, 'this.state.editElement', this.state.editElement)}
+          {console.log('tempTrivName', tempTrivName)}
           {buttons(elemId, elemName)}
         </div>)
 
@@ -179,6 +197,7 @@ class HContentSet extends Component {
     return (
       <>
         {this.state.TrivCard}
+        {/* {this.loadCard} */}
       </>
     )
   }

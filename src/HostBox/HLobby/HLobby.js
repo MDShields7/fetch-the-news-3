@@ -159,17 +159,8 @@ class HLobby extends Component {
     console.log("----------------------------");
     const { qaPlayingList } = this.props;
     if (qaPlayingList.length >= 1) {
-      // Loading questions if any rounds remaining
-      // console.log(
-      "HLobby, nextQAPlayingList func, qaPlayingList",
-        qaPlayingList
-      );
       let qaList = qaPlayingList.slice()
-      // console.log("item is", item, 'typeof qaList is', typeof qaList, 'qaList is', qaList);
-      // console.log('qaList[0]', qaList[0]);
-      // console.log("Array.isArray(qaList)", Array.isArray(qaList));
       let item = qaList.shift();
-      // console.log("item is", item, 'qaList is', qaList);
       this.loadCurrentQA(item, qaList);
     }
   };
@@ -179,7 +170,6 @@ class HLobby extends Component {
       updateQAPlayingCurrent
     } = this.props;
     qa = this.reorderQA(qa);
-    // console.log("HLobby, loadCurrentQA func, qa:", qa, "qaPlayingList", qaList);
     updateQAPlayingCurrent(qa);
     updateQAPlayingList(qaList);
     this.sendQAList(qa);
@@ -191,7 +181,6 @@ class HLobby extends Component {
     });
   };
   reorderQA = item => {
-    // console.log('item', item)
     let newItem = {};
     let ansArr = [];
     ansArr.push(item.qa_ans1);
