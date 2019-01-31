@@ -23,7 +23,7 @@ class HLobby extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      phaseTime: [10, 3, 5, 5],
+      phaseTime: [15, 5, 4, 4],
       userList: [],
     };
     this.countDown = this.countDown.bind(this);

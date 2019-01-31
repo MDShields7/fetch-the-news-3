@@ -9,7 +9,7 @@ import HBox from "./HostBox/HostBox";
 import "./App.scss";
 
 import socketIOClient from "socket.io-client";
-var socket = socketIOClient();
+var socket = socketIOClient(); // PRODUCTION BUILD, DIGITAL OCEAN
 // var socket = socketIOClient("http://127.0.0.1:4000/"); // TESTING MODE, LAPTOP
 
 class App extends Component {
