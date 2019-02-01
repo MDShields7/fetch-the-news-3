@@ -155,7 +155,7 @@ body {
   max-width: 1000px;
   min-height: 85vh;
   // height: auto;
-  margin: 60 10px auto;
+  padding:  10px 0px 0px 0px;
   // padding: 0 0px;
   flex-wrap: wrap;
   align-content: start;
@@ -198,6 +198,68 @@ body {
   background: transparent;
   border: none;
   border-color: transparent;
+}
+.TrivCardWide {
+@extend .TrivCard;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 10px;
+width: 100%;
+height: 150px;
+margin: 10px 20px;
+}
+.TrivCardWideTop {
+@extend .TrivCardWide;
+height: 60px;
+margin: 10px 20px 0px;
+border-radius: 10px 10px 0px 0px;
+border-bottom: none;
+}
+.TrivCardWideMid {
+  @extend .TrivCardWide;
+  height: auto;
+  margin: 0px 20px 0px;
+  border-radius: 0px;
+  border-bottom: none;
+  border-top: none;
+}
+.TrivCardWideBot {
+@extend .TrivCardWide;
+height: auto;
+margin: 0px 20px 10px;
+border-radius: 0px 0px 10px 10px;
+border-top: none;
+}
+.inputWideName {
+  @extend .inputTrivText;
+  height: 30px;
+  width: 70%;
+  text-align: left;
+}
+.align-left {
+  height: 30px;
+  width: 100%;
+  margin:0px;
+  text-align: left;
+}
+.TrivAmount {
+  text-align: left;
+  margin: 10px 2px;
+}
+.qaAnsGroup {
+  @extend .flex-row;
+  margin: 2px 20px;
+  width: 100%;
+}
+.qaAnsTitle {
+  width: 20%;
+  min-width: auto;
+  // align-items: left;
+  text-align: left;
+}
+.TCWBtnBox {
+  @extend .flex-row;
 }
 .getList {
   font-size: 18px;

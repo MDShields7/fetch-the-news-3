@@ -50,6 +50,17 @@ class HContent extends Component {
       })
     }
   }
+  editTrivSetToMap = () => {
+    let blankObj = {
+      cat_id: '',
+      cat_name: '',
+      qa_amount: '',
+      qaList: []
+    }
+    let newSet = Object.assign({}, this.state.trivSetToMap, blankObj)
+    this.setState({ trivSetToMap: newSet })
+    console.log('HContent, editTrivSetToMap', this.state.trivSetToMap)
+  }
   getAllSets = (num) => {
     if (num === 0) {
       this.getTriviaSet();
@@ -171,7 +182,7 @@ class HContent extends Component {
           </div>
         </div>
         <div className='TrivBox'>
-          <HCSet getAllSets={this.getAllSets}
+          <HCSet addSet={this.editTrivSetToMap} getAllSets={this.getAllSets}
             trivArray={this.state.trivSetToMap} />
         </div>
 
