@@ -19,7 +19,7 @@ $color-green-lt: #85ca85;
 $color-green-2: #b4ddb4;
 $color-green-dk: #072121;
 $color-blue: #223344;
-$color-blue-lt: #304458;
+$color-blue-lt: #a6bdd4;
 $color-blue-dk: #0e141b;
 $color-white: #ffffff;
 $color-white-click: #ff85ff;
@@ -64,7 +64,7 @@ body {
 }
 @mixin med-btn($color) {
   @include btn($color);
-  width: 100px;
+  width: 120px;
   height: 25px;
   border-radius: 5px;
   margin: 5px;
@@ -191,7 +191,7 @@ body {
   width: 300px;
   font-size: 24px;
   word-wrap: normal;
-  margin: 0px auto;
+  // margin: 0px 20px;
   /* background-color: rgb(255, 200, 178); */
   // height: auto;
   // overflow: auto;
@@ -204,7 +204,7 @@ body {
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-padding: 10px;
+padding: 5px;
 width: 100%;
 height: 150px;
 margin: 10px 20px;
@@ -219,6 +219,7 @@ border-bottom: none;
 .TrivCardWideMid {
   @extend .TrivCardWide;
   height: auto;
+  min-height: 39px;
   margin: 0px 20px 0px;
   border-radius: 0px;
   border-bottom: none;
@@ -233,30 +234,76 @@ border-top: none;
 }
 .inputWideName {
   @extend .inputTrivText;
-  height: 30px;
-  width: 70%;
+  padding: 0px;
+  height: auto;
+  width: 75%;
   text-align: left;
 }
 .align-left {
-  height: 30px;
+  height: 90px;
   width: 100%;
   margin:0px;
   text-align: left;
 }
+.align-left-wide {
+  height: 0px;
+  width: 100%;
+  margin:0px 20px;
+  text-align: left;
+}
 .TrivAmount {
   text-align: left;
-  margin: 10px 2px;
+  margin: 5px 20px;
+}
+.TrivAmountWide {
+  text-align: left;
+  margin: 35px 20px;
 }
 .qaAnsGroup {
   @extend .flex-row;
+  align-content: center;
+
+  // justify-content: center;
   margin: 2px 20px;
   width: 100%;
 }
 .qaAnsTitle {
-  width: 20%;
-  min-width: auto;
+  width: 25%;
+  min-width: 40px;
+  font-size: 16px;
+  font-style: bold;
   // align-items: left;
   text-align: left;
+}
+.qInputText {
+  text-align: left;
+  height: 85px;
+  resize: none;
+  width: 50%;
+  font-size: 24px;
+  word-wrap: normal;
+  background: transparent;
+  border: none;
+  border-color: transparent;
+}
+.qaInputText {
+  padding: 0px;
+  text-align: left;
+  // height: auto;
+  height: 40px;
+  resize: none;
+  width: 50%;
+  font-size: 16px;
+  word-wrap: normal;
+  background: transparent;
+  border: none;
+  border-color: transparent;
+}
+.qaInputTextActive {
+  @extend .qaInputText;
+  // border: solid 1px;
+  // border-color: $color-blue;
+  background: $color-blue-lt;
 }
 .TCWBtnBox {
   @extend .flex-row;

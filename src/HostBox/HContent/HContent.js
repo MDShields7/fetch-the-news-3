@@ -50,16 +50,19 @@ class HContent extends Component {
       })
     }
   }
-  editTrivSetToMap = () => {
+  editTrivSetToMap = async (index) => {
+    const { trivSetToMap } = this.state;
     let blankObj = {
       cat_id: '',
       cat_name: '',
       qa_amount: '',
       qaList: []
     }
-    let newSet = Object.assign({}, this.state.trivSetToMap, blankObj)
-    this.setState({ trivSetToMap: newSet })
-    console.log('HContent, editTrivSetToMap', this.state.trivSetToMap)
+    let newSet = trivSetToMap.slice()
+    newSet[index].qaList.push(blankObj)
+    console.log('HContent, editTrivSetToMap, newSet', newSet)
+    await this.setState({ trivSetToMap: newSet })
+    console.log('HContent, editTrivSetToMap, this.state.trivSetToMap', this.state.trivSetToMap)
   }
   getAllSets = (num) => {
     if (num === 0) {

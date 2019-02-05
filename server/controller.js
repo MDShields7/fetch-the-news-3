@@ -15,7 +15,7 @@ module.exports = {
         res.status(500).json({ message: 'getUsers error:', error })
       })
   },
-  registerUser: async (req, res) => {
+  registerUser: (req, res) => {
     const dbInstance = req.app.get('db');
     const { user_name, user_email, user_password } = req.body;
     console.log('this is the controller register user', user_name, user_email, user_password)
