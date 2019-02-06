@@ -69,21 +69,16 @@ class UserBox extends Component {
     });
     socket.emit("join user", { userInfo });
     console.log("UserBox join user", this.props.user, this.state.userName);
-    // console.log(UserBox, submit, )
   };
   handleReady = () => {
     const { userId } = this.props.user;
     this.setState({
       isReady: !this.state.isReady
     });
-    // let newUser = {...this.state.user)
-    // Object.assign(newUser, {'isReady': this.state.isReady})
-
     socket.emit("ready user", {
       isReady: !this.state.isReady,
       userId: userId
     });
-    // console.log('sent ready user message')
   };
 
   render() {
@@ -97,15 +92,13 @@ class UserBox extends Component {
       submitEntry,
       isReady
     } = this.state;
-    // console.log('----------- state', this.state)
-    // console.log('----------- props', this.props)
     return (
       <div>
-        <section className='UBoxNav'>
-          <img className='ULogo' src={Logo} alt="" />
-          <img className='USlogan' src={Slogan} alt="" />
+        <section className='uBoxNav'>
+          <img className='uLogo' src={Logo} alt="" />
+          <img className='uSlogan' src={Slogan} alt="" />
         </section>
-        <section className='UBoxContent'></section>
+        <section className='uBoxContent'></section>
         {gamePhase === null && this.props.userList.length >= 8 ? (
           <>
             <h2>Game is Full</h2>{" "}

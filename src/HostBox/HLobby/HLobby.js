@@ -60,12 +60,7 @@ class HLobby extends Component {
       });
     });
     socket.on("roundScore to host", message => {
-      console.log(
-        "--------****------- HLobby.js, roundScore", "got roundScore",
-        // message.message,
-        message.message.user.userName,
-        message.message.user.roundScore
-      );
+
       console.log("message.message.user:", message.message.user);
       this.addRoundScore(message.message.user.userId, message.message.user.roundScore)
     });
@@ -104,12 +99,7 @@ class HLobby extends Component {
     }
     let newList = [];
     this.playerSortTotal(userListCopy);
-    console.log(this.playerSortTotal(userListCopy));
     newList = userListCopy;
-    console.log(
-      "HLobby, userListCopy after addTotalScore, after playerSortTotal",
-      userListCopy
-    );
     console.log("HLobby, newList after playerSortTotal", newList);
     this.setState({ userList: newList })
   };
@@ -117,24 +107,20 @@ class HLobby extends Component {
     let newArr = arr.sort((a, b) => {
       return b.totalScore - a.totalScore;
     });
-    // console.log("playersorttotal", newArr);
   };
   addUserProperty = (id, propKey, propValue) => {
     const { userList } = this.state;
     let userListCopy = [...userList];
-    // console.log("%%%%%___%%%%%___%%%%%  HLobby, addUserProperty, id", id, 'Key:', propKey, 'Value', propValue);
     let newUserList = [];
     userListCopy.map(user => {
       const { userId } = user;
       let newUser;
       if (userId === id) {
         newUser = Object.assign({}, user, { [propKey]: propValue })
-        // console.log('newUser is:', newUser)
         newUserList.push(newUser)
       } else {
         newUserList.push(user)
       }
-      // console.log("HLobby, addUserProperty, newUserList", newUserList)
     })
     this.setState({ userList: newUserList })
   }
@@ -145,9 +131,6 @@ class HLobby extends Component {
         params: { catId: newsPlayingList.cat_id }
       })
       .then(res => {
-        console.log("getTriviaQA", res.data);
-        console.log("getTriviaQA, res.data[0]", res.data[0]);
-        console.log("getTriviaQA, res.data[1]", res.data[1]);
         this.props.updateQAPlayingList(res.data);
       })
       .catch(err => {
@@ -214,7 +197,6 @@ class HLobby extends Component {
     arr4.push(itemKey[0]);
     if (!arr1[0]) {
       let answers = Object.assign({ ansRandom: arr3, ansKeyRandom: arr4 }, {});
-      console.log("HLobby, scrambleFn result is", answers);
       return answers;
     }
     return this.realScramble(arr1, arr2, arr3, arr4);
@@ -316,18 +298,7 @@ class HLobby extends Component {
       rndCurrent
     } = this.props;
     const { userList } = this.state;
-    console.log(
-      "gameStart:",
-      gameStart,
-      "rndCurrent:",
-      rndCurrent,
-      "gamePhase:",
-      gamePhase,
-      "gameTimer:",
-      gameTimer
-    );
     console.log("HLobby, state", this.state);
-    console.log("HLobby, state, userList", this.state.userList);
     console.log("HLobby, props", this.props);
     const Lobby = (
       <div className="lobby">

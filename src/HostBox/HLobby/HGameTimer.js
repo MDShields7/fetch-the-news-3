@@ -47,7 +47,7 @@ class HGame extends Component {
     }))
     return (
       //TIMER 
-      <div className='HGame'>
+      <div className='hGame'>
         <div className='lobby-timer'>
           {gameTimerStart ?
             timerBar

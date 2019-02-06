@@ -7,49 +7,29 @@ class HScore extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // gameTimerState: null,
-      timerSet: true,
-      playerTotalArr: [],
-      playerArr: [
-        { id: 0, name: 'Jose', isReady: false, roundScore: 100, totalScore: 500 },
-        { id: 1, name: 'Nathan', isReady: true, roundScore: 0, totalScore: 400 },
-        { id: 2, name: 'Emilia', isReady: true, roundScore: 200, totalScore: 100 },
-        { id: 3, name: 'Francois', isReady: false, roundScore: 0, totalScore: 200 },
-        { id: 4, name: 'Xixi', isReady: true, roundScore: 0, totalScore: 300 },
-        { id: 5, name: 'Jay', isReady: true, roundScore: 100, totalScore: 300 },
-        { id: 6, name: 'Bill', isReady: true, roundScore: 100, totalScore: 300 },
-        { id: 7, name: 'Juan', isReady: false, roundScore: 100, totalScore: 400 },
-      ]
     }
-  }
-  componentDidUpdate = (prevProps) => {
-    // if ( prevProps.userList !== this.props.userList ){
-    // }
   }
 
   render() {
     const { userList, gamePhase } = this.props;
-    // console.log('////////////// HScore, this.props', this.props)
     const totalScores = (
       gamePhase === 3 && userList ?
         (userList.map(elem => {
-          return <div className='Player-Card'>
-            {/* {console.log('PH3 elem is', elem)} */}
+          return <div className='player-Card'>
             <div className='pl-1'>{elem.userName}</div>
             <div className='pl-2'>{elem.roundScore}</div>
           </div>
         }))
         : gamePhase === 4 && userList ?
           (userList.map(elem => {
-            return <div className='Player-Card'>
-              {/* {console.log('PH4 elem is', elem)} */}
+            return <div className='player-Card'>
               <div className='pl-1'>{elem.userName}</div>
               <div className='pl-2'>{elem.totalScore}</div>
             </div>
           }))
           : <div>WHAT ?????</div>)
     return (
-      <div className='HScore'>
+      <div className='hScore'>
         {gamePhase === 3 ? <h1>SCORES</h1>
           : gamePhase === 4 ? <h1>TOTAL SCORES</h1>
             : <></>}
@@ -63,7 +43,7 @@ class HScore extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { id, userList, newsMyList, newsPlayingList, qaPlayingList, qaPlayingCurrent, newsPlayedList, rndLimit, rndCurrent, gameStart, gamePhase, gameTimer, gameTimerStart } = state;
+  const { id, newsMyList, newsPlayingList, qaPlayingList, qaPlayingCurrent, newsPlayedList, rndLimit, rndCurrent, gameStart, gamePhase, gameTimer, gameTimerStart } = state;
   return {
     id,
     newsMyList,

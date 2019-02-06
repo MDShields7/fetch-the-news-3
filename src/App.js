@@ -18,45 +18,27 @@ class App extends Component {
     this.state = {
     }
   }
-  // sayHi = () => {
-  //   one();
-  // }
   componentDidMount = () => {
     this.props.updateMobileDevice(isMobile);
   };
   propsBtn = () => {
     console.log(this.props);
   };
-  // register = () => {
-  //   axios.post('/register', {
-  //     // username,
-  //     // email,
-  //     // password
-  //   }).then(response => {
-  //     console.log('App.js, register user complete:', response)
-  //   }).catch(error => {
-  //     console.log('App.js, register user fail:', error)
-  //   });
-  // }
-  login = () => {
 
-  }
-  logout = () => {
-
-  }
   render() {
     const viewType = () => {
       if (this.props.hasOwnProperty("mobileDevice") === false) {
         return <h1>Loading</h1>;
       } else if (this.props.mobileDevice === true) {
-        return <UBox socket={socket} />; //mobile devices given User component
+        //mobile devices given User component
+        return <UBox socket={socket} />;
       } else if (this.props.mobileDevice === false) {
-        return <HBox socket={socket} joinHostRequest={this.joinHostRequest} />; //desktop devices given Host component
+        //desktop devices given Host component
+        return <HBox socket={socket} joinHostRequest={this.joinHostRequest} />;
       }
     };
-    // console.log(this.props)
     return (
-      <div className="App">
+      <div className="app">
         {viewType()}
       </div>
     );

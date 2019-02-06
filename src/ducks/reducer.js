@@ -2,9 +2,7 @@ const initialState = {
   trivSwitch: null,
   id: 1, // given by server upon connection
   host: null, // Host - only assigned from laptop view
-  // room: '',             // Typed by host
-  // roomList: [],         // Kept by server
-  mobileDevice: 0, // determined per user
+  mobileDevice: 0, // determined per user T/F
   rndLimit: null, // Round, set by host in lobby
   rndCurrent: null, // Round, set during game
   login: { loginUser: '', loginPassword: '' },
@@ -15,7 +13,7 @@ const initialState = {
   newsMyList: [], // Lists available to play
   newsMyListCreated: [], // Lists available to play
   newsPlayingList: {}, // List played in party mode
-  newsPlayedList: "", // List played in party mode
+  newsPlayedList: "", // List played in party mode, currently unused
   qaPlayingList: [],
   qaPlayingCurrent: { list: { ansRandom: [], ansKeyRandom: [] } },
   gameStart: false,
@@ -49,7 +47,6 @@ const UPDATE_GAME_END = "UPDATE_GAME_END";
 const UPDATE_GAME_PHASE = "UPDATE_GAME_PHASE";
 const UPDATE_GAME_TIMER = "UPDATE_GAME_TIMER";
 const UPDATE_GAME_TIMER_START = "UPDATE_GAME_TIMER_START";
-// const UPDATE_ANSWER_LIST = 'UPDATE_ANSWER_LIST';
 
 function reducer(state = initialState, action) {
   console.log("reducer", action.type, action.payload);
@@ -104,8 +101,6 @@ function reducer(state = initialState, action) {
       return Object.assign({}, state, { gameTimer: action.payload });
     case UPDATE_GAME_TIMER_START:
       return Object.assign({}, state, { gameTimerStart: action.payload });
-    // case UPDATE_ANSWER_LIST:
-    //     return Object.assign({}, state, {answerList: action.payload})
     default:
       return state;
   }
@@ -266,5 +261,4 @@ export function updateGameTimerStart(gameTimerStart) {
     payload: gameTimerStart
   };
 }
-
 export default reducer;

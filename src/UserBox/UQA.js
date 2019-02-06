@@ -11,13 +11,8 @@ export class UQA extends Component {
   checkAns = async e => {
     const { ansKeyRandom } = this.props.qaPlayingCurrent.list;
     const { user } = this.props;
-    console.log("UQA, checkAns, e.target", e.target);
-    console.log("UQA, checkAns, e.target.name", e.target.name);
     if (ansKeyRandom[e.target.name] === true) {
-      console.log('YAY, answer correct')
-      console.log('USER RAW DATA', user)
       await this.props.updateUser({ ...user, roundScore: 100 });
-      console.log('USER UPDATE DATA W/ SCORE', this.props.user)
       this.props.socket.emit("roundScore to server", { user: this.props.user });
     }
   };
@@ -25,7 +20,6 @@ export class UQA extends Component {
     const { qaPlayingCurrent, gamePhase, socket, user } = this.props;
     const { ansRandom } = this.props.qaPlayingCurrent.list;
     const { ansKeyRandom } = this.props.qaPlayingCurrent.list;
-
     let BCard = ansRandom[3] ? (
       ansRandom.map(elem => {
         let index = ansRandom.indexOf(elem);
@@ -33,7 +27,7 @@ export class UQA extends Component {
           <button
             key={index}
             name={index}
-            className="B-Card-1"
+            className="b-Card-1"
             onClick={this.checkAns}
           >{elem}
           </button>
@@ -48,10 +42,10 @@ export class UQA extends Component {
         return (
           <div
             key={index}
-            className={ansKeyRandom[index] ? "B-Card-true" : "B-Card-false"}
+            className={ansKeyRandom[index] ? "b-Card-true" : "b-Card-false"}
             onClick={this.checkAns}
           >
-            <div className="B-Card-text">{elem}</div>
+            <div className="b-Card-text">{elem}</div>
           </div>
         );
       })
@@ -59,9 +53,9 @@ export class UQA extends Component {
         <div />
       );
     return { qaPlayingCurrent } ? (
-      <div className="HQA-User-Box">
-        <div className="Q-Box">
-          <div className="B-Box">{gamePhase === 1 ? BCard : <></>}</div>
+      <div className="hQA-User-Box">
+        <div className="q-Box">
+          <div className="b-Box">{gamePhase === 1 ? BCard : <></>}</div>
         </div>
       </div>
     ) : (

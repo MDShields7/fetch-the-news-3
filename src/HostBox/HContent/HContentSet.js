@@ -27,17 +27,13 @@ class HContentSet extends Component {
     }
   }
   componentDidMount = async () => {
-    console.log('I feel like a NEEEEEEEW man!!!, componentDidMount')
     this.loadCard()
   }
   componentDidUpdate = async (prevProps) => {
     const { trivArray, trivSwitch, newsAllList, newsMyList, newsMyListCreated } = this.props;
-    console.log('I\'m RELOADIIIIIIIING!, componentDidUpdate', newsMyListCreated !== prevProps.newsMyListCreated)
     if (
       trivArray !== prevProps.trivArray
       || trivSwitch !== prevProps.trivSwitch
-      // || newsAllList !== prevProps.newsAllList
-      // || newsMyList !== prevProps.newsMyList || 
     ) {
       this.loadCard()
     } else if (
@@ -59,21 +55,17 @@ class HContentSet extends Component {
   getTriviaQA = async (index, newList) => {
     if (index < newList.length) {
       let id = newList[index].cat_id
-      console.log('HContentSet, getTriviaQA')
-      console.log('index', index, 'id', id)
       await axios
         .get("/api/TrivQASet", {
           params: { catId: id }
         })
         .then(res => {
-          console.log("getTriviaQA for index", index, 'cat_id', id, ', result is ', res.data);
           for (let i = 0; i < this.props.newsMyListCreated.length; i++) {
             if (newList[i].cat_id === id) {
               let itemCopy = newList[i]
               let newItem = Object.assign({}, itemCopy, { qaList: res.data })
               newList[i] = newItem;
               index += 1;
-              console.log('newList', newList)
             }
           }
         })
@@ -86,7 +78,6 @@ class HContentSet extends Component {
     }
   };
   editTriviaSet = (catId, catName) => {
-    console.log(`editTriviaSet firing off: catId, catName`, catId, catName)
     this.setState({
       editElement: catId,
       editText: true,
@@ -99,15 +90,12 @@ class HContentSet extends Component {
     console.log('catId', catId, 'tempTrivName', this.state.tempTrivName)
     axios.put(`/api/EditMyTrivSet/${catId}`, { catName: this.state.tempTrivName })
       .then(res => {
-        console.log('******HContentSet, submit Trivia Set, res.data', res.data);
-        console.log('submit trivia -------------', this.props.trivArray.id)
         this.props.getAllSets(3);
       })
       .catch(err => console.log('error at post submitTriviaSet', err))
     this.props.getAllSets(3);
   }
   deleteTrivCreator = (catId) => {
-    console.log('deleteTrivCreator starting now... ')
     const { userId } = this.props.host;
     axios.delete(`/api/DeleteTrivCreator/${catId}/${userId}`)
       .then(res => {
@@ -150,7 +138,6 @@ class HContentSet extends Component {
 
   }
   loadCard = () => {
-    const { tempTrivName } = this.state;
     let TrivCard;
     if (this.props.trivArray[0] === undefined) {
       if (this.props.trivSwitch === 2) {
@@ -235,7 +222,7 @@ class HContentSet extends Component {
                   tempTrivQA3={tempTrivQA3}
                   tempTrivQA4={tempTrivQA4}
                   editing={editing} />
-                // <div key={[elemId, index2]} className='TrivCardWideMid' value={qaGroup} >
+                // <div key={[elemId, index2]} className='trivCardWideMid' value={qaGroup} >
 
                 // <div className='qaAnsGroup'>
                 //   <div className='qaAnsTitle'>Question:</div>
@@ -261,7 +248,7 @@ class HContentSet extends Component {
               )
             }
             qaListCards.push(
-              <div key='a' className='TrivCardWideMid'>
+              <div key='a' className='trivCardWideMid'>
                 {editing ? <div className='qaAnsGroup'>
                   <button className='btn-2' onClick={() => { this.props.addSet(elemIndex) }}>Add Question</button></div>
                   : <></>}</div>
@@ -271,20 +258,20 @@ class HContentSet extends Component {
         }
         return (<>
           {!createSetPage ? (
-            <div key={elemId} className={'TrivCard'}>
+            <div key={elemId} className={'trivCard'}>
               <p className='align-left'><textarea className='inputTrivText' type="text" name='tempTrivName' value={elem.cat_name} onChange={this.handleChange} /></p>
-              <div className='TrivText'>{elem.qa_amount}{elem.qa_amount !== 1 ? ' questions' : ' question'}</div>
+              <div className='trivText'>{elem.qa_amount}{elem.qa_amount !== 1 ? ' questions' : ' question'}</div>
               {!editing ? <div className=''>{buttons(elemId, elemName)}</div> : <></>}
             </div>) : (<></>)
           } {
             createSetPage ? (<>
-              <div className='TrivCardWideTop'>
+              <div className='trivCardWideTop'>
                 <p className='align-left-wide'><textarea className='inputWideName' type="text" name='tempTrivName' value={editing ? this.state.tempTrivName : elem.cat_name} onChange={this.handleChange} /></p>
-                <div className='TrivAmountWide'>{elem.qa_amount}{elem.qa_amount !== 1 ? ' questions' : ' question'}</div>
+                <div className='trivAmountWide'>{elem.qa_amount}{elem.qa_amount !== 1 ? ' questions' : ' question'}</div>
               </div>
               <>{qaCards(elem)}</>
-              <div key={elemId} className='TrivCardWideBot'>
-                <div className='TCWBtnBox'>
+              <div key={elemId} className='trivCardWideBot'>
+                <div className='tCWBtnBox'>
                   {editing || this.state.editElement === '' ? buttons(elemId, elemName) : <></>}
                 </div>
               </div>

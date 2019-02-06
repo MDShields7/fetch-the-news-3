@@ -40,7 +40,6 @@ export class HLogin extends Component {
     const max = Lib.fieldsCharsMax(regUserMax, this.props.reg.regUser, regEmailMax, this.props.reg.regEmail, regPasswordMax, this.props.reg.regPassword);
     const emailValid = Lib.fieldsIsEmail(this.props.reg.regEmail);
     const entryNotUsed = Lib.checkListEntryNotUsed(this.state.userList, 'user_name', this.props.reg.regUser, 'user_mail', this.props.reg.regEmail);
-
     if (empty !== true) {
       console.log('Register error:', empty)
       this.setState({ regErrorMessage: empty })
@@ -75,15 +74,6 @@ export class HLogin extends Component {
       });
     }
   }
-  checkLoginUser = () => {
-    const loginUserMin = 6;
-    const loginPasswordMin = 8;
-    const regUserMax = 50;
-    const regPasswordMax = 50;
-    const empty = Lib.fieldsNotEmpty(this.props.login.loginUser, this.props.login.loginEmail, this.props.login.loginPassword);
-    const min = Lib.fieldsCharsMin(loginUserMin, this.props.login.loginUser, loginPasswordMin, this.props.login.loginPassword);
-    const max = Lib.fieldsCharsMax(regUserMax, this.props.login.loginUser, regPasswordMax, this.props.login.loginPassword);
-  }
   login = () => {
     axios.post('/api/login', {
       user_name: this.props.login.loginUser,
@@ -99,29 +89,21 @@ export class HLogin extends Component {
   };
   logout = () => {
     axios.post('/api/logout').then(response => {
-      console.log('HLogin, logout, post response', response)
       this.props.updateHost(null)
     }).catch(error => {
       console.log('Error in logout', error)
-      // this.setState({ message: 'Something went wrong: ' + this.getMessage(error) });
     });
   };
-
   handleRegChange = async (e) => {
     const name = e.target.name
     const value = e.target.value
     let newReg = Object.assign(this.props.reg, { [name]: value });
     await this.props.updateReg(newReg)
-    // await this.props.updateReg({ [name]: value })
-    console.log('HLogin, handleRegChange, newReg', newReg)
-    console.log('HLogin.js, this.props:', this.props)
-    console.log('HLogin.js, this.state:', this.state)
   }
   handleLogin = async (e) => {
     const name = e.target.name
     const value = e.target.value
     let newLogin = Object.assign(this.props.login, { [name]: value });
-    console.log('HLogin, handleChange, newLogin', newLogin)
     await this.props.updateLogin(newLogin)
   }
 
@@ -134,9 +116,8 @@ export class HLogin extends Component {
         <input className='login-input' type="text" name={variable} placeholder={text} onChange={this[fnType]}></input> </>
       )
     }
-
     return (
-      <div className='HLogin' >
+      <div className='hLogin' >
         {this.props.host === null ? <>
           <section className='login-group'>
             <h2>Login</h2>
@@ -166,7 +147,6 @@ export class HLogin extends Component {
     )
   }
 }
-
 function mapStateToProps(state) {
   const { reg, login, host } = state;
   return {
