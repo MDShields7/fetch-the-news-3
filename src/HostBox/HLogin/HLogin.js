@@ -140,6 +140,7 @@ export class HLogin extends Component {
         {this.props.host === null ? <>
           <section className='login-group'>
             <h2>Login</h2>
+            <h4>Login as user:testuser, password:testuser in order to see a user with content</h4>
             {input('loginUser', 'Username', 'handleLogin')}
             {input('loginPassword', 'Password', 'handleLogin')}
             <button className='btn-3' onClick={this.login}>Submit</button>

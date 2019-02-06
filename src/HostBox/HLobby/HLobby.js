@@ -338,7 +338,7 @@ class HLobby extends Component {
         <button className="start-game" onClick={this.startGame}>
           Start
         </button>
-        <h2>Players can now join (by phone only)</h2>
+        <h2>Players can now join by phone at http://fetchthenews.fun</h2>
       </div>
     );
     const gameOver = <h1>Game Over</h1>;

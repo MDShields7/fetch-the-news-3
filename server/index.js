@@ -17,6 +17,7 @@ massive(process.env.CONNECTION_STRING)
   });
 
 app.use(bodyParser.json());
+app.use(express.static(`${__dirname}/../build`));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   saveUninitialized: false,
