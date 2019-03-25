@@ -53,6 +53,7 @@ module.exports = {
     res.status(200).send();
   },
   getTrivSet: (req, res) => {
+    console.log(req);
     req.app.get('db').get_triv_set()
       .then(set => { res.json(set) })
       .catch(error => {

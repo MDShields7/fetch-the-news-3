@@ -95,6 +95,7 @@ class UserBox extends Component {
     return (
       <div>
         <section className='uBoxNav'>
+          <h2>  Host a game by logging in with laptop or desktop</h2>
           <img className='uLogo' src={Logo} alt="" />
           <img className='uSlogan' src={Slogan} alt="" />
         </section>

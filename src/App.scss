@@ -636,15 +636,15 @@ $ready-n: orange;
       position: absolute;
       bottom: 0vh;
       .b-Card-1 {
-        @include B-Card;
+        @include b-Card;
         background: $color-blue-lt;
       }
       .b-Card-false {
-        @include B-Card;
+        @include b-Card;
         background: $color-red;
       }
       .b-Card-true {
-        @include B-Card;
+        @include b-Card;
         background: $color-green-lt;
       }
     }
